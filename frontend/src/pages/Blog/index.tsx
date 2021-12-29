@@ -1,33 +1,50 @@
 import BlogComponent from "../../components/BlogComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect} from "react";
 import { getPosts } from "../../redux/slices/posts";
 import { RootState } from "../../redux/store";
-export interface propsObj  {
-    title: string;
-    img: string;
-    descriere: string;
-}
-export type props = propsObj[];
+import {createSearchParams, useLocation, useNavigate, useParams} from "react-router-dom";
+import { DarkBackground } from "../../containers/DarkBackground";
+import { MainText } from "../../globalStyles";
 
 const Blog = () => {
+    const navigate = useNavigate();
+    let query = new URLSearchParams(useLocation().search);
 
+    useEffect(()=>{
+      if(!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1 ){
+        navigate({
+            search: `?${createSearchParams({
+                page: "1"
+            })}`
+        });
+        return;
+      }
+      dispatch(getPosts({page: Number(query.get("page")), perPage: 10}))
+    },[])
     const posts = useSelector((state:RootState) => state.posts)
     const dispatch = useDispatch();
-    useEffect(()=> {
-        dispatch(getPosts())
-    },[])
     return (
         <>  
         {posts.loading && (
-            <h1 style={{color:"black", padding:"20px"}}>Loading posts...</h1>
+            <DarkBackground>
+                <MainText color="white">Loading posts...</MainText>
+            </DarkBackground>
         )}
         {posts.error && (
-            <h1 style={{color:"red", padding:"20px"}}>Error appeard while loading posts</h1>
+            <DarkBackground>
+                 <MainText color="red">Error appeard while posts were loading</MainText>
+            </DarkBackground>
         )}
-        {!posts.error && !posts.loading && (
-            <BlogComponent data ={posts.result} /> 
-
+        {!posts.result || !posts.result.results && (
+            <DarkBackground>
+                 <MainText color="red">No posts were found</MainText>
+            </DarkBackground>
+        )}
+        {!posts.error && !posts.loading && posts.result && (
+            <>
+                <BlogComponent data ={posts.result.results} /> 
+            </>
         )}
         </>
     )

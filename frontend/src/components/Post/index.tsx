@@ -1,17 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { propsObj } from "../../pages/Blog";
-import { ButtonCard } from "../HomepageBlog/BlogCard/BlogCardComponents";
+import { postInterface } from "../../redux/types/post";
 import { Button, Description, DescriptionContainer, Img, ImgContainer, PostContainer, TextContainer, Title, TitleContainer } from "./postComponents";
 
-export const Post:React.FC<propsObj> = ({img, title, descriere}) => {
+export const Post:React.FC<postInterface> = ({imageURL, title, description}) => {
     return (
         <>
             <PostContainer>
                 <ImgContainer>
             <Link to={`/blog/${title.replaceAll(" ", "-").toLowerCase()}`}> 
 
-                    <Img src={img}/>
+                    <Img src={imageURL}/>
                 </Link>
 
                 </ImgContainer>
@@ -21,7 +20,7 @@ export const Post:React.FC<propsObj> = ({img, title, descriere}) => {
                     </TitleContainer>
                     <DescriptionContainer>
                         <Description>
-                            {descriere.split(/\s+/).slice(0,20).join(" ")}
+                            {description.split(/\s+/).slice(0,20).join(" ")}
                         </Description>
                     </DescriptionContainer>
                     <Link to={`/blog/${title.replaceAll(" ", "-").toLowerCase()}`}>

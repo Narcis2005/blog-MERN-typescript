@@ -1,14 +1,14 @@
-import { props } from "../../pages/Blog";
+import { postInterface } from "../../redux/types/post";
 import Post from "../Post";
 import { BlogContainer } from "./BlogContainerComponents";
 
-const BlogComponent = ({data}: {data:props}) => {
+const BlogComponent = ({data}: {data:postInterface[]}) => {
     return (
         <BlogContainer>
             {data.map((element, key) => 
-                (<Post img={element.img}
+                (<Post imageURL={element.imageURL}
                  title={element.title}
-                  descriere={element.descriere}
+                  description={element.description}
                   key={key}/>))}
          </BlogContainer>
     )

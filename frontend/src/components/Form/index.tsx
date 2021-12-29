@@ -64,3 +64,16 @@ export const UnderFormText = styled(Link)`
 export const FormTitle = styled.h1`
     padding: 10px 0;
 `
+interface IMessageContainer {
+    background: string;
+    display: string;
+}
+export const MessageContainer = styled.div<IMessageContainer>`
+    background: ${({background}) => background};
+    padding: 10px 20px;
+    margin: 10px 0;
+    display: ${({display}) => display};
+`
+export const Message = styled.p`
+
+`

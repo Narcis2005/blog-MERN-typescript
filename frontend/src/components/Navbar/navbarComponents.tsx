@@ -135,3 +135,15 @@ export const LoginButton = styled(MainButton)`
         margin-left: 0;
     }
 `
+export const ProfileImageContainer = styled.div`
+    width: 45px;
+    height: 45px;
+    margin-left: 3vw;
+`
+export const ProfileImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+
+`

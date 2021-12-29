@@ -1,4 +1,3 @@
-import { Container } from "../../globalStyles";
 import { AboutAstronomyContainer, AboutAstronomyText, Illustration, IllustrationContainer, SectionTitle, TextContainer } from "./aboutAstronomyComponents";
 
 const AboutAstronomy = () => {

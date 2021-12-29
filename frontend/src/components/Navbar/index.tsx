@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Nav, NavbarLogo, LogoImg, MobileIcon, NavContainer, NavItem, NavbarLinks, NavLink, LoginButton} from "./navbarComponents";
+import { Nav, NavbarLogo, LogoImg, MobileIcon, NavContainer, NavItem, NavbarLinks, NavLink, LoginButton, ProfileImage, ProfileImageContainer} from "./navbarComponents";
 import {FaTimes, FaBars} from "react-icons/fa"
 import { Link } from "react-router-dom";
 
-const Navbar = ({background} : {background?: string}) => {
+const Navbar = ({background, image} : {background?: string, image?: string}) => {
     const [click, setClick] = useState(false)
     return (
         <Nav background={background}>
@@ -23,9 +23,19 @@ const Navbar = ({background} : {background?: string}) => {
                     <NavItem>
                        <NavLink to="/contact">Contact</NavLink>
                     </NavItem>
+                    {!image && (
                     <Link to="/login">
                         <LoginButton>Login</LoginButton>
-                     </Link>    
+                     </Link>  
+                    )}
+                    {image && (
+                        <Link to="/profile">
+                            <ProfileImageContainer>
+                                <ProfileImage src={image} />
+                            </ProfileImageContainer>
+                        </Link>
+                    )}
+                      
                 </NavbarLinks>
                 
                 <MobileIcon onClick= {() => setClick(oldClick => !oldClick)}>

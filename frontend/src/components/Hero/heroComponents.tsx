@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { MainButton } from "../MainButton";
 export const HeroContainer = styled.div`
-    background-image: url("/images/hero.jpg");
+    background-image: url("/images/hero.webp");
     width: 100%;
     position: relative;
     height: 100vh;

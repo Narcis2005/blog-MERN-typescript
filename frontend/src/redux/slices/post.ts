@@ -1,22 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import axios, { AxiosError } from "axios";
-export interface postObj  {
-    title: string;
-    img: string;
-    descriere: string;
-}
-interface KnownError {
-    message: string;
-}
+import axios from "axios";
+import api from "../../utils/api";
+import {postInterface, KnownError} from "../types/post"
+
 
 export const getPost = createAsyncThunk<
-    postObj,
+    postInterface,
     string,
     {rejectValue: KnownError}
     
 >('posts/getPost', async (slug, thunkApi) => {
         try {
-            const result  = await (await axios.get(`http://localhost:5000/api/post/${slug}`)).data;
+            const result  =  (await api.get(`/post/post/${slug}`)).data;
          return result;
     } 
     catch (error) {
@@ -31,17 +26,13 @@ export const getPost = createAsyncThunk<
 })
 
 interface stateInterface {
-    result: postObj;
+    result: postInterface | null;
     error?: any;
     loading: boolean;
 }
 
 const initialState: stateInterface = {
-    result: {
-        title: "",
-        img: "",
-        descriere: "",
-    },
+    result: null,
     error: null,
     loading: true
 }
@@ -56,6 +47,7 @@ const postSlice = createSlice({
     builder.addCase(getPost.fulfilled, (state, { payload }) => {
       state.result = payload;
       state.loading = false;
+      state.error = null;
     })
     builder.addCase(getPost.rejected, (state, action) => {
       if (action.payload) {

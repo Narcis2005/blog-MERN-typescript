@@ -1,33 +1,41 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
-export interface postObj  {
-    title: string;
-    img: string;
-    descriere: string;
-}
-type result = postObj[];
+import api from "../../utils/api";
+import { multiplePostsResponse } from "../types/post";
 
+interface params {
+  page: number;
+  perPage: number;
+}
 
 export const getPosts = createAsyncThunk<
-    result,
-    void
->('posts/getPosts', async (_, thunkApi) => {
+    multiplePostsResponse,
+    params
+>('posts/getPosts', async ({page, perPage}, thunkApi) => {
         try {
-            const result  = await (await axios.get("http://localhost:5000/api/posts")).data;
+            const result  = (await api.get("/post/posts", {params: {
+              page: page,
+              perPage: perPage
+            }})).data;
          return result;
     } catch (error ) {
+        // check if the error was thrown from axios
+        if (axios.isAxiosError(error)) {
+    
+          return thunkApi.rejectWithValue(error.response?.data)
+        } 
         throw error;
     }  
 })
 
 interface stateInterface {
-    result: result;
+    result: multiplePostsResponse | null;
     error?: any;
     loading: boolean;
 }
 
 const initialState: stateInterface = {
-    result: [],
+    result: null,
     error: null,
     loading: true
 }
@@ -42,6 +50,7 @@ const postsSlice = createSlice({
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
       state.result = payload;
       state.loading = false;
+      state.error = null;
     })
     builder.addCase(getPosts.rejected, (state, action) => {
       if (action.payload) {
