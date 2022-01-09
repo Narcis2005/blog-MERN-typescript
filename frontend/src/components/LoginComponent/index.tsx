@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { DarkBackground } from "../../containers/DarkBackground";
@@ -32,7 +32,7 @@ const LoginComponent = () => {
                 <Form onSubmit={handleSubmit}>
                     <FormTitle>Login</FormTitle>
                     <MessageContainer background = {auth.error ? "darkred" : "green"} display = {auth.loading ? "none": "block"}> 
-                        <Message>{auth.error?.message ? auth.error.message : "Connected"}</Message>
+                        <Message>{auth.error ? auth.error.message ? auth.error.message : auth.error : "Connected"}</Message>
                     </MessageContainer>
                     <FormInput 
                         placeholder="Username"

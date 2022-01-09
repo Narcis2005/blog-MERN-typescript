@@ -35,7 +35,7 @@ app.use("/api/post", postRoute);
 app.use("/api/auth", authRoute);
 //Creating port variable from env variable or setting it mannualy
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 
 
 //Listening on the PORT variable and then console logging the port
