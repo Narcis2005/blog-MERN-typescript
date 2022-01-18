@@ -18,7 +18,7 @@ const Navbar = ({background, image} : {background?: string, image?: string}) => 
                        <NavLink to="/">Home</NavLink>
                     </NavItem>
                     <NavItem>
-                       <NavLink to="/blog">Blog</NavLink>
+                       <NavLink to="/blog?page=1">Blog</NavLink>
                     </NavItem>
                     <NavItem>
                        <NavLink to="/contact">Contact</NavLink>

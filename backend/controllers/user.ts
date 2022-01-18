@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import User from "../models/user";
+import User, { IUser } from "../models/user";
+import { IGetUserAuthInfoRequest } from "../middleware/tokenCheck";
 dotenv.config();
 const SECRET_JWT = process.env.SECRET_JWT;
 
-const sendToken = (id: string, username:string, imageURL:string):string => {
+const sendToken = (id: string):string => {
     const token = jwt.sign({
-        id: id,
-        username: username,
-        imageURL: imageURL
+        id: id
     }, SECRET_JWT, { expiresIn: '1h' })
     return token;
 }
@@ -24,10 +23,18 @@ export const Login = async (req:Request, res:Response) => {
         return;
     }
     User.findOne({username: username})
-        .then(user => {
+        .then((user:IUser) => {
             if (user){
                 if(user.password === password){
-                    res.status(200).json({token: sendToken(user._id, user.username, user.imageURL), imageURL: user.imageURL, username: user.username, id: user._id})
+                    res.status(200).json({
+                        token: sendToken(user._id),
+                        imageURL: user.imageURL,
+                        username: user.username,
+                        email: user.email,
+                        fullName: user.fullName,
+                        id: user._id,
+                        
+                    })
                     return;
                 }
                 res.status(401).json({
@@ -36,7 +43,7 @@ export const Login = async (req:Request, res:Response) => {
                 return;
             }
             res.status(404).send({
-                message: "Account doesn't exists"
+                message: "Account doesn't exist"
             })
         })
         .catch(error => {
@@ -46,20 +53,30 @@ export const Login = async (req:Request, res:Response) => {
       
 }
 
-export const GetUser =  (req:Request, res:Response) => { 
-    const token = req.query.token as string;
-    if(!token){
-        res.status(400).send({
-            message: "Please provide the token"
+export const GetUser =  (req:IGetUserAuthInfoRequest, res:Response) => { 
+    User.findById(req.user.id)
+        .then((user: IUser) => {
+            if (!user) {
+                res.status(404).send({
+                    message: "Account doesn't exists"
+                })
+                return;
+            }
+            res.send({
+                imageURL: user.imageURL,
+                username: user.username,
+                email: user.email,
+                fullName: user.fullName,
+                id: user._id,
+            })
+            return;
         })
-        return;
-    }
-    try {
-        const user = jwt.verify(token, SECRET_JWT)
-        res.status(200).send(user)
-    } catch (error) {
-        res.status(401).send(error)
-    }
+        .catch((error) => {
+            res.status(500).send(error);
+            console.log(error)
+            return;
+        })
+   
 }
 
 
@@ -67,7 +84,8 @@ export const Register = (req:Request, res:Response) => {
     const username = req.body.username as string;
     const email = req.body.email as string;
     const password = req.body.password as string;
-    if(!username || !email || !password){
+    const fullName =  req.body.fullName as string;
+    if(!username || !email || !password || !fullName){
         res.status(400).send({
             message: "Please provide all params"
         })
@@ -85,6 +103,7 @@ export const Register = (req:Request, res:Response) => {
             newUser.username = username;
             newUser.email = email;
             newUser.password = password;
+            newUser.fullName = fullName;
             newUser.save()
                 .then(savedUser => {
                     res.send({

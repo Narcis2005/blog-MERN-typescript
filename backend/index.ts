@@ -2,6 +2,7 @@ import express, {Request, Response, Application} from 'express';
 import cors from 'cors';
 import postRoute from './routes/postRoute';
 import authRoute from './routes/authRoute';
+import profileRoute from './routes/profileRoute';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
@@ -33,9 +34,10 @@ db.once("open", () =>{
 
 app.use("/api/post", postRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/profile", profileRoute);
 //Creating port variable from env variable or setting it mannualy
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5010;
 
 
 //Listening on the PORT variable and then console logging the port

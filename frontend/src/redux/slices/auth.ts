@@ -3,15 +3,23 @@ import axios from "axios";
 import api from "../../utils/api";
 import {userInterface, KnownError} from "../types/auth"
 
-
+export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, thunkApi) => {
+  localStorage.removeItem("token");
+  return true;
+})
 export const getUserByToken = createAsyncThunk<
     userInterface,
-    string,
+    void,
     {rejectValue: KnownError}
     
->('auth/getUserByToken', async (token, thunkApi) => {
+>('auth/getUserByToken', async (_, thunkApi) => {
+  const token = localStorage.token;
+      if(!token){
+        throw new Error;
+      }
+
         try {
-            const result  =  (await api.get(`/auth/getuser`, {params: {token:token}})).data;
+            const result  =  (await api.get(`/auth/getuser`)).data;
          return result;
     } 
     catch (error) {
@@ -54,16 +62,24 @@ export const loginUser = createAsyncThunk<
     }
 })
 interface stateInterface {
-    result: userInterface | null;
+    result: userInterface ;
     error?: any;
     token: string;
+    isAuthentificated: boolean;
     loading: boolean;
 }
 
 const initialState: stateInterface = {
-    result: null,
+    result: {
+      username: "",
+      fullName: "",
+      email: "",
+      id: "",
+      imageURL: ""
+    },
     error: null,
     token: "",
+    isAuthentificated: false,
     loading: true
 }
 const userSlice = createSlice({
@@ -78,6 +94,7 @@ const userSlice = createSlice({
       state.result = payload;
       state.error = null;
       state.loading = false;
+      state.isAuthentificated = true;
     })
     builder.addCase(getUserByToken.rejected, (state, action) => {
       if (action.payload) {
@@ -86,6 +103,7 @@ const userSlice = createSlice({
         state.error = action.error.message
       }
       state.loading = false;
+      state.isAuthentificated = false;
     })
     builder.addCase(loginUser.pending, (state) => {
         state.loading = true;
@@ -94,6 +112,7 @@ const userSlice = createSlice({
       state.result = payload;
       state.loading = false;
       state.error = null;
+      state.isAuthentificated = true;
     })
     builder.addCase(loginUser.rejected, (state, action) => {
       if (action.payload) {
@@ -102,7 +121,25 @@ const userSlice = createSlice({
         state.error = action.error.message
       }
       state.loading = false;
+      state.isAuthentificated = false;
     })
+    builder.addCase(logoutUser.pending, (state) => {
+      state.loading = true;
+    })
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.result= {
+          username: "",
+          fullName: "",
+          email: "",
+          id: "",
+          imageURL: ""
+        };
+      state.error= null;
+      state.token= "";
+      state.isAuthentificated= false;
+      state.loading= false;
+    })
+    
   },
 })
 

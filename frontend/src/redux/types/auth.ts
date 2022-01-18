@@ -4,7 +4,7 @@ export interface KnownError {
 export interface userInterface {
     id: string;
     imageURL: string;
-    message: string;
     username: string;
-    token?: string;
+    fullName: string;
+    email: string;
 }

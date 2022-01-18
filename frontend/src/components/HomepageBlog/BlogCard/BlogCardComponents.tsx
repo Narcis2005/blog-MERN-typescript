@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import { DarkGray } from "../../../utils/colors";
 import { MainButton } from "../../MainButton";
 
 export const CardContainer = styled.div`
     height: 430px;
     width: 400px;
-    background-color: #1b1b1b;
+    background-color: ${DarkGray};
     display: flex;
     flex-direction: column;
     align-items: center;

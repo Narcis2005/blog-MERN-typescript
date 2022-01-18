@@ -11,6 +11,7 @@ const Contact = React.lazy(() => import("./pages/Contact"))
 const Login = React.lazy(() => import("./pages/Login"))
 const Register = React.lazy(() => import("./pages/Register"))
 const NotFound = React.lazy(() => import("./pages/NotFound"))
+const Profile = React.lazy(() => import("./pages/Profile"))
 import { GlobalStyle } from './globalStyles';
 import ScrollToTop from './scrollToTop';
 import Navbar from './components/Navbar';
@@ -19,35 +20,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserByToken} from './redux/slices/auth';
 import { RootState } from './redux/store';
 import Loading from './components/Loading';
+import PrivateRoute from './utils/PrivateRoute';
+import { NavBlack } from './utils/colors';
 
 
 const App = () => {
   const dispatch  = useDispatch();
-  const [isAuthentificated, setIsAuthentificated] = useState(false)
-  const checkIfAuthentificated = () => {
-    const token = localStorage.token;
-    if(token){
-      dispatch(getUserByToken(token))
-    }
-  }
   const auth = useSelector((state:RootState)=> state.auth)
   useEffect(() => {
-    checkIfAuthentificated()
+    dispatch(getUserByToken())
   },[])
-  useEffect(() => {
-    setIsAuthentificated(auth.result ? true : false);
-    
-    console.log(auth)
-  }, [auth])
+
   return (
     <Router>
       <ScrollToTop />
       <GlobalStyle />
-      {isAuthentificated && (
-        <Navbar background="rgb(10,10,10)" image={auth.result?.imageURL}/>
+      {auth.isAuthentificated && !auth.loading && (
+        <Navbar background={NavBlack} image={auth.result?.imageURL}/>
       )}
-      {!isAuthentificated && (
-        <Navbar background="rgb(10,10,10)" />
+      {!auth.isAuthentificated && (
+        <Navbar background={NavBlack} />
 
       )}
        <React.Suspense fallback={<Loading />}>
@@ -59,6 +51,9 @@ const App = () => {
               <Route path="/contact" element={<Contact />}/>
               <Route path="/login" element={<Login />}/>
               <Route path="/register" element={<Register />}/>
+              <Route path="/profile" element={<PrivateRoute>
+                                                <Profile />
+                                              </PrivateRoute>}/>
               <Route path="*" element={<NotFound />} />
        
         </Routes> 

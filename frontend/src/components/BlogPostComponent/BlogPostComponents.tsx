@@ -1,8 +1,9 @@
 import styled from "styled-components";
+import { DarkGray } from "../../utils/colors";
 
 export const BlogPostComponentContainer = styled.div`
     width: 100%;
-    background: #1b1b1b;
+    background: ${DarkGray};
     padding: 2em 0;
     padding-top: 0;
 `

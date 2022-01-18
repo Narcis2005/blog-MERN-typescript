@@ -1,5 +1,7 @@
 import express from 'express';
+import { updateProfile } from '../../controllers/profile';
 import { GetUser, Login, Register } from '../../controllers/user';
+import check from '../../middleware/tokenCheck';
 const router = express.Router();
 
 
@@ -11,13 +13,12 @@ router.post('/login', Login);
 
 // @router  GET api/auth/getuser
 // @desc    Check if jwt is valid
-// @access  Public
-router.get('/getuser', GetUser);
+// @access  Private
+router.get('/getuser', check , GetUser);
 
 // @router  POST api/auth/register
 // @desc    Create a new account
 // @access  Public
 router.post('/register', Register);
-
 
 export default router;

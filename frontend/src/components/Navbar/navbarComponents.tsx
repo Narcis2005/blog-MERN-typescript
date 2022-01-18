@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "../../globalStyles";
+import { blue } from "../../utils/colors";
 import {MainButton} from "../MainButton";
 
 interface NavbarLinksProps {
@@ -19,7 +20,6 @@ export const Nav = styled.nav<backgroundColor>`
     align-items: center;
     top: 0;
     z-index: 999;
-    /* border-bottom: 1px solid white; */
 
 `
 export const NavbarLogo = styled.div`
@@ -96,7 +96,7 @@ export const NavLink = styled(Link)`
     font-size: 1.1rem;
     position: relative;
     &:hover{
-        color: #4C4C9D;
+        color: ${blue};
     }
     &::after{
         content: "";
@@ -106,7 +106,7 @@ export const NavLink = styled(Link)`
         left:0;
         width: 100%;
         height: 3px;
-        background: #4C4C9D;
+        background: ${blue};
         border-radius: 10px;
         transition: opacity 0.2s ease;
 

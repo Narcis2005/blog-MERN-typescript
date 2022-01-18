@@ -25,14 +25,14 @@ const LoginComponent = () => {
     return (
         <>
         {/* if user is authentificated redirect to homepage */}
-        {auth.result && (
+        {auth.isAuthentificated && (
             <Navigate to="/" />
         )}
             <DarkBackground>
                 <Form onSubmit={handleSubmit}>
                     <FormTitle>Login</FormTitle>
-                    <MessageContainer background = {auth.error ? "darkred" : "green"} display = {auth.loading ? "none": "block"}> 
-                        <Message>{auth.error ? auth.error.message ? auth.error.message : auth.error : "Connected"}</Message>
+                    <MessageContainer background = {auth.error ? "darkred" : "green"} display = {!auth.error ? "none": "block"}> 
+                        <Message>{auth && auth.error && auth.error.message}</Message>
                     </MessageContainer>
                     <FormInput 
                         placeholder="Username"

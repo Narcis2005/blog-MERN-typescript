@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { DarkGray } from "../../utils/colors";
 
 export const Form = styled.form`
 max-width: 85%;
@@ -7,7 +8,7 @@ margin: 2em 0;
 display: flex;
 flex-direction: column;
 align-items: center;
-background: #1b1b1b;
+background: ${DarkGray};
 padding: 3em;
 border-radius: 20px;
 box-shadow: rgb(0 0 0 / 50%) 0px 10px 20px;
@@ -15,7 +16,6 @@ box-shadow: rgb(0 0 0 / 50%) 0px 10px 20px;
 
 `
 export const FormInput = styled.input`
-/* background: rgb(15, 15, 15); */
 background: transparent;
 width: 300px;
 height: 50px;

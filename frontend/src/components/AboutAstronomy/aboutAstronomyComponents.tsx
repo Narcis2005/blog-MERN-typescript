@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { DarkGray } from "../../utils/colors";
 
 export const AboutAstronomyContainer = styled.div`
-    background: #1b1b1b;
+    background: ${DarkGray};
     padding: 5rem 0;
     display: flex;
     justify-content: space-evenly;

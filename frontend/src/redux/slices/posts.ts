@@ -37,7 +37,7 @@ interface stateInterface {
 const initialState: stateInterface = {
     result: null,
     error: null,
-    loading: true
+    loading: false
 }
 const postsSlice = createSlice({
   name: 'posts',

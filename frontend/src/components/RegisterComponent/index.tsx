@@ -11,7 +11,8 @@ const RegisterComponent = () => {
     const [formData, setFormData] = useState({
         username: "",
         email: "",
-        password: ""
+        password: "",
+        fullName: ""
     })
     const auth = useSelector((state:RootState)=> state.auth)
     const [message, setMessage] = useState({error: false, message: "", loading: true})
@@ -31,7 +32,7 @@ const RegisterComponent = () => {
     return (
         <>
         {/* if user is authentificated redirect to homepage */}
-        {auth.result && (
+        {auth.isAuthentificated && (
             <Navigate to="/" />
         )}
             <DarkBackground>
@@ -54,6 +55,13 @@ const RegisterComponent = () => {
                         type="email"
                         onChange={handleChange}
                         name="email"
+                    />
+                    <FormInput 
+                        placeholder="Full name"
+                        required
+                        type="text"
+                        onChange={handleChange}
+                        name="fullName"
                     />
                     <FormInput 
                         placeholder="Password"
