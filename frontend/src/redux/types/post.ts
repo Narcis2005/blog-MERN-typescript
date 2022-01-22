@@ -6,7 +6,7 @@ export interface postInterface {
     createdAt?: Date;
 }
 
-export interface multiplePostsResponse  {
+export interface multiplePostsResponse {
     numberOfElements: number;
     page: number;
     perPage: number;

@@ -1,5 +1,15 @@
 import { Link } from "react-router-dom";
-import { FooterContainer, FooterLink, FooterNav, FooterNavItem, FooterQuote, Logo, LogoImage, Quote } from "./footerComponents";
+import {
+    FooterContainer,
+    FooterLink,
+    FooterNav,
+    FooterNavItem,
+    FooterQuote,
+    Logo,
+    LogoImage,
+    Quote,
+} from "./footerComponents";
+import React from "react";
 
 const Footer = () => {
     return (
@@ -21,10 +31,13 @@ const Footer = () => {
                 </FooterNavItem>
             </FooterNav>
             <FooterQuote>
-                <Quote>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae architecto dolore, ea aliquid nam dignissimos?</Quote>
+                <Quote>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae architecto dolore, ea aliquid nam
+                    dignissimos?
+                </Quote>
             </FooterQuote>
         </FooterContainer>
-    )
-}
+    );
+};
 
 export default Footer;

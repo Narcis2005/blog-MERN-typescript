@@ -1,7 +1,7 @@
 import express from 'express';
-import { updateProfile } from '../../controllers/profile';
-import { GetUser, Login, Register } from '../../controllers/user';
-import check from '../../middleware/tokenCheck';
+import { updateProfile } from '../../profile';
+import { GetUser, Login, Register } from '../../user';
+import check from '../../src/middleware/tokenCheck';
 const router = express.Router();
 
 

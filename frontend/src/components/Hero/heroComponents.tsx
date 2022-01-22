@@ -11,27 +11,25 @@ export const HeroContainer = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-
-`
+`;
 export const MainTitle = styled.div`
     width: 80%;
     padding-bottom: 3rem;
-   
-`
+`;
 export const Title = styled.h1`
     font-size: 3rem;
     @media (max-width: 960px) {
-        font-size: 2rem;    
+        font-size: 2rem;
     }
-`
+`;
 
 export const SecondayText = styled.div`
     width: 80%;
-`
+`;
 
 export const HeroButton = styled(MainButton)`
     margin-top: 3rem;
     width: 200px;
     border-radius: 40px;
     font-weight: 700;
-`
+`;

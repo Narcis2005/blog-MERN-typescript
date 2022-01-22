@@ -1,25 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container,Text } from "../../globalStyles";
+import { Text } from "../../globalStyles";
 import { HeroContainer, MainTitle, Title, SecondayText, HeroButton } from "./heroComponents";
-const Hero:React.FC = () => {
+const Hero: React.FC = () => {
     return (
         <>
-        <HeroContainer>
+            <HeroContainer>
                 <MainTitle>
                     <Title>Astronomy and her ways</Title>
                 </MainTitle>
                 <SecondayText>
-                    <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem cupiditate saepe similique mollitia magnam qui.</Text>
+                    <Text>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem cupiditate saepe similique mollitia
+                        magnam qui.
+                    </Text>
                 </SecondayText>
                 <Link to="/blog">
-                    <HeroButton>
-                        Blog
-                    </HeroButton>
+                    <HeroButton>Blog</HeroButton>
                 </Link>
-        </HeroContainer>
+            </HeroContainer>
         </>
-    )
-}
+    );
+};
 
 export default Hero;

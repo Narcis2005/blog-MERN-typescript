@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 //Post schema
 
 export interface IUser extends mongoose.Document {
@@ -13,32 +12,32 @@ export interface IUser extends mongoose.Document {
 }
 
 const userSchema = new mongoose.Schema<IUser>({
-    username:{
+    username: {
         type: String,
-        required: true
+        required: true,
     },
-    password:{
+    password: {
         type: String,
-        required: true
+        required: true,
     },
-    email:{
+    email: {
         type: String,
-        required: true
+        required: true,
     },
-    createdAt:{
+    createdAt: {
         type: Date,
         default: new Date(),
-        required: true
+        required: true,
     },
-    fullName:{
+    fullName: {
         type: String,
-        required: true
+        required: true,
     },
     imageURL: {
         type: String,
         default: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
-        required: true
-    }
+        required: true,
+    },
 });
 
 const User = mongoose.model<IUser>("user", userSchema);

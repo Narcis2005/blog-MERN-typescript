@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { Nav, NavbarLogo, LogoImg, MobileIcon, NavContainer, NavItem, NavbarLinks, NavLink, LoginButton, ProfileImage, ProfileImageContainer} from "./navbarComponents";
-import {FaTimes, FaBars} from "react-icons/fa"
+import {
+    Nav,
+    NavbarLogo,
+    LogoImg,
+    MobileIcon,
+    NavContainer,
+    NavItem,
+    NavbarLinks,
+    NavLink,
+    LoginButton,
+    ProfileImage,
+    ProfileImageContainer,
+} from "./navbarComponents";
+import { FaTimes, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const Navbar = ({background, image} : {background?: string, image?: string}) => {
-    const [click, setClick] = useState(false)
+const Navbar = ({ background, image }: { background?: string; image?: string }) => {
+    const [click, setClick] = useState(false);
     return (
         <Nav background={background}>
             <NavContainer>
@@ -13,20 +25,20 @@ const Navbar = ({background, image} : {background?: string, image?: string}) => 
                         <LogoImg src="/images/logo.svg" />
                     </NavbarLogo>
                 </Link>
-                <NavbarLinks onClick= {() => setClick(oldClick => !oldClick)} click= {click}>
+                <NavbarLinks onClick={() => setClick((oldClick) => !oldClick)} click={click}>
                     <NavItem>
-                       <NavLink to="/">Home</NavLink>
+                        <NavLink to="/">Home</NavLink>
                     </NavItem>
                     <NavItem>
-                       <NavLink to="/blog?page=1">Blog</NavLink>
+                        <NavLink to="/blog?page=1">Blog</NavLink>
                     </NavItem>
                     <NavItem>
-                       <NavLink to="/contact">Contact</NavLink>
+                        <NavLink to="/contact">Contact</NavLink>
                     </NavItem>
                     {!image && (
-                    <Link to="/login">
-                        <LoginButton>Login</LoginButton>
-                     </Link>  
+                        <Link to="/login">
+                            <LoginButton>Login</LoginButton>
+                        </Link>
                     )}
                     {image && (
                         <Link to="/profile">
@@ -35,16 +47,14 @@ const Navbar = ({background, image} : {background?: string, image?: string}) => 
                             </ProfileImageContainer>
                         </Link>
                     )}
-                      
                 </NavbarLinks>
-                
-                <MobileIcon onClick= {() => setClick(oldClick => !oldClick)}>
-                    {click ? <FaTimes /> : <FaBars/>}
+
+                <MobileIcon onClick={() => setClick((oldClick) => !oldClick)}>
+                    {click ? <FaTimes /> : <FaBars />}
                 </MobileIcon>
             </NavContainer>
-         </Nav>
-               
-    )
-}
+        </Nav>
+    );
+};
 
 export default Navbar;

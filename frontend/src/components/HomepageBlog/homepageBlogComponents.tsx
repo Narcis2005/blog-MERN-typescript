@@ -5,5 +5,4 @@ export const HomepageBlogContainer = styled.div`
     justify-content: center;
     background-color: rgb(40, 40, 40);
     padding: 3em 0;
-
-`
+`;

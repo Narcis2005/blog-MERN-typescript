@@ -6,35 +6,36 @@ import { loginUser } from "../../redux/slices/auth";
 import { RootState } from "../../redux/store";
 import { Form, FormInput, FormTitle, Message, MessageContainer, UnderFormText } from "../Form";
 import { MainButton } from "../MainButton";
+import React from "react";
 
 const LoginComponent = () => {
     const [credentials, setCredentials] = useState({
         username: "",
-        password: ""
-    })
-    const auth = useSelector((state:RootState)=> state.auth)
+        password: "",
+    });
+    const auth = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCredentials({...credentials, [e.target.name]: e.target.value})
-    }
+        setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    };
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        dispatch(loginUser((credentials)))
-
-    }
+        e.preventDefault();
+        dispatch(loginUser(credentials));
+    };
     return (
         <>
-        {/* if user is authentificated redirect to homepage */}
-        {auth.isAuthentificated && (
-            <Navigate to="/" />
-        )}
+            {/* if user is authentificated redirect to homepage */}
+            {auth.status === "success" && <Navigate to="/" />}
             <DarkBackground>
                 <Form onSubmit={handleSubmit}>
                     <FormTitle>Login</FormTitle>
-                    <MessageContainer background = {auth.error ? "darkred" : "green"} display = {!auth.error ? "none": "block"}> 
+                    <MessageContainer
+                        background={auth.error ? "darkred" : "green"}
+                        display={!auth.error ? "none" : "block"}
+                    >
                         <Message>{auth && auth.error && auth.error.message}</Message>
                     </MessageContainer>
-                    <FormInput 
+                    <FormInput
                         placeholder="Username"
                         required
                         type="text"
@@ -42,23 +43,20 @@ const LoginComponent = () => {
                         onChange={handleChange}
                         value={credentials.username}
                     />
-                    <FormInput 
+                    <FormInput
                         placeholder="Password"
                         required
                         type="password"
-                        name = "password"
+                        name="password"
                         onChange={handleChange}
                         value={credentials.password}
-
                     />
-                        <MainButton>Login</MainButton>
-                    <UnderFormText to="/register">
-                        You don't have an account yet? Register here!
-                    </UnderFormText>
+                    <MainButton>Login</MainButton>
+                    <UnderFormText to="/register">You don&apos;t have an account yet? Register here!</UnderFormText>
                 </Form>
             </DarkBackground>
         </>
-    )
-}
+    );
+};
 
 export default LoginComponent;

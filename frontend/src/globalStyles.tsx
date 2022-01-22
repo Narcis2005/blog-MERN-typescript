@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
         color: white;
         font-family: 'Montserrat', sans-serif;
     }
-`
+`;
 
 export const Container = styled.div`
     display: flex;
@@ -17,17 +17,17 @@ export const Container = styled.div`
     min-width: 70%;
     max-width: 1400px;
     flex-wrap: wrap;
-`
-interface IMainText{
+`;
+interface IMainText {
     color: string;
 }
-export const Text = styled.p``
+export const Text = styled.p``;
 
 export const MainText = styled.h1<IMainText>`
-    color: ${({color}) => color };
+    color: ${({ color }) => color};
     font-size: 3rem;
     padding: 0 10%;
-    @media (max-width: 960px){
+    @media (max-width: 960px) {
         font-size: 2.5rem;
     }
-`
+`;

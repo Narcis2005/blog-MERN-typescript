@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Gray } from "../../utils/colors";
+import { Gray } from "../../utils/colors";
 
 export const DarkBackground = styled.div`
     background: ${Gray};
@@ -8,4 +8,4 @@ export const DarkBackground = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;
