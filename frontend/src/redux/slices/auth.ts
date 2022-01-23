@@ -57,6 +57,7 @@ export const loginUser = createAsyncThunk<
 });
 interface stateInterface {
     result: userInterface;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: any;
     token: string;
     status: "idle" | "loading" | "success" | "failed";

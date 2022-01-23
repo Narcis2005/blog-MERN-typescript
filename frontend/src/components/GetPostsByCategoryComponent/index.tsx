@@ -1,15 +1,19 @@
-import { shortPostInterface } from "../../redux/types/post";
-import Post from "../Post";
-import { BlogContainer } from "./BlogContainerComponents";
 import React from "react";
+import { shortPostInterface } from "../../redux/types/post";
+import { BlogContainer } from "../BlogComponent/BlogContainerComponents";
+import Post from "../Post";
 import { Title } from "../GetPostsByTagComponent/GetPostsByTagComponents";
 
-const BlogComponent = ({ data }: { data: shortPostInterface[] }) => {
+const GetPostsByCategoryComponent = ({data, category} : {data: shortPostInterface[], category: string | null}) => {
     return (
         <>
         <BlogContainer>
-        <Title>Blog Posts</Title>
-
+            {!category && (
+                <Title>Please provide a category using the query parameter category</Title>
+            )}
+            {category && (
+                <>
+                    <Title>Posts with category: {category}</Title>
             {data.map((element: shortPostInterface, key: number) => (
                 <Post
                     imageURL={element.imageURL}
@@ -19,9 +23,12 @@ const BlogComponent = ({ data }: { data: shortPostInterface[] }) => {
                     key={key}
                 />
             ))}
+                </>
+            )}
+            
         </BlogContainer>
         </>
     );
 };
 
-export default BlogComponent;
+export default GetPostsByCategoryComponent;

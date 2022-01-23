@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { postInterface } from "../../redux/types/post";
+import { shortPostInterface } from "../../redux/types/post";
 import {
     Button,
     Description,
@@ -13,12 +13,12 @@ import {
     TitleContainer,
 } from "./postComponents";
 
-export const Post: React.FC<postInterface> = ({ imageURL, title, description }) => {
+export const Post = ({ imageURL, title, description, slug }: shortPostInterface) => {
     return (
         <>
             <PostContainer>
                 <ImgContainer>
-                    <Link to={`/blog/${title.replaceAll(" ", "-").toLowerCase()}`}>
+                    <Link to={`/blog/${slug}`}>
                         <Img src={imageURL} />
                     </Link>
                 </ImgContainer>
@@ -27,9 +27,9 @@ export const Post: React.FC<postInterface> = ({ imageURL, title, description }) 
                         <Title>{title}</Title>
                     </TitleContainer>
                     <DescriptionContainer>
-                        <Description>{description.split(/\s+/).slice(0, 20).join(" ")}</Description>
+                        <Description>{description}</Description>
                     </DescriptionContainer>
-                    <Link to={`/blog/${title.replaceAll(" ", "-").toLowerCase()}`}>
+                    <Link to={`/blog/${slug}`}>
                         <Button>Read More</Button>
                     </Link>
                 </TextContainer>

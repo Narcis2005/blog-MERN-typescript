@@ -8,6 +8,8 @@ const Login = React.lazy(() => import("./pages/Login"));
 const Register = React.lazy(() => import("./pages/Register"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const Profile = React.lazy(() => import("./pages/Profile"));
+const GetPostsByTag = React.lazy(() => import("./pages/GetPostsByTag"));
+const GetPostsByCategory = React.lazy(() => import("./pages/GetPostsByCategory"));
 import { GlobalStyle } from "./globalStyles";
 import ScrollToTop from "./scrollToTop";
 import Navbar from "./components/Navbar";
@@ -46,6 +48,9 @@ const App = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/posts-by-tag" element={<GetPostsByTag />} />
+                    <Route path="/posts-by-category" element={<GetPostsByCategory />} />
+
                     <Route
                         path="/profile"
                         element={

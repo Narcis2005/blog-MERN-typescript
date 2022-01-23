@@ -22,6 +22,7 @@ export const getPost = createAsyncThunk<postInterface, string, { rejectValue: Kn
 
 interface stateInterface {
     result: postInterface | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: any;
     status: "idle" | "loading" | "success" | "failed";
 }

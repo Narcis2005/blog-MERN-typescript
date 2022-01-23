@@ -26,6 +26,11 @@ const BlogPost: React.FC = () => {
                     <MainText color="white">Post is loading</MainText>
                 </DarkBackground>
             )}
+            {post.status === "failed" && !post.error && (
+                <DarkBackground>
+                    <MainText color="red">An error appeard</MainText>
+                </DarkBackground>
+            )}
             {post.error && !post.error.message && (
                 <DarkBackground>
                     <MainText color="red">An error appeard</MainText>

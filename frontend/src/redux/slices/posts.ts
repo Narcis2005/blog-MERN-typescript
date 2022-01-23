@@ -33,6 +33,7 @@ export const getPosts = createAsyncThunk<multiplePostsResponse, params>(
 
 interface stateInterface {
     result: multiplePostsResponse | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error?: any;
     status: "idle" | "loading" | "success" | "failed";
 }

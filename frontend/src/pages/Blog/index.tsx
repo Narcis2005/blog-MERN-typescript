@@ -30,17 +30,17 @@ const Blog = () => {
                     <MainText color="white">Loading posts...</MainText>
                 </DarkBackground>
             )}
-            {posts.error && (
+            {posts.status === "failed" && (
                 <DarkBackground>
                     <MainText color="red">Error appeard while posts were loading</MainText>
                 </DarkBackground>
             )}
             {!posts.result ||
-                (!posts.result.results && (
+                !posts.result.results && (
                     <DarkBackground>
                         <MainText color="red">No posts were found</MainText>
                     </DarkBackground>
-                ))}
+                )}
             {posts.status === "success" && posts.result && (
                 <>
                     <BlogComponent data={posts.result.results} />

@@ -45,7 +45,8 @@ const HomepageBlog = () => {
                                 imageURL={element.imageURL}
                                 title={element.title}
                                 //To get only the first 10 words
-                                description={element.description.split(/\s+/).slice(0, 10).join(" ")}
+                                description={element.description}
+                                slug={element.slug}
                                 key={key}
                             />
                         ))}

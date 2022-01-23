@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { postInterface } from "../../../redux/types/post";
+import { shortPostInterface } from "../../../redux/types/post";
 import {
     ButtonCard,
     CardContainer,
@@ -13,7 +13,7 @@ import {
     TitleContainer,
 } from "./BlogCardComponents";
 
-const BlogCard: React.FC<postInterface> = ({ imageURL, title, description }) => {
+const BlogCard: React.FC<shortPostInterface> = ({ imageURL, title, description, slug }) => {
     return (
         <CardContainer>
             <ImgContainer>
@@ -27,7 +27,7 @@ const BlogCard: React.FC<postInterface> = ({ imageURL, title, description }) => 
                     <Description>{description}</Description>
                 </DescriptionContainer>
             </TextContainer>
-            <Link to={`/blog/${title.replaceAll(" ", "-").toLowerCase()}`}>
+            <Link to={`/blog/${slug}`}>
                 <ButtonCard>Read More</ButtonCard>
             </Link>
         </CardContainer>
