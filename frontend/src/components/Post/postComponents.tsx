@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { LightGray } from "../../utils/colors";
 import { MainButton } from "../MainButton";
 
 export const PostContainer = styled.div`
@@ -8,8 +9,8 @@ export const PostContainer = styled.div`
     justify-content: space-between;
     padding: 3em;
     margin: 3em 0;
-    box-shadow: rgb(0 0 0 / 50%) 0px 10px 20px;
-
+    border-radius: 20px;
+    background-color: ${LightGray};
     @media (max-width: 960px) {
         flex-direction: column;
         max-height: 600px;
@@ -28,6 +29,8 @@ export const Img = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
+    filter: brightness(80%);
 `;
 export const TextContainer = styled.div`
     width: 60%;

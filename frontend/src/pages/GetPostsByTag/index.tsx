@@ -4,66 +4,106 @@ import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import GetPostsByTagComponent from "../../components/GetPostsByTagComponent";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
+import { shortPostInterface } from "../../redux/types/post";
 import api from "../../utils/api";
 
 const GetPostsByTag = () => {
+    interface IData {
+        page: number;
+            perPage: number;
+            results: shortPostInterface[];
+            totalPages: number;
+            numberOfElements: number;
+    }
+    interface ICall {
+        status: "loading" | "failed" | "success";
+        data: IData | null;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        error: any;
+    }
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
     const tag = query.get("tag");
-    const [result, setResult] = useState({
-        status: "loading",
-        data: [],
-        error: null
-    });
+    const [result, setResult] = useState<ICall>();
     useEffect(()=> {
         if(tag){
         if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
             navigate({
                 search: `?${createSearchParams({
+                    tag: tag,
                     page: "1",
-                    tag: tag
+                    
                 }).toString()}`,
             });
         }
         
-            api.get(`/post/posts-by-tag?tag=${tag}&page=${Number(query.get("page")) > 0 ? Number(query.get("page")) : 1}&perPage=10`)
+            api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${Number(query.get("page")) > 0 ? Number(query.get("page")) : 1}&perPage=10`)
             .then((data) => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                setResult({...result, data: data.data.results, status: "success"});
+                setResult({data: data.data, status: "success", error: null});
             })
             .catch((error) => {
                 if (axios.isAxiosError(error)) { 
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({...result, error: error.response?.data.message, status: "failed"});
+                    setResult({data: null, error: error.response?.data.message, status: "failed"});
                 }
             });
         }
         
     },[]);
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) : void => {
+        e.preventDefault();
+        if(tag) {
+            
+            navigate({
+                search: `?${createSearchParams({
+                    tag: tag,
+                    page: e.currentTarget.value,
+                    
+                }).toString()}`,
+            });
+            api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${e.currentTarget.value}&perPage=10`)
+            .then((data) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                setResult({data: data.data, status: "success", error: null});
+            })
+            .catch((error) => {
+                if (axios.isAxiosError(error)) { 
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    setResult({data: null, error: error.response?.data.message, status: "failed"});
+                }
+            });
+        }
+    };
     return(
         <>
-        {result.status === "loading" && tag && (
-                <DarkBackground>
-                    <MainText color="white">Loading posts...</MainText>
-                </DarkBackground>
-            )}
-            {!tag && (
+        {!tag && (
                 <DarkBackground>
                 <MainText color="red">Specify a tag using tag query parameter</MainText>
             </DarkBackground>
             )}
-            {result.status === "failed" && tag &&(
+        {result?.status === "loading" && tag &&(
+                <DarkBackground>
+                    <MainText color="white">Loading posts...</MainText>
+                </DarkBackground>
+            )}
+            {result?.status === "failed" && tag && (
                 <DarkBackground>
                     <MainText color="red">Error appeard while posts were loading</MainText>
                 </DarkBackground>
             )}
-            {result.data.length === 0 && tag && (
+            {result?.data?.results.length === 0 && tag && Number(query.get("page")) === 1 && (
                     <DarkBackground>
                         <MainText color="red">No posts were found with tag {tag}</MainText>
                     </DarkBackground>
             )}
-            {result.status === "success" && result.data && (
-                <GetPostsByTagComponent tag={tag} data={result.data} />
+            {result?.data?.results.length === 0 && tag && Number(query.get("page")) > 1 && (
+                    <DarkBackground>
+                        <MainText color="red">There are no more posts with tag {tag}. The last page is {result.data.totalPages}</MainText>
+                    </DarkBackground>
+            )}
+            {result?.status === "success" && result.data && result.data.results.length > 0 && (
+                <GetPostsByTagComponent tag={tag} data={result.data.results} totalPages={result.data.totalPages} currentPage={Number(query.get("page"))} handleClick={handleClick}/>
             )}
 
         </>

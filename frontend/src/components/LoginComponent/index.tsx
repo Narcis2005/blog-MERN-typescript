@@ -33,7 +33,7 @@ const LoginComponent = () => {
                         background={auth.error ? "darkred" : "green"}
                         display={!auth.error ? "none" : "block"}
                     >
-                        <Message>{auth && auth.error && auth.error.message}</Message>
+                        <Message>{auth.error ? auth.error.message? auth.error.message : auth.error : ''}</Message>
                     </MessageContainer>
                     <FormInput
                         placeholder="Username"

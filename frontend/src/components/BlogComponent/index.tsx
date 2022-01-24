@@ -1,10 +1,11 @@
 import { shortPostInterface } from "../../redux/types/post";
 import Post from "../Post";
-import { BlogContainer } from "./BlogContainerComponents";
+import { BlogContainer} from "./BlogContainerComponents";
 import React from "react";
 import { Title } from "../GetPostsByTagComponent/GetPostsByTagComponents";
+import Pagination from "../Pagination";
 
-const BlogComponent = ({ data }: { data: shortPostInterface[] }) => {
+const BlogComponent = ({ data, currentPage, handleClick, totalPages}: { data: shortPostInterface[], currentPage: number, handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void, totalPages: number }) => {
     return (
         <>
         <BlogContainer>
@@ -19,6 +20,7 @@ const BlogComponent = ({ data }: { data: shortPostInterface[] }) => {
                     key={key}
                 />
             ))}
+           <Pagination currentPage={currentPage} handleClick={handleClick} totalPages={totalPages}/>
         </BlogContainer>
         </>
     );

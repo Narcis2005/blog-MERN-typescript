@@ -23,6 +23,16 @@ const Blog = () => {
     }, []);
     const posts = useSelector((state: RootState) => state.posts);
     const dispatch = useDispatch();
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) : void => {
+        e.preventDefault();
+        navigate({
+            search: `?${createSearchParams({
+                page: e.currentTarget.value,
+            }).toString()}`,
+        });
+        console.log(query.get("page"));
+        dispatch(getPosts({ page: Number(e.currentTarget.value), perPage: 10 }));
+    };
     return (
         <>
             {posts.status === "loading" && (
@@ -36,14 +46,14 @@ const Blog = () => {
                 </DarkBackground>
             )}
             {!posts.result ||
-                !posts.result.results && (
+                posts.result.results.length === 0 && (
                     <DarkBackground>
-                        <MainText color="red">No posts were found</MainText>
+                        <MainText color="red">No posts were found on this page. The last page with posts is {posts.result.totalPages}</MainText>
                     </DarkBackground>
                 )}
-            {posts.status === "success" && posts.result && (
+            {posts.status === "success" && posts.result && posts.result.results.length > 0 &&(
                 <>
-                    <BlogComponent data={posts.result.results} />
+                    <BlogComponent data={posts.result.results} currentPage={Number(query.get("page"))} handleClick={handleClick} totalPages={posts.result.totalPages}/>
                 </>
             )}
         </>
