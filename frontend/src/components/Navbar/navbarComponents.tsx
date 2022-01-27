@@ -53,6 +53,7 @@ export const MobileIcon = styled.div`
 
 export const NavContainer = styled(Container)`
     justify-content: space-between;
+    min-width: 75%;
 `;
 
 export const NavbarLinks = styled.ul<NavbarLinksProps>`
@@ -132,11 +133,17 @@ export const LoginButton = styled(MainButton)`
 export const ProfileImageContainer = styled.div`
     width: 45px;
     height: 45px;
-    margin-left: 3vw;
+    /* margin-left: 1rem; */
+    margin: 20px;
 `;
 export const ProfileImage = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+`;
+export const AddPostButton = styled(MainButton)`
+    padding: 10px 20px;
+    margin-top: 0;
+    margin-left: 1rem;
 `;

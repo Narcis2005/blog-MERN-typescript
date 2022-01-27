@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { DarkBackground } from "../../containers/DarkBackground";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../index";
 import api from "../../utils/api";
 import { FormInput, Form, UnderFormText, FormTitle, MessageContainer, Message } from "../Form";
 import { MainButton } from "../MainButton";

@@ -11,6 +11,7 @@ import {
     LoginButton,
     ProfileImage,
     ProfileImageContainer,
+    AddPostButton,
 } from "./navbarComponents";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -41,11 +42,16 @@ const Navbar = ({ background, image }: { background?: string; image?: string }) 
                         </Link>
                     )}
                     {image && (
-                        <Link to="/profile">
-                            <ProfileImageContainer>
-                                <ProfileImage src={image} />
-                            </ProfileImageContainer>
-                        </Link>
+                        <>
+                            <Link to="/profile">
+                                <ProfileImageContainer>
+                                    <ProfileImage src={image} />
+                                </ProfileImageContainer>
+                            </Link>
+                            <Link to="/blog/add">
+                                <AddPostButton>Add Post</AddPostButton>
+                            </Link>
+                        </>
                     )}
                 </NavbarLinks>
 

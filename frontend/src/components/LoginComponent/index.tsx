@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { loginUser } from "../../redux/slices/auth";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../index";
 import { Form, FormInput, FormTitle, Message, MessageContainer, UnderFormText } from "../Form";
 import { MainButton } from "../MainButton";
 import React from "react";
@@ -33,7 +33,7 @@ const LoginComponent = () => {
                         background={auth.error ? "darkred" : "green"}
                         display={!auth.error ? "none" : "block"}
                     >
-                        <Message>{auth.error ? auth.error.message? auth.error.message : auth.error : ''}</Message>
+                        <Message>{auth.error ? (auth.error.message ? auth.error.message : auth.error) : ""}</Message>
                     </MessageContainer>
                     <FormInput
                         placeholder="Username"

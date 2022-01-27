@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 //Post schema
 
-interface IPost {
+interface IPost extends mongoose.Document {
     title: string;
     description: string;
     content: string;
@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema<IPost>({
         required: true,
     },
     description: {
+        type: String,
+        required: true,
+    },
+    content: {
         type: String,
         required: true,
     },

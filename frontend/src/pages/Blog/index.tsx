@@ -2,7 +2,7 @@ import BlogComponent from "../../components/BlogComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getPosts } from "../../redux/slices/posts";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../index";
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
@@ -23,7 +23,7 @@ const Blog = () => {
     }, []);
     const posts = useSelector((state: RootState) => state.posts);
     const dispatch = useDispatch();
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) : void => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         navigate({
             search: `?${createSearchParams({
@@ -46,14 +46,21 @@ const Blog = () => {
                 </DarkBackground>
             )}
             {!posts.result ||
-                posts.result.results.length === 0 && (
+                (posts.result.results.length === 0 && (
                     <DarkBackground>
-                        <MainText color="red">No posts were found on this page. The last page with posts is {posts.result.totalPages}</MainText>
+                        <MainText color="red">
+                            No posts were found on this page. The last page with posts is {posts.result.totalPages}
+                        </MainText>
                     </DarkBackground>
-                )}
-            {posts.status === "success" && posts.result && posts.result.results.length > 0 &&(
+                ))}
+            {posts.status === "success" && posts.result && posts.result.results.length > 0 && (
                 <>
-                    <BlogComponent data={posts.result.results} currentPage={Number(query.get("page"))} handleClick={handleClick} totalPages={posts.result.totalPages}/>
+                    <BlogComponent
+                        data={posts.result.results}
+                        currentPage={Number(query.get("page"))}
+                        handleClick={handleClick}
+                        totalPages={posts.result.totalPages}
+                    />
                 </>
             )}
         </>

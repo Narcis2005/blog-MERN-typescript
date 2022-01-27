@@ -15,8 +15,9 @@ export const getUserByToken = createAsyncThunk<userInterface, void, { rejectValu
             throw new Error();
         }
         try {
-            const result = (await api.get(`/auth/getuser`)).data as userInterface;
-            return result;
+            const result = await api.get(`/auth/getuser`);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+            return result.data;
         } catch (error) {
             // check if the error was thrown from axios
             if (axios.isAxiosError(error)) {

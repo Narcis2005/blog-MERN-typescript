@@ -10,10 +10,10 @@ import api from "../../utils/api";
 const GetPostsByTag = () => {
     interface IData {
         page: number;
-            perPage: number;
-            results: shortPostInterface[];
-            totalPages: number;
-            numberOfElements: number;
+        perPage: number;
+        results: shortPostInterface[];
+        totalPages: number;
+        numberOfElements: number;
     }
     interface ICall {
         status: "loading" | "failed" | "success";
@@ -25,64 +25,64 @@ const GetPostsByTag = () => {
     const query = new URLSearchParams(useLocation().search);
     const tag = query.get("tag");
     const [result, setResult] = useState<ICall>();
-    useEffect(()=> {
-        if(tag){
-        if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
-            navigate({
-                search: `?${createSearchParams({
-                    tag: tag,
-                    page: "1",
-                    
-                }).toString()}`,
-            });
-        }
-        
-            api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${Number(query.get("page")) > 0 ? Number(query.get("page")) : 1}&perPage=10`)
-            .then((data) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                setResult({data: data.data, status: "success", error: null});
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error)) { 
+    useEffect(() => {
+        if (tag) {
+            if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
+                navigate({
+                    search: `?${createSearchParams({
+                        tag: tag,
+                        page: "1",
+                    }).toString()}`,
+                });
+            }
+
+            api.get<IData>(
+                `/post/posts-by-tag?tag=${tag}&page=${
+                    Number(query.get("page")) > 0 ? Number(query.get("page")) : 1
+                }&perPage=10`,
+            )
+                .then((data) => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({data: null, error: error.response?.data.message, status: "failed"});
-                }
-            });
+                    setResult({ data: data.data, status: "success", error: null });
+                })
+                .catch((error) => {
+                    if (axios.isAxiosError(error)) {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
+                    }
+                });
         }
-        
-    },[]);
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) : void => {
+    }, []);
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
-        if(tag) {
-            
+        if (tag) {
             navigate({
                 search: `?${createSearchParams({
                     tag: tag,
                     page: e.currentTarget.value,
-                    
                 }).toString()}`,
             });
             api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${e.currentTarget.value}&perPage=10`)
-            .then((data) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                setResult({data: data.data, status: "success", error: null});
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error)) { 
+                .then((data) => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({data: null, error: error.response?.data.message, status: "failed"});
-                }
-            });
+                    setResult({ data: data.data, status: "success", error: null });
+                })
+                .catch((error) => {
+                    if (axios.isAxiosError(error)) {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
+                    }
+                });
         }
     };
-    return(
+    return (
         <>
-        {!tag && (
+            {!tag && (
                 <DarkBackground>
-                <MainText color="red">Specify a tag using tag query parameter</MainText>
-            </DarkBackground>
+                    <MainText color="red">Specify a tag using tag query parameter</MainText>
+                </DarkBackground>
             )}
-        {result?.status === "loading" && tag &&(
+            {result?.status === "loading" && tag && (
                 <DarkBackground>
                     <MainText color="white">Loading posts...</MainText>
                 </DarkBackground>
@@ -93,19 +93,26 @@ const GetPostsByTag = () => {
                 </DarkBackground>
             )}
             {result?.data?.results.length === 0 && tag && Number(query.get("page")) === 1 && (
-                    <DarkBackground>
-                        <MainText color="red">No posts were found with tag {tag}</MainText>
-                    </DarkBackground>
+                <DarkBackground>
+                    <MainText color="red">No posts were found with tag {tag}</MainText>
+                </DarkBackground>
             )}
             {result?.data?.results.length === 0 && tag && Number(query.get("page")) > 1 && (
-                    <DarkBackground>
-                        <MainText color="red">There are no more posts with tag {tag}. The last page is {result.data.totalPages}</MainText>
-                    </DarkBackground>
+                <DarkBackground>
+                    <MainText color="red">
+                        There are no more posts with tag {tag}. The last page is {result.data.totalPages}
+                    </MainText>
+                </DarkBackground>
             )}
             {result?.status === "success" && result.data && result.data.results.length > 0 && (
-                <GetPostsByTagComponent tag={tag} data={result.data.results} totalPages={result.data.totalPages} currentPage={Number(query.get("page"))} handleClick={handleClick}/>
+                <GetPostsByTagComponent
+                    tag={tag}
+                    data={result.data.results}
+                    totalPages={result.data.totalPages}
+                    currentPage={Number(query.get("page"))}
+                    handleClick={handleClick}
+                />
             )}
-
         </>
     );
 };

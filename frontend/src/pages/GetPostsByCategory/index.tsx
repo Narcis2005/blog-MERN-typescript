@@ -10,10 +10,10 @@ import api from "../../utils/api";
 const GetPostsByCategory = () => {
     interface IData {
         page: number;
-            perPage: number;
-            results: shortPostInterface[];
-            totalPages: number;
-            numberOfElements: number;
+        perPage: number;
+        results: shortPostInterface[];
+        totalPages: number;
+        numberOfElements: number;
     }
     interface ICall {
         status: "loading" | "failed" | "success";
@@ -26,66 +26,64 @@ const GetPostsByCategory = () => {
     const Category = query.get("category");
     const [result, setResult] = useState<ICall>();
 
-    useEffect(()=> {
-        if(Category){
-        if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
-            navigate({
-                search: `?${createSearchParams({
-                    category: Category,
-                    page: "1",
-                }).toString()}`,
-            });
-        }
-        
-            api.get<IData>(`/post/posts-by-category?category=${Category}&page=${Number(query.get("page")) > 0 ? Number(query.get("page")) : 1}&perPage=10`)
-            .then((data) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                setResult({data: data.data, status: "success", error: null});
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error)) { 
+    useEffect(() => {
+        if (Category) {
+            if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
+                navigate({
+                    search: `?${createSearchParams({
+                        category: Category,
+                        page: "1",
+                    }).toString()}`,
+                });
+            }
+
+            api.get<IData>(
+                `/post/posts-by-category?category=${Category}&page=${
+                    Number(query.get("page")) > 0 ? Number(query.get("page")) : 1
+                }&perPage=10`,
+            )
+                .then((data) => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({data: null, error: error.response?.data.message, status: "failed"});
-                }
-            });
+                    setResult({ data: data.data, status: "success", error: null });
+                })
+                .catch((error) => {
+                    if (axios.isAxiosError(error)) {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
+                    }
+                });
         }
-        
-    },[]);
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) : void => {
+    }, []);
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
-        if(Category) {
-            
+        if (Category) {
             navigate({
                 search: `?${createSearchParams({
                     category: Category,
                     page: e.currentTarget.value,
-                    
                 }).toString()}`,
             });
             api.get<IData>(`/post/posts-by-category?category=${Category}&page=${e.currentTarget.value}&perPage=10`)
                 .then((data) => {
-                    
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({data: data.data, status: "success", error: null});
+                    setResult({ data: data.data, status: "success", error: null });
                 })
                 .catch((error) => {
-                    if (axios.isAxiosError(error)) { 
+                    if (axios.isAxiosError(error)) {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        setResult({data: null, error: error.response?.data.message, status: "failed"});
+                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
                     }
                 });
         }
-        
-        
     };
-    return(
+    return (
         <>
-        {!Category && (
+            {!Category && (
                 <DarkBackground>
-                <MainText color="red">Specify a category using category query parameter</MainText>
-            </DarkBackground>
+                    <MainText color="red">Specify a category using category query parameter</MainText>
+                </DarkBackground>
             )}
-        {result?.status === "loading" && Category &&(
+            {result?.status === "loading" && Category && (
                 <DarkBackground>
                     <MainText color="white">Loading posts...</MainText>
                 </DarkBackground>
@@ -96,19 +94,26 @@ const GetPostsByCategory = () => {
                 </DarkBackground>
             )}
             {result?.data?.results.length === 0 && Category && Number(query.get("page")) === 1 && (
-                    <DarkBackground>
-                        <MainText color="red">No posts were found in category {Category}</MainText>
-                    </DarkBackground>
+                <DarkBackground>
+                    <MainText color="red">No posts were found in category {Category}</MainText>
+                </DarkBackground>
             )}
             {result?.data?.results.length === 0 && Category && Number(query.get("page")) > 1 && (
-                    <DarkBackground>
-                        <MainText color="red">There are no more posts on category {Category}. The last page is {result.data.totalPages}</MainText>
-                    </DarkBackground>
+                <DarkBackground>
+                    <MainText color="red">
+                        There are no more posts on category {Category}. The last page is {result.data.totalPages}
+                    </MainText>
+                </DarkBackground>
             )}
             {result?.status === "success" && result.data && result.data.results.length > 0 && (
-                <GetPostsByCategoryComponent category={Category} data={result.data.results} totalPages={result.data.totalPages} currentPage={Number(query.get("page"))} handleClick={handleClick}/>
+                <GetPostsByCategoryComponent
+                    category={Category}
+                    data={result.data.results}
+                    totalPages={result.data.totalPages}
+                    currentPage={Number(query.get("page"))}
+                    handleClick={handleClick}
+                />
             )}
-
         </>
     );
 };

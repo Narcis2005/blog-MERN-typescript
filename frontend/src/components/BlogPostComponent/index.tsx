@@ -33,12 +33,12 @@ const BlogPostComponent: React.FC<postInterface> = ({ imageURL, title, content, 
                     <Author>Written by {createdBy.username}</Author>
                     <CategoryContainer>
                         <CategoryText>Category: </CategoryText>
-                        <Category to={`/posts-by-category?category=${category}`}>{category}</Category>
+                        <Category to={`/blog/category?category=${category}`}>{category}</Category>
                     </CategoryContainer>
                     <Tags>
                         <TagsText>Tags: </TagsText>
                         {tags.map((tag: string, key: number) => (
-                            <Tag to={`/posts-by-tag?tag=${tag}`} key={key}>
+                            <Tag to={`/blog/tag?tag=${tag}`} key={key}>
                                 {tag}
                             </Tag>
                         ))}

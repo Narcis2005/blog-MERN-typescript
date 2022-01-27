@@ -51,3 +51,8 @@ export const Description = styled.p``;
 export const Button = styled(MainButton)`
     margin-top: 30px;
 `;
+export const Dots = styled.p`
+    padding: 0 5px;
+    display: inline;
+    font-size: 1.5rem;
+`;

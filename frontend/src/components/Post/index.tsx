@@ -5,6 +5,7 @@ import {
     Button,
     Description,
     DescriptionContainer,
+    Dots,
     Img,
     ImgContainer,
     PostContainer,
@@ -27,7 +28,12 @@ export const Post = ({ imageURL, title, description, slug }: shortPostInterface)
                         <Title>{title}</Title>
                     </TitleContainer>
                     <DescriptionContainer>
-                        <Description>{description}</Description>
+                        <Description>
+                            {description}
+                            <Link to={`/blog/${slug}`}>
+                                <Dots>...</Dots>
+                            </Link>
+                        </Description>
                     </DescriptionContainer>
                     <Link to={`/blog/${slug}`}>
                         <Button>Read More</Button>

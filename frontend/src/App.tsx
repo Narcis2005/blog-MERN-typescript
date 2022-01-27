@@ -10,13 +10,14 @@ const NotFound = React.lazy(() => import("./pages/NotFound"));
 const Profile = React.lazy(() => import("./pages/Profile"));
 const GetPostsByTag = React.lazy(() => import("./pages/GetPostsByTag"));
 const GetPostsByCategory = React.lazy(() => import("./pages/GetPostsByCategory"));
+const AddPost = React.lazy(() => import("./pages/AddPost"));
 import { GlobalStyle } from "./globalStyles";
 import ScrollToTop from "./scrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByToken } from "./redux/slices/auth";
-import { RootState } from "./redux/store";
+import { RootState } from "./index";
 import Loading from "./components/Loading";
 import PrivateRoute from "./utils/PrivateRoute";
 import { NavBlack } from "./utils/colors";
@@ -39,7 +40,7 @@ const App = () => {
             <ScrollToTop />
             <GlobalStyle />
             {auth.status === "success" && <Navbar background={NavBlack} image={auth.result?.imageURL} />}
-            {auth.status == "failed" && <Navbar background={NavBlack} />}
+            {auth.status !== "success" && <Navbar background={NavBlack} />}
             <React.Suspense fallback={<Loading />}>
                 <Routes>
                     <Route path="/" element={<Homepage />} />
@@ -48,14 +49,22 @@ const App = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/posts-by-tag" element={<GetPostsByTag />} />
-                    <Route path="/posts-by-category" element={<GetPostsByCategory />} />
+                    <Route path="/blog/tag" element={<GetPostsByTag />} />
+                    <Route path="/blog/category" element={<GetPostsByCategory />} />
 
                     <Route
                         path="/profile"
                         element={
                             <PrivateRoute>
                                 <Profile />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/blog/add"
+                        element={
+                            <PrivateRoute>
+                                <AddPost />
                             </PrivateRoute>
                         }
                     />

@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import BlogPostComponent from "../../components/BlogPostComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../index";
 import { useEffect } from "react";
 import { getPost } from "../../redux/slices/post";
 import { DarkBackground } from "../../containers/DarkBackground";

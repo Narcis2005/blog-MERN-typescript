@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { IUser } from "../models/user";
+import User, { IUser } from "../models/user";
 dotenv.config();
 const SECRET_JWT = process.env.SECRET_JWT;
 
@@ -19,12 +19,19 @@ const check = (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) 
     }
     try {
         const user = jwt.verify(token, SECRET_JWT) as IUser;
-        req.user = user;
-        next();
-        return;
+        User.findById(user.id)
+            .then((foundUser: IUser) => {
+                req.user = foundUser;
+                next();
+                return;
+            })
+            .catch((error) => {
+                res.status(500).send(error);
+                return;
+            });
     } catch (error) {
         return res.status(401).send({
-            message: "Token is not valid",
+            message: "The session ended. Please reconnect",
         });
     }
 };

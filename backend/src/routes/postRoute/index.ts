@@ -1,5 +1,6 @@
 import express from "express";
-import { GetPostsByCategory, GetPostsByTag, PostBySlug, Posts } from "../../controllers/posts";
+import { GetPostsByCategory, GetPostsByTag, PostBySlug, Posts, AddPost } from "../../controllers/posts";
+import check from "../../middleware/tokenCheck";
 const router = express.Router();
 
 // @router  GET api/post/posts
@@ -21,5 +22,10 @@ router.get("/posts-by-tag", GetPostsByTag);
 // @desc    Get posts by specific category
 // @access  Public
 router.get("/posts-by-category", GetPostsByCategory);
+
+// @router  POST api/post/add-post
+// @desc    Add a new post
+// @access  Private
+router.post("/add-post", check, AddPost);
 
 export default router;

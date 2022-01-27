@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileComponent from "../../components/ProfileComponent";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../index";
 
 interface IProfileData {
     imageSrc: string;
@@ -20,6 +20,12 @@ export interface Iprofile {
 const Profile: React.FC = () => {
     const [edit, setEdit] = useState(false);
     const auth = useSelector((state: RootState) => state.auth);
+    const [profileData, setProfileData] = useState({
+        imageSrc: "",
+        fullName: "",
+        email: "",
+        username: "",
+    });
     useEffect(() => {
         if (auth.status === "success") {
             setProfileData({
@@ -31,12 +37,6 @@ const Profile: React.FC = () => {
         }
     }, [auth]);
 
-    const [profileData, setProfileData] = useState({
-        imageSrc: "",
-        fullName: "",
-        email: "",
-        username: "",
-    });
     const previousImage = auth.result.imageURL;
     return (
         <>

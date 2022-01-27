@@ -46,6 +46,10 @@ export const Information = styled.div`
     justify-content: flex-end;
     margin-right: 20%;
     gap: 20px;
+    flex-wrap: wrap;
+    @media (max-width: 960px) {
+        margin-right: 10%;
+    }
 `;
 export const Author = styled.p``;
 export const Category = styled(Link)``;

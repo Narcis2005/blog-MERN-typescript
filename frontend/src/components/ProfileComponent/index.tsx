@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AxiosError } from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -46,6 +47,7 @@ const ProfileComponent = ({ edit, setEdit, profileData, setProfileData, previous
             .catch((error) => {
                 const err = error as AxiosError;
                 if (err.response) {
+                    if (err.response.data.message === "The session ended. Please reconnect") return;
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                     setApiError(error.response.data.message);
                     return;
