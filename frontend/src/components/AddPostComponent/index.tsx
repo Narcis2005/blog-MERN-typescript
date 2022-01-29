@@ -119,6 +119,7 @@ const AddPostComponent = () => {
                         handleDelete={handleDelete}
                         handleAddition={handleAddition}
                         handleDrag={handleDrag}
+                        autofocus={false}
                     />
                     <AddPostLabel htmlFor="category">Category</AddPostLabel>
                     <AddPostInput

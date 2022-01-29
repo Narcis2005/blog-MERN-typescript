@@ -4,6 +4,7 @@ import { BlogContainer } from "./BlogContainerComponents";
 import React from "react";
 import { Title } from "../GetPostsByTagComponent/GetPostsByTagComponents";
 import Pagination from "../Pagination";
+import SearchBox from "../SearchBox";
 
 const BlogComponent = ({
     data,
@@ -20,7 +21,7 @@ const BlogComponent = ({
         <>
             <BlogContainer>
                 <Title>Blog Posts</Title>
-
+                <SearchBox />
                 {data.map((element: shortPostInterface, key: number) => (
                     <Post
                         imageURL={element.imageURL}

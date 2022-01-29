@@ -7,7 +7,7 @@ export const Posts = (req: Request, res: Response) => {
     const page = req.query.page as string;
     const perPage = req.query.perPage as string;
     if (page && perPage) {
-        Post.find()
+        Post.find().sort('-createdAt')
             .then((posts) => {
                 //Alghoritm to send data based on page and perPage params
                 const slicedData = posts.slice(
@@ -73,7 +73,7 @@ export const GetPostsByTag = (req: Request, res: Response) => {
         });
         return;
     }
-    Post.find({ tags: tag })
+    Post.find({ tags: tag }).sort('-createdAt')
         .then((posts) => {
             //Alghoritm to send data based on page and perPage params
             const slicedData = posts.slice(
@@ -121,7 +121,7 @@ export const GetPostsByCategory = (req: Request, res: Response) => {
         });
         return;
     }
-    Post.find({ category: category })
+    Post.find({ category: category }).sort('-createdAt')
         .then((posts) => {
             //Alghoritm to send data based on page and perPage params
             const slicedData = posts.slice(

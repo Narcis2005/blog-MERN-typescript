@@ -30,6 +30,9 @@
     margin-left: 10px;
     
 }
+.ReactTags__tag::placeholder {
+    color: white;
+}
 .ReactTags__remove {
     border: none;
     cursor: pointer;
