@@ -6,8 +6,23 @@ import isURL from "../utils/isURL";
 export const Posts = (req: Request, res: Response) => {
     const page = req.query.page as string;
     const perPage = req.query.perPage as string;
+    const search = req.query.search as string;
     if (page && perPage) {
-        Post.find().sort('-createdAt')
+        Post.find({  
+                ...(search && {$or: [ 
+                    {content: {
+                        $regex: search,
+                        $options: "i"
+                        }
+                    },
+                    {title:{
+                        $regex: search,
+                        $options: "i"
+                        } }
+                ]    
+             })
+        }
+            ).sort('-createdAt')
             .then((posts) => {
                 //Alghoritm to send data based on page and perPage params
                 const slicedData = posts.slice(

@@ -11,17 +11,23 @@ const BlogComponent = ({
     currentPage,
     handleClick,
     totalPages,
+    handleSubmit,
+    handleChange,
+    search
 }: {
     data: shortPostInterface[];
     currentPage: number;
     handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     totalPages: number;
+    handleSubmit: (e: React.FormEvent) => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    search: string;
 }) => {
     return (
         <>
             <BlogContainer>
                 <Title>Blog Posts</Title>
-                <SearchBox />
+                <SearchBox handleSubmit={handleSubmit} handleChange={handleChange} value={search}/>
                 {data.map((element: shortPostInterface, key: number) => (
                     <Post
                         imageURL={element.imageURL}

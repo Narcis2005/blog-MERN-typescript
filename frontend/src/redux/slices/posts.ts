@@ -6,17 +6,19 @@ import { multiplePostsResponse } from "../types/post";
 interface params {
     page: number;
     perPage: number;
+    search?: string;
 }
 
 export const getPosts = createAsyncThunk<multiplePostsResponse, params>(
     "posts/getPosts",
-    async ({ page, perPage }, thunkApi) => {
+    async ({ page, perPage, search }, thunkApi) => {
         try {
             const result = (
                 await api.get("/post/posts", {
                     params: {
                         page: page,
                         perPage: perPage,
+                        ...(search && {search: search})
                     },
                 })
             ).data as multiplePostsResponse;

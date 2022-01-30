@@ -40,6 +40,8 @@ export const PublishContainer = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-left: 0;
+
 `;
 export const Publish = styled(MainButton)`
     width: 250px;
