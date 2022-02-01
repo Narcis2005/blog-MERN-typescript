@@ -4,7 +4,7 @@ export interface postInterface {
     content: string;
     imageURL: string;
     slug: string;
-    createdAt: Date;
+    createdAt: string;
     tags: string[];
     category: string;
     createdBy: {

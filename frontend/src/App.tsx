@@ -45,12 +45,20 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<Homepage />} />
                     <Route path="/blog" element={<Blog />} />
-                    <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route
+                        path="/blog/add"
+                        element={
+                            <PrivateRoute>
+                                <AddPost />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route path="/blog/tag/:tag" element={<GetPostsByTag />} />
+                    <Route path="/blog/category/:category" element={<GetPostsByCategory />} />
+                    <Route path="/blog/post/:slug" element={<BlogPost />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/blog/tag" element={<GetPostsByTag />} />
-                    <Route path="/blog/category" element={<GetPostsByCategory />} />
 
                     <Route
                         path="/profile"
@@ -60,14 +68,7 @@ const App = () => {
                             </PrivateRoute>
                         }
                     />
-                    <Route
-                        path="/blog/add"
-                        element={
-                            <PrivateRoute>
-                                <AddPost />
-                            </PrivateRoute>
-                        }
-                    />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </React.Suspense>

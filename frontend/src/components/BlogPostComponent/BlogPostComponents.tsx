@@ -44,11 +44,12 @@ export const Information = styled.div`
     display: flex;
     margin-top: 1em;
     justify-content: flex-end;
-    margin-right: 20%;
+    margin-right: 10%;
     gap: 20px;
     flex-wrap: wrap;
     @media (max-width: 960px) {
-        margin-right: 10%;
+        justify-content: center;
+        margin-right: 0;
     }
 `;
 export const Author = styled.p``;
@@ -66,3 +67,7 @@ export const CategoryContainer = styled.div`
 export const CategoryText = styled.p``;
 
 export const TagsText = styled.p``;
+
+export const DateText = styled.p`
+
+`;

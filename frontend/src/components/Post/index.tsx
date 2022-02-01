@@ -30,12 +30,12 @@ export const Post = ({ imageURL, title, description, slug }: shortPostInterface)
                     <DescriptionContainer>
                         <Description>
                             {description}
-                            <Link to={`/blog/${slug}`}>
+                            <Link to={`/blog/post/${slug}`}>
                                 <Dots>...</Dots>
                             </Link>
                         </Description>
                     </DescriptionContainer>
-                    <Link to={`/blog/${slug}`}>
+                    <Link to={`/blog/post/${slug}`}>
                         <Button>Read More</Button>
                     </Link>
                 </TextContainer>

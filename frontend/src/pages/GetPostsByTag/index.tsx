@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
+import { createSearchParams, useLocation, useNavigate, useParams } from "react-router-dom";
 import GetPostsByTagComponent from "../../components/GetPostsByTagComponent";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
@@ -23,14 +23,16 @@ const GetPostsByTag = () => {
     }
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
-    const tag = query.get("tag");
+    const { tag } = useParams();
+    console.log(typeof tag);
     const [result, setResult] = useState<ICall>();
     useEffect(() => {
+        console.log("ddsa");
+        
         if (tag) {
             if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
                 navigate({
                     search: `?${createSearchParams({
-                        tag: tag,
                         page: "1",
                     }).toString()}`,
                 });
@@ -58,7 +60,6 @@ const GetPostsByTag = () => {
         if (tag) {
             navigate({
                 search: `?${createSearchParams({
-                    tag: tag,
                     page: e.currentTarget.value,
                 }).toString()}`,
             });
@@ -106,7 +107,7 @@ const GetPostsByTag = () => {
             )}
             {result?.status === "success" && result.data && result.data.results.length > 0 && (
                 <GetPostsByTagComponent
-                    tag={tag}
+                    tag={tag ? tag : null}
                     data={result.data.results}
                     totalPages={result.data.totalPages}
                     currentPage={Number(query.get("page"))}
