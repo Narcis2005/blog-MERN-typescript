@@ -71,3 +71,16 @@ export const TagsText = styled.p``;
 export const DateText = styled.p`
 
 `;
+
+export const CommentsContainer = styled.div`
+    width: 100%;
+    padding: 10em 0 5em 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    @media (max-width: 960px) { 
+        padding: 5em 0 2.5em 0;
+    }
+    /* I think i could have done this also with flex-wrap  */
+`;

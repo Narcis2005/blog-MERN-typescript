@@ -17,7 +17,9 @@ import {
     CategoryText,
     TagsText,
     DateText,
+    CommentsContainer,
 } from "./BlogPostComponents";
+import Comment from "./Comment";
 import React from "react";
 
 const BlogPostComponent: React.FC<postInterface> = ({ imageURL, title, content, tags, category, createdBy, createdAt }) => {
@@ -53,6 +55,9 @@ const BlogPostComponent: React.FC<postInterface> = ({ imageURL, title, content, 
                     <Content>{content}</Content>
                 </ContentContainer>
             </TextContainer>
+            <CommentsContainer>
+                <Comment />
+            </CommentsContainer>
         </BlogPostComponentContainer>
     );
 };
