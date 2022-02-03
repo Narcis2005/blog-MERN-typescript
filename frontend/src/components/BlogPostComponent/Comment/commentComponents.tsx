@@ -1,98 +1,108 @@
 import styled from "styled-components";
 import { LightGray } from "../../../utils/colors";
 
-export const CommentContainer = styled.div`
-    background: ${LightGray};
+export const ParentCommentContainer = styled.div`
     width: 90%;
-    min-height: 300px;
-    border-radius: 20px;
-    display: flex;
-    & > * {
-        margin: 40px 20px;
-    }
-
-`;
-export const ProfileContainer = styled.div`
-    width: 20%;
-    object-fit: cover;
-    
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    /* margin-top: 30px; */
-    @media (max-width: 960px) { 
-        justify-content: center;
-    }
-
+    align-items: flex-end;
+    gap: 3rem;
 `;
-export const ProfileImage = styled.img`
-    width: 70%;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-top: 5%;
-    @media (max-width: 960px) {  
-        width: 100%;
-        margin-top: 0;
+export const CommentContainer = styled.div`
+    width: 100%;
+    display: flex;
+    padding: 40px 50px;
+    min-height: 250px;
+    background: ${LightGray};
+    border-radius: 10px;
+    @media (max-width: 960px) { 
+        flex-direction: column;
     }
-    
+`;
+
+export const LeftSideContainer = styled.div`
+    height: 100%;
+    @media (max-width: 960px) { 
+        width: 100%;
+        margin-bottom: 10%;
+    }
 `;
 export const ImageContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 90px;
+    width: 90px;
+    margin: auto;
+`;
+export const CommentImage = styled.img`
+    object-fit: cover;
     height: 100%;
-    @media (max-width: 960px) { 
-        height: auto;
-    }
-
+    width: 100%;
+    border-radius: 50%;
 `;
-export const Username = styled.p`
-    font-size: 1.6rem;
-    font-weight: 700;
-    @media (max-width: 960px) { 
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-
-    }
-`;
-export const RightSideComment = styled.div` 
+export const RightSideComment = styled.div`
+    margin-left: 3%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    justify-content: flex-start;
-    /* padding: 30px 50px 30px 0; */
-    width: 70%;
+    justify-content: space-between;
 
 `;
-export const ButtonsAndDateContainer = styled.div`
-    align-self: flex-end;
+export const TopRightSideContainer = styled.div`
     display: flex;
     align-items: center;
-    & > * {
-        margin-right: 10px;
+    justify-content: space-between;
+    @media (max-width: 960px) { 
+        padding-bottom: 15px;
+        flex-direction: column;
+        gap: 20px;
     }
+`;
+export const Username = styled.p`
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 700;
+`;
+export const UsernameDateContainer = styled.div`
+    display: flex;
+    width: 15rem;
+    justify-content: space-between;
+    align-items: center;
 `;
 export const CommentDate = styled.p`
-    @media (max-width: 960px) { 
-        font-size: 14px;
-    }
 `;
-
-export const CommentButton = styled.button`
-    background: ${LightGray};
-    border: white 1px solid;
-    padding: 5px;
+export const EditDeleteIconsContainer = styled.div`
+    height: 20px;
+    gap: 20px;
     margin: 0;
-    margin-right: 10px;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
 `;
 
-export const CommentText = styled.p`
-    margin-top: 40px;
+export const CenterRightSideContainer = styled.div`
+`;
+export const CommentContent = styled.p`
+    line-height: 1.5rem;
+`;
+
+export const BottomRightSideContainer = styled.div`
+    padding-top: 15px;
+`;
+
+export const ReplyButton = styled.button`
+    color: white;
+    background: transparent;
+    border:none;
+    cursor: pointer;
+    font-size: 1.15rem;
+`;
+
+export const ReplyCommentContainer = styled.div`
+     width: 90%;
+    display: flex;
+    padding: 30px 50px;
+    min-height: 250px;
+    background: ${LightGray};
+    border-radius: 10px;
     @media (max-width: 960px) { 
-        font-size: 14px;
-        align-self: center;
-        
+        flex-direction: column;
     }
 `;
