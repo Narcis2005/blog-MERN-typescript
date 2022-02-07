@@ -139,9 +139,12 @@ const AddPostComponent = () => {
                                 addPostCall.result?.message
                             }{" "}
                             You can see it{" "}
-                            <Link to={
-                                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                                `/blog/post/${addPostCall.result?.post.slug}`}>
+                            <Link
+                                to={
+                                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                                    `/blog/post/${addPostCall.result?.post.slug}`
+                                }
+                            >
                                 <Message color="lightgreen">here</Message>
                             </Link>
                         </Message>

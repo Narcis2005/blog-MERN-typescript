@@ -1,4 +1,5 @@
 export interface postInterface {
+    _id: string;
     title: string;
     description: string;
     content: string;
@@ -11,6 +12,29 @@ export interface postInterface {
         userId: string;
         username: string;
     };
+    comments: IComment[];
+}
+export interface IComment {
+    _id: string;
+    content: string;
+    createdAt: string;
+    createdBy: {
+        username: string;
+        imageURL: string;
+        userId: string;
+    };
+    replies: [
+        {
+            _id: string;
+            content: string;
+            createdAt: string;
+            createdBy: {
+                username: string;
+                imageURL: string;
+                userId: string;
+            };
+        },
+    ];
 }
 export interface shortPostInterface {
     title: string;

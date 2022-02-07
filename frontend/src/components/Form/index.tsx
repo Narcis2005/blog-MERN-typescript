@@ -27,7 +27,7 @@ export const FormInput = styled.input`
         color: white;
     }
     @media (max-width: 960px) {
-        width: 230px;
+        width: 60vw;
         height: 40px;
     }
 `;
@@ -46,7 +46,7 @@ export const FormTextarea = styled.textarea`
         color: white;
     }
     @media (max-width: 960px) {
-        width: 250px;
+        width: 65vw;
         height: 60px;
     }
 `;

@@ -7,6 +7,7 @@ export const ParentCommentContainer = styled.div`
     flex-direction: column;
     align-items: flex-end;
     gap: 3rem;
+    margin-bottom: 5em;
 `;
 export const CommentContainer = styled.div`
     width: 100%;
@@ -15,14 +16,14 @@ export const CommentContainer = styled.div`
     min-height: 250px;
     background: ${LightGray};
     border-radius: 10px;
-    @media (max-width: 960px) { 
+    @media (max-width: 960px) {
         flex-direction: column;
     }
 `;
 
 export const LeftSideContainer = styled.div`
     height: 100%;
-    @media (max-width: 960px) { 
+    @media (max-width: 960px) {
         width: 100%;
         margin-bottom: 10%;
     }
@@ -41,16 +42,17 @@ export const CommentImage = styled.img`
 export const RightSideComment = styled.div`
     margin-left: 3%;
     min-height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
 `;
 export const TopRightSideContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: 960px) { 
+    min-width: 100%;
+    @media (max-width: 960px) {
         padding-bottom: 15px;
         flex-direction: column;
         gap: 20px;
@@ -63,12 +65,11 @@ export const Username = styled.p`
 `;
 export const UsernameDateContainer = styled.div`
     display: flex;
-    width: 15rem;
+    gap: 20px;
     justify-content: space-between;
     align-items: center;
 `;
-export const CommentDate = styled.p`
-`;
+export const CommentDate = styled.p``;
 export const EditDeleteIconsContainer = styled.div`
     height: 20px;
     gap: 20px;
@@ -77,8 +78,7 @@ export const EditDeleteIconsContainer = styled.div`
     align-items: center;
 `;
 
-export const CenterRightSideContainer = styled.div`
-`;
+export const CenterRightSideContainer = styled.div``;
 export const CommentContent = styled.p`
     line-height: 1.5rem;
 `;
@@ -90,19 +90,19 @@ export const BottomRightSideContainer = styled.div`
 export const ReplyButton = styled.button`
     color: white;
     background: transparent;
-    border:none;
+    border: none;
     cursor: pointer;
     font-size: 1.15rem;
 `;
 
 export const ReplyCommentContainer = styled.div`
-     width: 90%;
+    width: 90%;
     display: flex;
     padding: 30px 50px;
     min-height: 250px;
     background: ${LightGray};
     border-radius: 10px;
-    @media (max-width: 960px) { 
+    @media (max-width: 960px) {
         flex-direction: column;
     }
 `;

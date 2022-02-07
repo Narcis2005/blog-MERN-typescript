@@ -1,5 +1,5 @@
 import express from "express";
-import { GetPostsByCategory, GetPostsByTag, PostBySlug, Posts, AddPost } from "../../controllers/posts";
+import { GetPostsByCategory, GetPostsByTag, PostBySlug, Posts, AddPost, AddComment } from "../../controllers/posts";
 import check from "../../middleware/tokenCheck";
 const router = express.Router();
 
@@ -28,4 +28,8 @@ router.get("/posts-by-category", GetPostsByCategory);
 // @access  Private
 router.post("/add-post", check, AddPost);
 
+// @router  POST api/post/add-comment
+// @desc    Add a new comment to a post
+// @access  Private
+router.post("/add-comment", check, AddComment);
 export default router;

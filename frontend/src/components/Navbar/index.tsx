@@ -26,7 +26,7 @@ const Navbar = ({ background, image }: { background?: string; image?: string }) 
                         <LogoImg src="/images/logo.svg" />
                     </NavbarLogo>
                 </Link>
-                <NavbarLinks onClick={() => setClick((oldClick) => !oldClick)} click={click}>
+                <NavbarLinks onClick={() => setClick(false)} click={click}>
                     <NavItem>
                         <NavLink to="/">Home</NavLink>
                     </NavItem>

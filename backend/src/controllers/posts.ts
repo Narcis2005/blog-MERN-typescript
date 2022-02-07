@@ -8,21 +8,25 @@ export const Posts = (req: Request, res: Response) => {
     const perPage = req.query.perPage as string;
     const search = req.query.search as string;
     if (page && perPage) {
-        Post.find({  
-                ...(search && {$or: [ 
-                    {content: {
-                        $regex: search,
-                        $options: "i"
-                        }
+        Post.find({
+            ...(search && {
+                $or: [
+                    {
+                        content: {
+                            $regex: search,
+                            $options: "i",
+                        },
                     },
-                    {title:{
-                        $regex: search,
-                        $options: "i"
-                        } }
-                ]    
-             })
-        }
-            ).sort('-createdAt')
+                    {
+                        title: {
+                            $regex: search,
+                            $options: "i",
+                        },
+                    },
+                ],
+            }),
+        })
+            .sort("-createdAt")
             .then((posts) => {
                 //Alghoritm to send data based on page and perPage params
                 const slicedData = posts.slice(
@@ -88,7 +92,8 @@ export const GetPostsByTag = (req: Request, res: Response) => {
         });
         return;
     }
-    Post.find({ tags: tag }).sort('-createdAt')
+    Post.find({ tags: tag })
+        .sort("-createdAt")
         .then((posts) => {
             //Alghoritm to send data based on page and perPage params
             const slicedData = posts.slice(
@@ -136,7 +141,8 @@ export const GetPostsByCategory = (req: Request, res: Response) => {
         });
         return;
     }
-    Post.find({ category: category }).sort('-createdAt')
+    Post.find({ category: category })
+        .sort("-createdAt")
         .then((posts) => {
             //Alghoritm to send data based on page and perPage params
             const slicedData = posts.slice(
@@ -226,6 +232,43 @@ export const AddPost = (req: IGetUserAuthInfoRequest, res: Response) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((savedPost) => {
             res.send({ message: "Post published succesfully", post: savedPost });
+            return;
+        })
+        .catch((error) => {
+            res.status(500).send(error);
+            console.log(error);
+            return;
+        });
+};
+export const AddComment = (req: IGetUserAuthInfoRequest, res: Response) => {
+    const id = req.body.id as string;
+    const content = req.body.content as string;
+    if (!content) {
+        res.status(401).send({ message: "You need to specify the content of the comment" });
+        return;
+    }
+    Post.updateOne(
+        { _id: id },
+        {
+            $push: {
+                comments: [
+                    {
+                        createdBy: {
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                            userId: req.user.id,
+                            username: req.user.username,
+                            imageURL: req.user.imageURL,
+                        },
+                        content: content,
+                        createdAt: new Date(),
+                    },
+                ],
+            },
+        },
+    )
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .then((post) => {
+            res.send({ message: "Comment added sucessfully" });
             return;
         })
         .catch((error) => {

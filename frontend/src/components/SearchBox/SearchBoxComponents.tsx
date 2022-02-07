@@ -4,21 +4,21 @@ import { MainButton } from "../MainButton";
 import { LightGray } from "../../utils/colors";
 
 export const SearchContainer = styled.div`
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     /* border: solid 1px white; */
     margin: 20px;
     align-self: flex-end;
     margin-right: 15%;
-    @media (max-width: 960px) { 
+    @media (max-width: 960px) {
         margin-right: 0;
         margin-left: 0;
         align-self: center;
     }
 `;
 export const SearchForm = styled.form`
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     align-self: flex-end;
@@ -29,11 +29,11 @@ export const SearchInput = styled(FormInput)`
     border: none;
     margin: 0;
     background: ${LightGray};
-    &:focus{
+    &:focus {
         border: none;
         outline: none;
     }
-    &::placeholder{
+    &::placeholder {
         opacity: 0.8;
     }
     @media (max-width: 960px) {

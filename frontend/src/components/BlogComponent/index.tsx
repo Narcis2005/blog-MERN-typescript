@@ -13,7 +13,7 @@ const BlogComponent = ({
     totalPages,
     handleSubmit,
     handleChange,
-    search
+    search,
 }: {
     data: shortPostInterface[];
     currentPage: number;
@@ -27,7 +27,7 @@ const BlogComponent = ({
         <>
             <BlogContainer>
                 <Title>Blog Posts</Title>
-                <SearchBox handleSubmit={handleSubmit} handleChange={handleChange} value={search}/>
+                <SearchBox handleSubmit={handleSubmit} handleChange={handleChange} value={search} />
                 {data.map((element: shortPostInterface, key: number) => (
                     <Post
                         imageURL={element.imageURL}

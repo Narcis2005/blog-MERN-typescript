@@ -18,7 +18,7 @@ export const getPosts = createAsyncThunk<multiplePostsResponse, params>(
                     params: {
                         page: page,
                         perPage: perPage,
-                        ...(search && {search: search})
+                        ...(search && { search: search }),
                     },
                 })
             ).data as multiplePostsResponse;

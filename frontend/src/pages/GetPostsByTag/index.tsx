@@ -24,11 +24,8 @@ const GetPostsByTag = () => {
     const navigate = useNavigate();
     const query = new URLSearchParams(useLocation().search);
     const { tag } = useParams();
-    console.log(typeof tag);
     const [result, setResult] = useState<ICall>();
     useEffect(() => {
-        console.log("ddsa");
-        
         if (tag) {
             if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
                 navigate({

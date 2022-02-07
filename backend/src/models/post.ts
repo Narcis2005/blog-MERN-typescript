@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import commentSchema, { IComment } from "./comment";
 
 //Post schema
 
@@ -15,6 +16,7 @@ interface IPost extends mongoose.Document {
         userId: mongoose.Types.ObjectId;
         username: string;
     };
+    comments?: IComment[];
 }
 
 const postSchema = new mongoose.Schema<IPost>({
@@ -55,6 +57,7 @@ const postSchema = new mongoose.Schema<IPost>({
         userId: mongoose.Types.ObjectId,
         username: String,
     },
+    comments: [commentSchema],
 });
 
 const Post = mongoose.model<IPost>("post", postSchema);

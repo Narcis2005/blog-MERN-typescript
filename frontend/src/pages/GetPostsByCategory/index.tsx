@@ -105,7 +105,7 @@ const GetPostsByCategory = () => {
             )}
             {result?.status === "success" && result.data && result.data.results.length > 0 && (
                 <GetPostsByCategoryComponent
-                    category={category ? category: null}
+                    category={category ? category : null}
                     data={result.data.results}
                     totalPages={result.data.totalPages}
                     currentPage={Number(query.get("page"))}
