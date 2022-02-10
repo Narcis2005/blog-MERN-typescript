@@ -31,6 +31,7 @@ import { AxiosError } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost } from "../../redux/slices/post";
 import { RootState } from "../..";
+import { useNavigate } from "react-router-dom";
 
 const BlogPostComponent: React.FC<postInterface> = ({
     imageURL,
@@ -44,6 +45,7 @@ const BlogPostComponent: React.FC<postInterface> = ({
     _id,
     slug,
 }) => {
+    const navigate = useNavigate();
     interface IResult {
         message: string;
     }
@@ -80,6 +82,17 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 setCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
             });
     };
+    const handleDeletePost = (e: React.MouseEvent) => {
+        e.preventDefault();
+        api.delete("/post/delete-post", {data: {id: _id}})
+            .then(data => {
+                navigate("/blog");
+                console.log(data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
     return (
         <BlogPostComponentContainer>
             <ImageContainer>
@@ -93,7 +106,7 @@ const BlogPostComponent: React.FC<postInterface> = ({
                     <ButtonsContainer>
                         {auth.result.id === createdBy.userId && (
                             <>
-                            <DeleteButton>Delete Post</DeleteButton>
+                            <DeleteButton onClick={handleDeletePost}>Delete Post</DeleteButton>
                             <EditButton>Edit Post</EditButton>
                             </>
 

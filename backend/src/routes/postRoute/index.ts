@@ -1,5 +1,5 @@
 import express from "express";
-import { GetPostsByCategory, GetPostsByTag, PostBySlug, Posts, AddPost, AddComment } from "../../controllers/posts";
+import { GetPostsByCategory, GetPostsByTag, PostBySlug, Posts, AddPost, AddComment, DeletePost } from "../../controllers/posts";
 import check from "../../middleware/tokenCheck";
 const router = express.Router();
 
@@ -32,4 +32,9 @@ router.post("/add-post", check, AddPost);
 // @desc    Add a new comment to a post
 // @access  Private
 router.post("/add-comment", check, AddComment);
+
+// @router  Delete api/post/delete-post
+// @desc    Delete a post
+// @access  Private
+router.delete("/delete-post", check, DeletePost);
 export default router;
