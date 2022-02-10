@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { DarkGray } from "../../utils/colors";
+import { DarkGray, red } from "../../utils/colors";
+import { MainButton } from "../MainButton";
 
 export const BlogPostComponentContainer = styled.div`
     width: 100%;
@@ -19,7 +20,11 @@ export const Img = styled.img`
     object-fit: cover;
     object-position: center center;
 `;
-export const TextContainer = styled.div``;
+export const TextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 export const TitleContainer = styled.div`
     text-align: center;
     padding: 80px 0 10px 0;
@@ -35,6 +40,7 @@ export const Title = styled.h1`
 export const ContentContainer = styled.div`
     padding: 60px;
     line-height: 1.8rem;
+    width: 100%;
 `;
 
 export const Content = styled.p`
@@ -44,8 +50,9 @@ export const Information = styled.div`
     display: flex;
     margin-top: 1em;
     justify-content: flex-end;
-    margin-right: 10%;
+    
     gap: 20px;
+    text-align: right;
     flex-wrap: wrap;
     @media (max-width: 960px) {
         justify-content: center;
@@ -81,4 +88,34 @@ export const CommentsContainer = styled.div`
         padding: 5em 0 2.5em 0;
     }
     /* I think i could have done this also with flex-wrap  */
+`;
+
+export const UnderTitle = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    padding: 20px;
+    gap: 20px;
+    @media (max-width: 960px) { 
+        flex-direction: column;
+    }
+`;
+export const ButtonsContainer = styled.div`
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 960px) { 
+        width: 90%;
+    }
+`;
+
+export const DeleteButton = styled(MainButton)`
+    background: ${red};
+    padding: 0;
+    width: 45%;
+`;
+export const EditButton = styled(MainButton)`
+    padding: 0;
+    width: 45%;
 `;

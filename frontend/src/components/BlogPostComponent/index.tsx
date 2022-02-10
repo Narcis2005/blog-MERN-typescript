@@ -18,6 +18,10 @@ import {
     TagsText,
     DateText,
     CommentsContainer,
+    UnderTitle,
+    ButtonsContainer,
+    DeleteButton,
+    EditButton,
 } from "./BlogPostComponents";
 import Comment from "./Comment";
 import React, { useState } from "react";
@@ -85,7 +89,18 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 <TitleContainer>
                     <Title>{title}</Title>
                 </TitleContainer>
-                <Information>
+                <UnderTitle>
+                    <ButtonsContainer>
+                        {auth.result.id === createdBy.userId && (
+                            <>
+                            <DeleteButton>Delete Post</DeleteButton>
+                            <EditButton>Edit Post</EditButton>
+                            </>
+
+                        )}
+                        
+                    </ButtonsContainer>
+                    <Information>
                     <Author>Written by {createdBy.username}</Author>
                     <CategoryContainer>
                         <CategoryText>Category: </CategoryText>
@@ -101,6 +116,8 @@ const BlogPostComponent: React.FC<postInterface> = ({
                     </Tags>
                     <DateText>{new Date(createdAt).toUTCString()}</DateText>
                 </Information>
+                </UnderTitle>
+                
                 <ContentContainer>
                     <Content>{content}</Content>
                 </ContentContainer>
