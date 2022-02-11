@@ -66,6 +66,7 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
     interface ICall {
         status: "idle" | "loading" | "success" | "failed";
         result: IResult | null;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         error: any;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

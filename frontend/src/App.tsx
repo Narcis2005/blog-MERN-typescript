@@ -11,6 +11,8 @@ const Profile = React.lazy(() => import("./pages/Profile"));
 const GetPostsByTag = React.lazy(() => import("./pages/GetPostsByTag"));
 const GetPostsByCategory = React.lazy(() => import("./pages/GetPostsByCategory"));
 const AddPost = React.lazy(() => import("./pages/AddPost"));
+const SpecifyTag = React.lazy(() => import("./pages/GetPostsByTag/SpecifyTag"));
+const SpecifyCategory = React.lazy(() => import("./pages/GetPostsByCategory/SpecifyCategory"));
 import { GlobalStyle } from "./globalStyles";
 import ScrollToTop from "./scrollToTop";
 import Navbar from "./components/Navbar";
@@ -53,13 +55,14 @@ const App = () => {
                             </PrivateRoute>
                         }
                     />
+                    <Route path="/blog/tag" element={<SpecifyTag />} />
                     <Route path="/blog/tag/:tag" element={<GetPostsByTag />} />
+                    <Route path="/blog/category" element={<SpecifyCategory />} />
                     <Route path="/blog/category/:category" element={<GetPostsByCategory />} />
                     <Route path="/blog/post/:slug" element={<BlogPost />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-
                     <Route
                         path="/profile"
                         element={

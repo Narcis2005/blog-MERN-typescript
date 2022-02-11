@@ -9,6 +9,7 @@ const useApi = ({
 }: {
     url: string;
     method: "post" | "get" | "put" | "delete";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any;
 }) => {
     const [response, setResponse] = useState(null);
