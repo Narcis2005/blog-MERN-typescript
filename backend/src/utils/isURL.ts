@@ -1,5 +1,5 @@
 import { URL } from "url";
-function isURL(string: string) {
+const isURL = (string: string) => {
     // let url;
 
     try {
@@ -8,6 +8,6 @@ function isURL(string: string) {
     } catch (_) {
         return false;
     }
-}
+};
 
 export default isURL;

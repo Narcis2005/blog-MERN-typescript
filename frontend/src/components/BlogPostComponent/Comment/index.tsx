@@ -1,8 +1,11 @@
-import React from "react";
+import { AxiosError } from "axios";
+import React, { useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../..";
+import { getPost } from "../../../redux/slices/post";
 import { IComment } from "../../../redux/types/post";
+import api from "../../../utils/api";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
     ImageContainer,
@@ -22,8 +25,11 @@ import {
     ReplyCommentContainer,
     UsernameDateContainer,
 } from "./commentComponents";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Comment = ({ createdAt, createdBy, content, replies }: IComment) => {
+interface ICommentComponent extends IComment {
+    slug: string;
+    postId: string;
+}
+const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: ICommentComponent) => {
     const style = {
         fontSize: "1.5rem",
         cursor: "pointer",
@@ -54,6 +60,47 @@ const Comment = ({ createdAt, createdBy, content, replies }: IComment) => {
         }
         return `Just now`;
     };
+    interface IResult {
+        message: string;
+    }
+    interface ICall {
+        status: "idle" | "loading" | "success" | "failed";
+        result: IResult | null;
+        error: any;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [call, setCall] = useState<ICall>({
+        status: "idle",
+        result: null,
+        error: null,
+    });
+    const dispatch = useDispatch();
+    const handleDelete = (e: React.MouseEvent, id: string, isReply: boolean) => {
+        e.preventDefault();
+        setCall({ status: "loading", result: null, error: null });
+        api.delete<IResult>("/post/delete-comment", {
+            data: {
+                commentId: id,
+                ...(isReply && { parentId: _id }),
+                postId: postId,
+            },
+        })
+            .then((result) => {
+                setCall({ status: "success", error: null, result: result.data });
+                dispatch(getPost(slug));
+            })
+            .catch((error) => {
+                const err = error as AxiosError;
+                if (err.response) {
+                    if (err.response.data.message === "The session ended. Please reconnect") return;
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    setCall({ status: "failed", result: null, error: err.response.data.message });
+                    return;
+                }
+                console.log(error);
+                setCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            });
+    };
     return (
         <>
             <ParentCommentContainer>
@@ -73,7 +120,10 @@ const Comment = ({ createdAt, createdBy, content, replies }: IComment) => {
                                 {auth.result.id === createdBy.userId && (
                                     <>
                                         <FaEdit style={style} />
-                                        <FaTrash style={style} />
+                                        <FaTrash
+                                            style={style}
+                                            onClick={(e: React.MouseEvent) => handleDelete(e, _id, false)}
+                                        />
                                     </>
                                 )}
                             </EditDeleteIconsContainer>
@@ -108,7 +158,10 @@ const Comment = ({ createdAt, createdBy, content, replies }: IComment) => {
                                     {auth.result.id === reply.createdBy.userId && (
                                         <>
                                             <FaEdit style={style} />
-                                            <FaTrash style={style} />
+                                            <FaTrash
+                                                style={style}
+                                                onClick={(e: React.MouseEvent) => handleDelete(e, reply._id, true)}
+                                            />
                                         </>
                                     )}
                                 </EditDeleteIconsContainer>

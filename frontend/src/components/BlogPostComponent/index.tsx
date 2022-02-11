@@ -84,12 +84,12 @@ const BlogPostComponent: React.FC<postInterface> = ({
     };
     const handleDeletePost = (e: React.MouseEvent) => {
         e.preventDefault();
-        api.delete("/post/delete-post", {data: {id: _id}})
-            .then(data => {
+        api.delete("/post/delete-post", { data: { id: _id } })
+            .then((data) => {
                 navigate("/blog");
                 console.log(data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error);
             });
     };
@@ -106,31 +106,29 @@ const BlogPostComponent: React.FC<postInterface> = ({
                     <ButtonsContainer>
                         {auth.result.id === createdBy.userId && (
                             <>
-                            <DeleteButton onClick={handleDeletePost}>Delete Post</DeleteButton>
-                            <EditButton>Edit Post</EditButton>
+                                <DeleteButton onClick={handleDeletePost}>Delete Post</DeleteButton>
+                                <EditButton>Edit Post</EditButton>
                             </>
-
                         )}
-                        
                     </ButtonsContainer>
                     <Information>
-                    <Author>Written by {createdBy.username}</Author>
-                    <CategoryContainer>
-                        <CategoryText>Category: </CategoryText>
-                        <Category to={`/blog/category/${category}`}>{category}</Category>
-                    </CategoryContainer>
-                    <Tags>
-                        <TagsText>Tags: </TagsText>
-                        {tags.map((tag: string, key: number) => (
-                            <Tag to={`/blog/tag/${tag}`} key={key}>
-                                {tag}
-                            </Tag>
-                        ))}
-                    </Tags>
-                    <DateText>{new Date(createdAt).toUTCString()}</DateText>
-                </Information>
+                        <Author>Written by {createdBy.username}</Author>
+                        <CategoryContainer>
+                            <CategoryText>Category: </CategoryText>
+                            <Category to={`/blog/category/${category}`}>{category}</Category>
+                        </CategoryContainer>
+                        <Tags>
+                            <TagsText>Tags: </TagsText>
+                            {tags.map((tag: string, key: number) => (
+                                <Tag to={`/blog/tag/${tag}`} key={key}>
+                                    {tag}
+                                </Tag>
+                            ))}
+                        </Tags>
+                        <DateText>{new Date(createdAt).toUTCString()}</DateText>
+                    </Information>
                 </UnderTitle>
-                
+
                 <ContentContainer>
                     <Content>{content}</Content>
                 </ContentContainer>
@@ -153,6 +151,8 @@ const BlogPostComponent: React.FC<postInterface> = ({
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         key={comment._id}
                         {...comment}
+                        slug={slug}
+                        postId={_id}
                     />
                 ))}
             </CommentsContainer>

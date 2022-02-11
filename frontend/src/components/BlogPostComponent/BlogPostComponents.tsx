@@ -50,7 +50,7 @@ export const Information = styled.div`
     display: flex;
     margin-top: 1em;
     justify-content: flex-end;
-    
+
     gap: 20px;
     text-align: right;
     flex-wrap: wrap;
@@ -97,7 +97,7 @@ export const UnderTitle = styled.div`
     width: 90%;
     padding: 20px;
     gap: 20px;
-    @media (max-width: 960px) { 
+    @media (max-width: 960px) {
         flex-direction: column;
     }
 `;
@@ -105,7 +105,7 @@ export const ButtonsContainer = styled.div`
     width: 30%;
     display: flex;
     justify-content: space-between;
-    @media (max-width: 960px) { 
+    @media (max-width: 960px) {
         width: 90%;
     }
 `;

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IComment extends mongoose.Document {
+    date: string | number | Date;
     content: string;
     createdAt: Date;
     createdBy: {
