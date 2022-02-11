@@ -76,15 +76,12 @@ export const PostBySlug = (req: Request, res: Response) => {
             }
             // https://stackoverflow.com/questions/10123953/how-to-sort-an-object-array-by-date-property
             // This sorts the comments
-            post.comments.sort((a, b) => {
-                return a.createdAt.getDate() - b.createdAt.getDate();
-            });
+            post.comments.sort((a,b)=>b.createdAt.getTime()-a.createdAt.getTime());
             // This sorts the replies
             post.comments.forEach((comment) => {
-                comment.replies.sort((a, b) => {
-                    return a.createdAt.getDate() - b.createdAt.getDate();
-                });
+                comment.replies.sort((a,b)=>b.createdAt.getTime()-a.createdAt.getTime());
             });
+            // console.log(post.comments);
             res.send(post);
         })
         .catch((error) => {

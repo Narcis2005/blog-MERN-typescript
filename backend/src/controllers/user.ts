@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import User, { IUser } from "../models/user";
 import { IGetUserAuthInfoRequest } from "../middleware/tokenCheck";
 import isEmailValid from "../utils/isEmailValid";
+import bcrypt from "bcrypt";
 dotenv.config();
 const SECRET_JWT = process.env.SECRET_JWT;
 
@@ -28,9 +30,11 @@ export const Login = (req: Request, res: Response) => {
         return;
     }
     User.findOne({ username: username })
-        .then((user: IUser) => {
+        .then(async (user: IUser) => {
             if (user) {
-                if (user.password === password) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                const isPassowrdCorrect = await bcrypt.compare(password, user.password);
+                if (isPassowrdCorrect) {
                     res.status(200).json({
                         token: sendToken(user._id as string),
                         imageURL: user.imageURL,
@@ -98,17 +102,20 @@ export const Register = (req: Request, res: Response) => {
         return;
     }
     User.findOne({ username: username })
-        .then((user) => {
+        .then(async (user) => {
             if (user) {
                 res.status(409).send({
                     message: "Username aleardy exists",
                 });
                 return;
             }
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const hashedPassowrd = await bcrypt.hash(password, 10);
             const newUser = new User();
             newUser.username = username;
             newUser.email = email;
-            newUser.password = password;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            newUser.password = hashedPassowrd;
             newUser.fullName = fullName;
             newUser
                 .save()
