@@ -46,8 +46,12 @@ export const TitleContainer = styled.div`
 export const Title = styled.h2`
     font-size: 2rem;
 `;
-export const DescriptionContainer = styled.div``;
-export const Description = styled.p``;
+export const DescriptionContainer = styled.div`
+    max-width: 100%;
+`;
+export const Description = styled.p`
+    overflow-wrap: break-word;
+`;
 export const Button = styled(MainButton)`
     margin-top: 30px;
 `;

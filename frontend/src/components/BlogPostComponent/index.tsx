@@ -110,8 +110,8 @@ const BlogPostComponent: React.FC<postInterface> = ({
     const [updatePostCall, setUpdatePostCall] = useState<ICall>({ status: "idle", error: null, result: null });
     const handlePostChanges = (e: React.FormEvent) => {
         e.preventDefault();
-        api.put<IResult>("/post/update-post", {id: _id, content:editedContent})
-            .then(result => {
+        api.put<IResult>("/post/update-post", { id: _id, content: editedContent })
+            .then((result) => {
                 setUpdatePostCall({ status: "success", result: result.data, error: null });
                 setEditMode(false);
                 dispatch(getPost(slug));
@@ -125,7 +125,11 @@ const BlogPostComponent: React.FC<postInterface> = ({
                     return;
                 }
                 console.log(error);
-                setUpdatePostCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+                setUpdatePostCall({
+                    status: "failed",
+                    result: null,
+                    error: "An unkown error appeard. Please contact us",
+                });
             });
     };
     return (
@@ -133,8 +137,8 @@ const BlogPostComponent: React.FC<postInterface> = ({
             <ImageContainer>
                 <Img src={imageURL} />
             </ImageContainer>
-            
-                <TextContainer>
+
+            <TextContainer>
                 <TitleContainer>
                     <Title>{title}</Title>
                 </TitleContainer>
@@ -166,30 +170,21 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 </UnderTitle>
 
                 <ContentContainer>
-                {!editMode && (
-                    <Content>{content}</Content>
-                )}
-                {editMode && (
-                    <>
-                    <FormContent onSubmit={handlePostChanges}>
-                        {updatePostCall.status === "failed" && (
-                         <ErrorMessage>{updatePostCall.error}</ErrorMessage>
-
-                        )}
-                    <EditContent
-                    value={editedContent}
-                    onChange={handleContentChange}
-                     />
-                     <SubmitPost >Submit changes</SubmitPost>
-                    </FormContent>
- 
-                    </>
-
-                )}
+                    {!editMode && <Content>{content}</Content>}
+                    {editMode && (
+                        <>
+                            <FormContent onSubmit={handlePostChanges}>
+                                {updatePostCall.status === "failed" && (
+                                    <ErrorMessage>{updatePostCall.error}</ErrorMessage>
+                                )}
+                                <EditContent value={editedContent} onChange={handleContentChange} />
+                                <SubmitPost>Submit changes</SubmitPost>
+                            </FormContent>
+                        </>
+                    )}
                 </ContentContainer>
             </TextContainer>
-            
-            
+
             <CommentsContainer>
                 {auth.status === "success" && (
                     <AddComment

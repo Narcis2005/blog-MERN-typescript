@@ -16,7 +16,7 @@ const isEmailValid = (email: string): boolean => {
 
     const domainParts = parts[1].split(".");
     if (
-        domainParts.some( (part: string) => {
+        domainParts.some((part: string) => {
             return part.length > 63;
         })
     )

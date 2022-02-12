@@ -1,11 +1,13 @@
 import { AxiosError } from "axios";
 import React, { useState } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../..";
 import { getPost } from "../../../redux/slices/post";
 import { IComment } from "../../../redux/types/post";
 import api from "../../../utils/api";
+import AddComment from "../AddComment";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
     ImageContainer,
@@ -102,6 +104,36 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                 setCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
             });
     };
+    const [reply, setReply] = useState(false);
+    const [replyContent, setReplyContent] = useState("");
+    const handleReplyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setReplyContent(e.target.value);
+    };
+    const handleEdit = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setReply(true);
+    };
+    const [replyCall, setReplyCall] = useState<ICall>();
+    const handleReplySubmit = (e: React.MouseEvent) => {
+        e.preventDefault();
+        api.post<IResult>("/post/add-reply", { commentId: _id, postId: postId, content: replyContent })
+            .then((result) => {
+                setReplyCall({ status: "success", error: null, result: result.data });
+                setReply(false);
+                dispatch(getPost(slug));
+            })
+            .catch((error) => {
+                const err = error as AxiosError;
+                if (err.response) {
+                    if (err.response.data.message === "The session ended. Please reconnect") return;
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    setReplyCall({ status: "failed", result: null, error: err.response.data.message });
+                    return;
+                }
+                console.log(error);
+                setReplyCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            });
+    };
     return (
         <>
             <ParentCommentContainer>
@@ -114,13 +146,13 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                     <RightSideComment>
                         <TopRightSideContainer>
                             <UsernameDateContainer>
-                                <Username>Narcis</Username>
+                                <Username>{createdBy.username}</Username>
                                 <CommentDate>{formatedData(new Date(createdAt))}</CommentDate>
                             </UsernameDateContainer>
                             <EditDeleteIconsContainer>
                                 {auth.result.id === createdBy.userId && (
                                     <>
-                                        <FaEdit style={style} />
+                                        {/* <FaEdit style={style} /> */}
                                         <FaTrash
                                             style={style}
                                             onClick={(e: React.MouseEvent) => handleDelete(e, _id, false)}
@@ -133,10 +165,23 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                             <CommentContent>{content}</CommentContent>
                         </CenterRightSideContainer>
                         <BottomRightSideContainer>
-                            {auth.status === "success" && <ReplyButton>Reply</ReplyButton>}
+                            {auth.status === "success" && <ReplyButton onClick={handleEdit}>Reply</ReplyButton>}
                         </BottomRightSideContainer>
                     </RightSideComment>
                 </CommentContainer>
+                {reply && (
+                    <>
+                        <AddComment
+                            setValue={handleReplyChange}
+                            handleSubmit={handleReplySubmit}
+                            username={createdBy.username}
+                            error={
+                                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                                replyCall?.error
+                            }
+                        />
+                    </>
+                )}
                 {replies.map((reply) => (
                     <ReplyCommentContainer
                         key={
@@ -158,7 +203,7 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                                 <EditDeleteIconsContainer>
                                     {auth.result.id === reply.createdBy.userId && (
                                         <>
-                                            <FaEdit style={style} />
+                                            {/* <FaEdit style={style} /> */}
                                             <FaTrash
                                                 style={style}
                                                 onClick={(e: React.MouseEvent) => handleDelete(e, reply._id, true)}

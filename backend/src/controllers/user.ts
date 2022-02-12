@@ -15,7 +15,7 @@ const sendToken = (id: string): string => {
             id: id,
         },
         SECRET_JWT,
-        { expiresIn: "1h" },
+        { expiresIn: "10h" },
     );
     return token;
 };
@@ -122,7 +122,7 @@ export const Register = (req: Request, res: Response) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 .then((savedUser) => {
                     res.send({
-                        message: "Account created succesfully",
+                        message: "Account created successfully",
                     });
                 })
                 .catch((error) => {

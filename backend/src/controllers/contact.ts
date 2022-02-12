@@ -52,6 +52,6 @@ export const contactController = (req: Request, res: Response) => {
             res.status(500).send(error);
             throw error;
         }
-        res.send({ message: "Email sent succesfully", info });
+        res.send({ message: "Email sent successfully", info });
     });
 };

@@ -9,6 +9,7 @@ import {
     DeletePost,
     DeleteComment,
     UpdatePost,
+    AddReply,
 } from "../../controllers/posts";
 import check from "../../middleware/tokenCheck";
 const router = express.Router();
@@ -42,6 +43,11 @@ router.post("/add-post", check, AddPost);
 // @desc    Add a new comment to a post
 // @access  Private
 router.post("/add-comment", check, AddComment);
+
+// @router  POST api/post/add-reply
+// @desc    Add a reply to a comment
+// @access  Private
+router.post("/add-reply", check, AddReply);
 
 // @router  Delete api/post/delete-post
 // @desc    Delete a post

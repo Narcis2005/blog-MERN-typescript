@@ -45,7 +45,7 @@ export const ContentContainer = styled.div`
 `;
 
 export const Content = styled.p`
-    font-size: 18px;
+    font-size: 1.125rem;
 `;
 export const Information = styled.div`
     display: flex;
@@ -128,13 +128,11 @@ export const FormContent = styled.form`
 `;
 export const EditContent = styled(FormTextarea)`
     width: 100%;
-    font-size: 18px;
+    font-size: 1.125rem;
     min-height: 30vh;
 `;
-export const SubmitPost = styled(MainButton)`
-
-`;
+export const SubmitPost = styled(MainButton)``;
 export const ErrorMessage = styled.p`
     color: red;
-    font-size: 18px;
+    font-size: 1.125rem;
 `;

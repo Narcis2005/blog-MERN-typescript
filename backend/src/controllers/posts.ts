@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { IGetUserAuthInfoRequest } from "../middleware/tokenCheck";
 import Post from "../models/post";
 import isURL from "../utils/isURL";
-
+import { Comment } from "../models/comment";
 export const Posts = (req: Request, res: Response) => {
     const page = req.query.page as string;
     const perPage = req.query.perPage as string;
@@ -76,10 +76,10 @@ export const PostBySlug = (req: Request, res: Response) => {
             }
             // https://stackoverflow.com/questions/10123953/how-to-sort-an-object-array-by-date-property
             // This sorts the comments
-            post.comments.sort((a,b)=>b.createdAt.getTime()-a.createdAt.getTime());
+            post.comments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
             // This sorts the replies
             post.comments.forEach((comment) => {
-                comment.replies.sort((a,b)=>b.createdAt.getTime()-a.createdAt.getTime());
+                comment.replies.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
             });
             // console.log(post.comments);
             res.send(post);
@@ -239,7 +239,7 @@ export const AddPost = (req: IGetUserAuthInfoRequest, res: Response) => {
     post.save()
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((savedPost) => {
-            res.send({ message: "Post published succesfully", post: savedPost });
+            res.send({ message: "Post published successfully", post: savedPost });
             return;
         })
         .catch((error) => {
@@ -253,6 +253,10 @@ export const AddComment = (req: IGetUserAuthInfoRequest, res: Response) => {
     const content = req.body.content as string;
     if (!content) {
         res.status(401).send({ message: "You need to specify the content of the comment" });
+        return;
+    }
+    if (!id) {
+        res.status(401).send({ message: "You need to specify the id of the post" });
         return;
     }
     Post.updateOne(
@@ -276,7 +280,7 @@ export const AddComment = (req: IGetUserAuthInfoRequest, res: Response) => {
     )
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((post) => {
-            res.send({ message: "Comment added sucessfully" });
+            res.send({ message: "Comment added successfully" });
             return;
         })
         .catch((error) => {
@@ -383,36 +387,97 @@ export const DeleteComment = (req: IGetUserAuthInfoRequest, res: Response) => {
             return;
         });
 };
-export const UpdatePost = (req: IGetUserAuthInfoRequest, res: Response) => { 
+export const UpdatePost = (req: IGetUserAuthInfoRequest, res: Response) => {
     const id = req.body.id as string;
     const newContent = req.body.content as string;
-    if(!id) {
-        res.status(401).send({message: "You need to specify the id of the post"});
-    }if(!newContent) {
-        res.status(401).send({message: "You need to specify the new content of the post"});
+    if (!id) {
+        res.status(401).send({ message: "You need to specify the id of the post" });
+        return;
+    }
+    if (!newContent) {
+        res.status(401).send({ message: "You need to specify the new content of the post" });
+        return;
     }
     Post.findById(id)
-        .then(post => {
-            if(!post) {
-                res.status(404).send({message: "No post found with this id"});
+        .then((post) => {
+            if (!post) {
+                res.status(404).send({ message: "No post found with this id" });
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
             if (!post.createdBy.userId.equals(req.user.id)) {
-                res.status(403).send({message: "You don't have permission to update this post"});
+                res.status(403).send({ message: "You don't have permission to update this post" });
                 return;
             }
             post.content = newContent;
             post.save()
-            .then((data) => {
-                res.send({ data: data, message: "Post updated succesfully" });
+                .then((data) => {
+                    res.send({ data: data, message: "Post updated successfully" });
+                    return;
+                })
+                .catch((error) => {
+                    res.status(500).send(error);
+                    console.log(error);
+                    return;
+                });
+        })
+        .catch((error) => {
+            res.status(500).send(error);
+            console.log(error);
+            return;
+        });
+};
+export const AddReply = (req: IGetUserAuthInfoRequest, res: Response) => {
+    const postId = req.body.postId as string;
+    const commentId = req.body.commentId as string;
+    const content = req.body.content as string;
+    if (!postId) {
+        res.status(401).send({ message: "You need to specify the id of the post" });
+        return;
+    }
+    if (!commentId) {
+        res.status(401).send({ message: "You need to specify the id of the parent comment" });
+        return;
+    }
+    if (!content) {
+        res.status(401).send({ message: "You need to specify the content of the reply" });
+        return;
+    }
+    Post.findById(postId)
+        .then((post) => {
+            if (!post) {
+                res.status(404).send({ message: "No post with this id" });
                 return;
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-                console.log(error);
+            }
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            const foundComment = post.comments.find((comment) => comment._id.equals(commentId));
+            if (!foundComment) {
+                res.status(404).send({ message: "No comment on specified post with this id" });
                 return;
+            }
+            const index = post.comments.indexOf(foundComment);
+            const newComment = new Comment({
+                createdBy: {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    userId: req.user.id,
+                    username: req.user.username,
+                    imageURL: req.user.imageURL,
+                },
+                content: content,
+                createdAt: new Date(),
             });
+            post.comments[index].replies.push(newComment);
+            post.save()
+                .then((data) => {
+                    res.send({ message: "Reply added successfully", data: data });
+                    return;
+                })
+                .catch((error) => {
+                    res.status(500).send(error);
+                    console.log(error);
+                    return;
+                });
+            return;
         })
         .catch((error) => {
             res.status(500).send(error);
