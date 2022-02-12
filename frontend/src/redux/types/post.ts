@@ -9,7 +9,7 @@ export interface postInterface {
     tags: string[];
     category: string;
     createdBy: {
-        userId: string;
+        _id: string;
         username: string;
     };
     comments: IComment[];
@@ -21,7 +21,7 @@ export interface IComment {
     createdBy: {
         username: string;
         imageURL: string;
-        userId: string;
+        _id: string;
     };
     replies: [
         {
@@ -31,7 +31,7 @@ export interface IComment {
             createdBy: {
                 username: string;
                 imageURL: string;
-                userId: string;
+                _id: string;
             };
         },
     ];

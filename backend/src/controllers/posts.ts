@@ -27,6 +27,7 @@ export const Posts = (req: Request, res: Response) => {
             }),
         })
             .sort("-createdAt")
+            
             .then((posts) => {
                 //Alghoritm to send data based on page and perPage params
                 const slicedData = posts.slice(
@@ -67,6 +68,9 @@ export const PostBySlug = (req: Request, res: Response) => {
         });
     }
     Post.findOne({ slug: slug })
+        .populate({path: "createdBy" , select:["username"]})
+        .populate({path: "comments.createdBy", select:["username", "imageURL"]})
+        .populate({path: "comments.replies.createdBy", select:["username", "imageURL"]})
         .then((post) => {
             if (!post) {
                 res.status(404).send({
@@ -81,7 +85,6 @@ export const PostBySlug = (req: Request, res: Response) => {
             post.comments.forEach((comment) => {
                 comment.replies.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
             });
-            // console.log(post.comments);
             res.send(post);
         })
         .catch((error) => {
@@ -231,11 +234,8 @@ export const AddPost = (req: IGetUserAuthInfoRequest, res: Response) => {
     post.category = category;
     post.slug = title.replaceAll(" ", "-").toLowerCase();
     post.description = content.slice(0, 40);
-    post.createdBy = {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        userId: req.user.id,
-        username: req.user.username,
-    };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    post.createdBy = req.user.id;
     post.save()
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then((savedPost) => {
@@ -265,12 +265,8 @@ export const AddComment = (req: IGetUserAuthInfoRequest, res: Response) => {
             $push: {
                 comments: [
                     {
-                        createdBy: {
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            userId: req.user.id,
-                            username: req.user.username,
-                            imageURL: req.user.imageURL,
-                        },
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        createdBy: req.user.id,
                         content: content,
                         createdAt: new Date(),
                     },
@@ -303,7 +299,7 @@ export const DeletePost = (req: IGetUserAuthInfoRequest, res: Response) => {
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            if (!post.createdBy.userId.equals(req.user._id)) {
+            if (!post.createdBy.equals(req.user._id)) {
                 res.status(403).send({ message: "You don't have permission to delete this post" });
                 return;
             }
@@ -358,7 +354,7 @@ export const DeleteComment = (req: IGetUserAuthInfoRequest, res: Response) => {
                 return;
             }
 
-            if (!foundComment.createdBy.userId === req.user.id) {
+            if (!foundComment.createdBy === req.user.id) {
                 res.status(403).send({ message: "You don't have permission to delete this post" });
                 return;
             }
@@ -405,7 +401,7 @@ export const UpdatePost = (req: IGetUserAuthInfoRequest, res: Response) => {
                 return;
             }
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            if (!post.createdBy.userId.equals(req.user.id)) {
+            if (!post.createdBy.equals(req.user.id)) {
                 res.status(403).send({ message: "You don't have permission to update this post" });
                 return;
             }
@@ -457,12 +453,8 @@ export const AddReply = (req: IGetUserAuthInfoRequest, res: Response) => {
             }
             const index = post.comments.indexOf(foundComment);
             const newComment = new Comment({
-                createdBy: {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    userId: req.user.id,
-                    username: req.user.username,
-                    imageURL: req.user.imageURL,
-                },
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                createdBy: req.user.id,
                 content: content,
                 createdAt: new Date(),
             });

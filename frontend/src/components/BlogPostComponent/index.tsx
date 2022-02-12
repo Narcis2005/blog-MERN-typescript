@@ -144,7 +144,7 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 </TitleContainer>
                 <UnderTitle>
                     <ButtonsContainer>
-                        {auth.result.id === createdBy.userId && !editMode && (
+                        {auth.result.id === createdBy._id && !editMode && (
                             <>
                                 <DeleteButton onClick={handleDeletePost}>Delete Post</DeleteButton>
                                 <EditButton onClick={handleEdit}>Edit Post</EditButton>

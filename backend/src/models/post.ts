@@ -12,10 +12,7 @@ interface IPost extends mongoose.Document {
     createdAt: Date;
     tags: string[];
     category: string;
-    createdBy: {
-        userId: mongoose.Types.ObjectId;
-        username: string;
-    };
+    createdBy: mongoose.Types.ObjectId;
     comments?: IComment[];
 }
 
@@ -54,11 +51,12 @@ const postSchema = new mongoose.Schema<IPost>({
         required: true,
     },
     createdBy: {
-        userId: mongoose.Types.ObjectId,
-        username: String,
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+
     },
     comments: [commentSchema],
 });
 
-const Post = mongoose.model<IPost>("post", postSchema);
+const Post = mongoose.model<IPost>("Post", postSchema);
 export default Post;

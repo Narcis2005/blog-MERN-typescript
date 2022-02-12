@@ -150,7 +150,7 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                                 <CommentDate>{formatedData(new Date(createdAt))}</CommentDate>
                             </UsernameDateContainer>
                             <EditDeleteIconsContainer>
-                                {auth.result.id === createdBy.userId && (
+                                {auth.result.id === createdBy._id && (
                                     <>
                                         {/* <FaEdit style={style} /> */}
                                         <FaTrash
@@ -201,7 +201,7 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                                     <CommentDate>{formatedData(new Date(reply.createdAt))}</CommentDate>
                                 </UsernameDateContainer>
                                 <EditDeleteIconsContainer>
-                                    {auth.result.id === reply.createdBy.userId && (
+                                    {auth.result.id === reply.createdBy._id && (
                                         <>
                                             {/* <FaEdit style={style} /> */}
                                             <FaTrash

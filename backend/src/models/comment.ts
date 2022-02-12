@@ -4,11 +4,7 @@ export interface IComment extends mongoose.Document {
     date: string | number | Date;
     content: string;
     createdAt: Date;
-    createdBy: {
-        username: string;
-        imageURL: string;
-        userId: mongoose.Types.ObjectId;
-    };
+    createdBy: mongoose.Types.ObjectId;
     replies?: [IComment];
 }
 const commentSchema = new mongoose.Schema<IComment>({
@@ -22,12 +18,11 @@ const commentSchema = new mongoose.Schema<IComment>({
         required: true,
     },
     createdBy: {
-        type: {
-            userId: mongoose.Types.ObjectId,
-            username: String,
-            imageURL: String,
-        },
-        required: true,
+         
+            type: mongoose.Types.ObjectId,
+            ref: "User"
+        
+
     },
     replies: [
         {
@@ -41,16 +36,12 @@ const commentSchema = new mongoose.Schema<IComment>({
                 required: true,
             },
             createdBy: {
-                type: {
-                    userId: mongoose.Types.ObjectId,
-                    username: String,
-                    imageURL: String,
-                },
-                required: true,
+                type: mongoose.Types.ObjectId,
+                 ref: "User"
             },
         },
     ],
 });
 
 export default commentSchema;
-export const Comment = mongoose.model<IComment>("comment", commentSchema);
+export const Comment = mongoose.model<IComment>("Comment", commentSchema);
