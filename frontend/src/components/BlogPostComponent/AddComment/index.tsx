@@ -23,7 +23,7 @@ const AddComment = ({
         <>
             <AddCommentContainer>
                 {message && <Message color="green">{message}</Message>}
-                {error && <Message color="red">An error appeard</Message>}
+                {error && <Message color="red">{error}</Message>}
                 <AddCommentTitle>Add Comment</AddCommentTitle>
                 <AddCommentTextarea placeholder="Write your comment" onChange={setValue} />
                 <SubmitComment onClick={handleSubmit}>Add Comment</SubmitComment>

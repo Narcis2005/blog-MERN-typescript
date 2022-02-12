@@ -8,6 +8,7 @@ import {
     AddComment,
     DeletePost,
     DeleteComment,
+    UpdatePost,
 } from "../../controllers/posts";
 import check from "../../middleware/tokenCheck";
 const router = express.Router();
@@ -51,4 +52,10 @@ router.delete("/delete-post", check, DeletePost);
 // @desc    Delete a comment
 // @access  Private
 router.delete("/delete-comment", check, DeleteComment);
+
+// @router  PUT api/post/update-post
+// @desc    Update an existent post
+// @access  Private
+router.put("/update-post", check, UpdatePost);
+
 export default router;

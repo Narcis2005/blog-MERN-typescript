@@ -22,6 +22,10 @@ import {
     ButtonsContainer,
     DeleteButton,
     EditButton,
+    EditContent,
+    SubmitPost,
+    FormContent,
+    ErrorMessage,
 } from "./BlogPostComponents";
 import Comment from "./Comment";
 import React, { useState } from "react";
@@ -93,21 +97,53 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 console.log(error);
             });
     };
+    const [editMode, setEditMode] = useState(false);
+    const [editedContent, setEditedContent] = useState("");
+    const handleEdit = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setEditMode(true);
+        setEditedContent(content);
+    };
+    const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setEditedContent(e.target.value);
+    };
+    const [updatePostCall, setUpdatePostCall] = useState<ICall>({ status: "idle", error: null, result: null });
+    const handlePostChanges = (e: React.FormEvent) => {
+        e.preventDefault();
+        api.put<IResult>("/post/update-post", {id: _id, content:editedContent})
+            .then(result => {
+                setUpdatePostCall({ status: "success", result: result.data, error: null });
+                setEditMode(false);
+                dispatch(getPost(slug));
+            })
+            .catch((error) => {
+                const err = error as AxiosError;
+                if (err.response) {
+                    if (err.response.data.message === "The session ended. Please reconnect") return;
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    setUpdatePostCall({ status: "failed", result: null, error: err.response.data.message });
+                    return;
+                }
+                console.log(error);
+                setUpdatePostCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            });
+    };
     return (
         <BlogPostComponentContainer>
             <ImageContainer>
                 <Img src={imageURL} />
             </ImageContainer>
-            <TextContainer>
+            
+                <TextContainer>
                 <TitleContainer>
                     <Title>{title}</Title>
                 </TitleContainer>
                 <UnderTitle>
                     <ButtonsContainer>
-                        {auth.result.id === createdBy.userId && (
+                        {auth.result.id === createdBy.userId && !editMode && (
                             <>
                                 <DeleteButton onClick={handleDeletePost}>Delete Post</DeleteButton>
-                                <EditButton>Edit Post</EditButton>
+                                <EditButton onClick={handleEdit}>Edit Post</EditButton>
                             </>
                         )}
                     </ButtonsContainer>
@@ -130,9 +166,30 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 </UnderTitle>
 
                 <ContentContainer>
+                {!editMode && (
                     <Content>{content}</Content>
+                )}
+                {editMode && (
+                    <>
+                    <FormContent onSubmit={handlePostChanges}>
+                        {updatePostCall.status === "failed" && (
+                         <ErrorMessage>{updatePostCall.error}</ErrorMessage>
+
+                        )}
+                    <EditContent
+                    value={editedContent}
+                    onChange={handleContentChange}
+                     />
+                     <SubmitPost >Submit changes</SubmitPost>
+                    </FormContent>
+ 
+                    </>
+
+                )}
                 </ContentContainer>
             </TextContainer>
+            
+            
             <CommentsContainer>
                 {auth.status === "success" && (
                     <AddComment

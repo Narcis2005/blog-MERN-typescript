@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { DarkGray, red } from "../../utils/colors";
+import { FormTextarea } from "../Form";
 import { MainButton } from "../MainButton";
 
 export const BlogPostComponentContainer = styled.div`
@@ -118,4 +119,22 @@ export const DeleteButton = styled(MainButton)`
 export const EditButton = styled(MainButton)`
     padding: 0;
     width: 45%;
+`;
+export const FormContent = styled.form`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+`;
+export const EditContent = styled(FormTextarea)`
+    width: 100%;
+    font-size: 18px;
+    min-height: 30vh;
+`;
+export const SubmitPost = styled(MainButton)`
+
+`;
+export const ErrorMessage = styled.p`
+    color: red;
+    font-size: 18px;
 `;
