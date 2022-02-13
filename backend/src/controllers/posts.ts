@@ -233,7 +233,7 @@ export const AddPost = (req: IGetUserAuthInfoRequest, res: Response) => {
     post.imageURL = imageURL;
     post.category = category;
     post.slug = title.replaceAll(" ", "-").toLowerCase();
-    post.description = content.slice(0, 40);
+    post.description = content.slice(0, 55);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     post.createdBy = req.user.id;
     post.save()

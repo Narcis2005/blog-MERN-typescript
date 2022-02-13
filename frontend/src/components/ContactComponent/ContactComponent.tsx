@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { DarkBackground } from "../../containers/DarkBackground";
-import { FormInput, Form, FormTextarea, FormTitle, MessageContainer } from "../Form";
+import { FormInput, Form, FormTextarea, FormTitle, MessageContainer, InputLabelContainer } from "../Form";
 import { MainButton } from "../MainButton";
 import React from "react";
 import api from "../../utils/api";
 import { AxiosError } from "axios";
 import { green, red } from "../../utils/colors";
+import { Label } from "../ProfileComponent/ProfileComponents";
 interface IResult {
     message: string;
     info?: any;
@@ -68,10 +69,31 @@ const ContactComponent = () => {
                     </MessageContainer>
 
                     <FormTitle>Contact Me</FormTitle>
-                    <FormInput type="text" required placeholder="Your name" name="name" onChange={handleChange} />
+                    <InputLabelContainer>
+                        <Label htmlFor="name">Full Name</Label>
+                        <FormInput type="text" required placeholder="Your name" name="name" onChange={handleChange} />
+                    </InputLabelContainer>
+                    <InputLabelContainer>
+                    <Label htmlFor="email">Email</Label>
+
                     <FormInput type="email" required placeholder="Your email" name="email" onChange={handleChange} />
+                    </InputLabelContainer>
+
+                    <InputLabelContainer>
+                    <Label htmlFor="subject">Subject</Label>
+
                     <FormInput type="text" required placeholder="Subject" name="subject" onChange={handleChange} />
+                    
+                    </InputLabelContainer>
+                    <InputLabelContainer>
+                    <Label htmlFor="message">Message</Label>
+
                     <FormTextarea required placeholder="Message" name="message" onChange={handleChange}></FormTextarea>
+                    
+                    </InputLabelContainer>
+
+                    <InputLabelContainer></InputLabelContainer>
+
                     <MainButton>Send</MainButton>
                 </Form>
             </DarkBackground>

@@ -1,5 +1,5 @@
 import { Container } from "../../globalStyles";
-import { HomepageBlogContainer } from "./homepageBlogComponents";
+import { CardsContainer, HomepageBlogContainer } from "./homepageBlogComponents";
 import BlogCard from "./BlogCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -39,7 +39,7 @@ const HomepageBlog = () => {
                 ))}
             {reduxPosts.status === "success" && reduxPosts.result && (
                 <HomepageBlogContainer>
-                    <Container>
+                    <CardsContainer>
                         {reduxPosts.result.results.slice(0, 3).map((element, key) => (
                             <BlogCard
                                 imageURL={element.imageURL}
@@ -50,7 +50,7 @@ const HomepageBlog = () => {
                                 key={key}
                             />
                         ))}
-                    </Container>
+                    </CardsContainer>
                 </HomepageBlogContainer>
             )}
         </>

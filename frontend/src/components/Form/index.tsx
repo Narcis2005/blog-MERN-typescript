@@ -73,3 +73,7 @@ export const MessageContainer = styled.div<IMessageContainer>`
     display: ${({ display }) => display};
 `;
 export const Message = styled.p``;
+
+export const InputLabelContainer = styled.div`
+    margin-top: 20px;
+`;

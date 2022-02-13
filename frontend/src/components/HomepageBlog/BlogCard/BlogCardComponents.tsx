@@ -13,8 +13,11 @@ export const CardContainer = styled.div`
     margin: 20px;
     border-radius: 10px;
     box-shadow: rgb(0 0 0 / 50%) 0px 10px 20px;
+    @media (max-width: 1280px) {
+        width: 40%;
+    }
     @media (max-width: 960px) {
-        width: 80%;
+        width: 100%;
     }
 `;
 
@@ -26,7 +29,7 @@ export const Img = styled.img`
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border-radius: 10px 0;
+    border-radius: 10px 10px 0 0;
 `;
 export const TextContainer = styled.div`
     display: flex;
