@@ -7,6 +7,7 @@ import { getPost } from "../../redux/slices/post";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import React from "react";
+import { Helmet } from "react-helmet";
 
 const BlogPost: React.FC = () => {
     const { slug } = useParams();
@@ -46,7 +47,19 @@ const BlogPost: React.FC = () => {
                     <MainText color="red">Post is empty</MainText>
                 </DarkBackground>
             )}
-            {post.status === "success" && post.result && <BlogPostComponent {...post.result} />}
+            {post.status === "success" && post.result && (
+            <>
+            <Helmet>   
+            <meta name="description" content={post.result.description }/>
+            <meta property="og:title" content={post.result.title}/>
+            <meta property="og:url" content={`http://blog.chirilovnarcis.ro/blog/post/${post.result.slug}`}/>
+            <meta property="og:image" content={post.result.imageURL}/>
+            <meta property="og:description" content={post.result.description }/>
+            <title>{post.result.title}</title>
+        </Helmet>
+            <BlogPostComponent {...post.result} />
+            </>
+            )}
         </>
     );
 };

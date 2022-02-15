@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
 import ProfileComponent from "../../components/ProfileComponent";
 import { RootState } from "../../index";
@@ -40,6 +41,9 @@ const Profile: React.FC = () => {
     const previousImage = auth.result.imageURL;
     return (
         <>
+            <Helmet>   
+            <title>{profileData.username}</title>
+        </Helmet>
             <ProfileComponent
                 edit={edit}
                 setEdit={setEdit}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { createSearchParams, useLocation, useNavigate, useParams } from "react-router-dom";
 import GetPostsByCategoryComponent from "../../components/GetPostsByCategoryComponent";
 import { DarkBackground } from "../../containers/DarkBackground";
@@ -76,6 +77,16 @@ const GetPostsByCategory = () => {
     };
     return (
         <>
+        {category && (
+            <Helmet>   
+            <meta name="description" content={`Search result for category: "${category}" ` }/>
+            <meta property="og:title" content={`"${category}" category search results - Astronomy blog`}/>
+            <meta property="og:url" content="http://blog.chirilovnarcis.ro/blog/category/:category"/>
+            <meta property="og:image" content="https://blog.chirilovnarcis.ro/hero.webp"/>
+            <meta property="og:description" content={`Search result for category: "${category}" ` }/>
+            <title>{`"${category}" category search results - Astronomy blog`}</title>
+        </Helmet>
+        )}
             {!category && (
                 <DarkBackground>
                     <MainText color="red">Specify a category using category query parameter</MainText>

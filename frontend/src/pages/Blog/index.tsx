@@ -7,6 +7,7 @@ import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import React from "react";
+import { Helmet } from "react-helmet";
 
 const Blog = () => {
     const navigate = useNavigate();
@@ -94,6 +95,14 @@ const Blog = () => {
                 ))}
             {posts.status === "success" && posts.result && posts.result.results.length > 0 && (
                 <>
+                    <Helmet>   
+            <meta name="description" content={`Here you can find all the posts on this blog ` }/>
+            <meta property="og:title" content={`Blog - Astronomy blog`}/>
+            <meta property="og:url" content="http://blog.chirilovnarcis.ro/blog"/>
+            <meta property="og:image" content="https://blog.chirilovnarcis.ro/hero.webp"/>
+            <meta property="og:description" content={`Here you can find all the posts on this blog ` }/>
+            <title>{`Blog - Astronomy blog`}</title>
+        </Helmet>
                     <BlogComponent
                         data={posts.result.results}
                         currentPage={Number(query.get("page"))}
