@@ -7,13 +7,13 @@ import { Helmet } from "react-helmet";
 const NotFound = () => {
     return (
         <>
-        <Helmet>   
-            <meta name="description" content="Page not found on blog." />
-            <meta property="og:title" content="Not found"/>
-            <meta property="og:image" content="https://blog.chirilovnarcis.ro/hero.webp"/>
-            <meta property="og:description" content="Page not found on blog."/>
-            <title>Not found</title>
-        </Helmet>
+            <Helmet>
+                <meta name="description" content="Page not found on blog." />
+                <meta property="og:title" content="Not found" />
+                <meta property="og:image" content="https://blog.chirilovnarcis.ro/hero.webp" />
+                <meta property="og:description" content="Page not found on blog." />
+                <title>Not found</title>
+            </Helmet>
             <DarkBackground>
                 <MainText color={lightRed}>This page does not exist. Error 404.</MainText>
             </DarkBackground>

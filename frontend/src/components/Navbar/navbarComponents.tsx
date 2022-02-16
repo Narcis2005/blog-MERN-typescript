@@ -20,6 +20,10 @@ export const Nav = styled.nav<backgroundColor>`
     align-items: center;
     top: 0;
     z-index: 999;
+    @media (max-width: 960px) {
+        position: fixed;
+        width: 100%;
+    }
 `;
 export const NavbarLogo = styled.div`
     height: 100%;

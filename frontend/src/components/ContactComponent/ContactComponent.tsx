@@ -74,22 +74,31 @@ const ContactComponent = () => {
                         <FormInput type="text" required placeholder="Your name" name="name" onChange={handleChange} />
                     </InputLabelContainer>
                     <InputLabelContainer>
-                    <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Email</Label>
 
-                    <FormInput type="email" required placeholder="Your email" name="email" onChange={handleChange} />
+                        <FormInput
+                            type="email"
+                            required
+                            placeholder="Your email"
+                            name="email"
+                            onChange={handleChange}
+                        />
                     </InputLabelContainer>
 
                     <InputLabelContainer>
-                    <Label htmlFor="subject">Subject</Label>
+                        <Label htmlFor="subject">Subject</Label>
 
-                    <FormInput type="text" required placeholder="Subject" name="subject" onChange={handleChange} />
-                    
+                        <FormInput type="text" required placeholder="Subject" name="subject" onChange={handleChange} />
                     </InputLabelContainer>
                     <InputLabelContainer>
-                    <Label htmlFor="message">Message</Label>
+                        <Label htmlFor="message">Message</Label>
 
-                    <FormTextarea required placeholder="Message" name="message" onChange={handleChange}></FormTextarea>
-                    
+                        <FormTextarea
+                            required
+                            placeholder="Message"
+                            name="message"
+                            onChange={handleChange}
+                        ></FormTextarea>
                     </InputLabelContainer>
 
                     <InputLabelContainer></InputLabelContainer>

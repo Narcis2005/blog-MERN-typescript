@@ -41,9 +41,9 @@ const Profile: React.FC = () => {
     const previousImage = auth.result.imageURL;
     return (
         <>
-            <Helmet>   
-            <title>{profileData.username}</title>
-        </Helmet>
+            <Helmet>
+                <title>{profileData.username}</title>
+            </Helmet>
             <ProfileComponent
                 edit={edit}
                 setEdit={setEdit}

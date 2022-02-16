@@ -76,14 +76,16 @@ const GetPostsByTag = () => {
     };
     return (
         <>
-           { tag && <Helmet>   
-            <meta name="description" content={`Search result for tag: "${tag}" ` }/>
-            <meta property="og:title" content={`"${tag}" tag search results - Astronomy blog`}/>
-            <meta property="og:url" content="http://blog.chirilovnarcis.ro/blog/tag/:tag"/>
-            <meta property="og:image" content="https://blog.chirilovnarcis.ro/hero.webp"/>
-            <meta property="og:description" content={`Search result for tag: "${tag}" ` }/>
-            <title>{`"${tag}" tag search results - Astronomy blog`}</title>
-        </Helmet>}
+            {tag && (
+                <Helmet>
+                    <meta name="description" content={`Search result for tag: "${tag}" `} />
+                    <meta property="og:title" content={`"${tag}" tag search results - Astronomy blog`} />
+                    <meta property="og:url" content="http://blog.chirilovnarcis.ro/blog/tag/:tag" />
+                    <meta property="og:image" content="https://blog.chirilovnarcis.ro/hero.webp" />
+                    <meta property="og:description" content={`Search result for tag: "${tag}" `} />
+                    <title>{`"${tag}" tag search results - Astronomy blog`}</title>
+                </Helmet>
+            )}
             {!tag && (
                 <DarkBackground>
                     <MainText color="red">Specify a tag using tag query parameter</MainText>
