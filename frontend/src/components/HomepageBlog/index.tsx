@@ -22,7 +22,7 @@ const HomepageBlog = () => {
                     </Container>
                 </HomepageBlogContainer>
             )}
-            {reduxPosts.error && (
+            {reduxPosts.status === "failed" && (
                 <HomepageBlogContainer>
                     <Container>
                         <h1 style={{ color: "red" }}>An error appeard while loading posts</h1>
@@ -40,15 +40,8 @@ const HomepageBlog = () => {
             {reduxPosts.status === "success" && reduxPosts.result && (
                 <HomepageBlogContainer>
                     <CardsContainer>
-                        {reduxPosts.result.results.slice(0, 3).map((element, key) => (
-                            <BlogCard
-                                imageURL={element.imageURL}
-                                title={element.title}
-                                //To get only the first 10 words
-                                description={element.description}
-                                slug={element.slug}
-                                key={key}
-                            />
+                        {reduxPosts.result.results.map((element) => (
+                            <BlogCard {...element} key={element.id} />
                         ))}
                     </CardsContainer>
                 </HomepageBlogContainer>

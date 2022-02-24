@@ -2,7 +2,7 @@ import React from "react";
 import Hero from "../../components/Hero";
 import AboutAstronomy from "../../components/AboutAstronomy";
 import HomepageBlog from "../../components/HomepageBlog";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Homepage: React.FC = () => {
     return (

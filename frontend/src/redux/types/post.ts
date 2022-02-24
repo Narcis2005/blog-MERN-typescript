@@ -41,6 +41,7 @@ export interface shortPostInterface {
     description: string;
     slug: string;
     imageURL: string;
+    id: string;
 }
 export interface multiplePostsResponse {
     numberOfElements: number;

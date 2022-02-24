@@ -11,9 +11,9 @@ interface IPaginationButton {
 }
 export const PaginationButton = styled.button<IPaginationButton>`
     background: ${LightGray};
-    padding: 20px;
+    padding: 15px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 8px;
     border: ${({ isCurrentPage }) => (isCurrentPage ? `solid ${blue} 3px` : `solid ${DarkGray} 3px`)};
     &:hover {
         filter: brightness(80%);

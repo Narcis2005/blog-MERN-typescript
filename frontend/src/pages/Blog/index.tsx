@@ -7,7 +7,7 @@ import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Blog = () => {
     const navigate = useNavigate();

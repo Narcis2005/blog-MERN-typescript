@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import React, { useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FaTrash, FaEdit } from "react-icons/fa";
@@ -6,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../..";
 import { getPost } from "../../../redux/slices/post";
 import { IComment } from "../../../redux/types/post";
-import api from "../../../utils/api";
+import api, { ICall, IResult } from "../../../utils/api";
+import handleAxiosError from "../../../utils/handleAxiosError";
 import AddComment from "../AddComment";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
@@ -62,15 +62,7 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
         }
         return `Just now`;
     };
-    interface IResult {
-        message: string;
-    }
-    interface ICall {
-        status: "idle" | "loading" | "success" | "failed";
-        result: IResult | null;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        error: any;
-    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [call, setCall] = useState<ICall>({
         status: "idle",
@@ -92,16 +84,11 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                 setCall({ status: "success", error: null, result: result.data });
                 dispatch(getPost(slug));
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setCall({ status: "failed", result: null, error: err.response.data.message });
-                    return;
-                }
-                console.log(error);
-                setCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setCall({ status: "failed", result: null, error: err });
             });
     };
     const [reply, setReply] = useState(false);
@@ -122,16 +109,11 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                 setReply(false);
                 dispatch(getPost(slug));
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setReplyCall({ status: "failed", result: null, error: err.response.data.message });
-                    return;
-                }
-                console.log(error);
-                setReplyCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setReplyCall({ status: "failed", result: null, error: err });
             });
     };
     return (

@@ -136,3 +136,14 @@ export const ErrorMessage = styled.p`
     color: red;
     font-size: 1.125rem;
 `;
+export const AddCommentTextContainer = styled.div`
+    width: 80%;
+    padding: 2rem;
+`;
+export const AddCommentText = styled.p`
+    font-size: 2rem;
+    font-weight: bold;
+    @media (max-width: 960px) {
+        font-size: 1.5rem;
+    }
+`;

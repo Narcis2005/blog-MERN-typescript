@@ -12,9 +12,9 @@ import {
 import { WithContext as ReactTags } from "react-tag-input";
 import "./style.css";
 import api from "../../utils/api";
-import { AxiosError } from "axios";
 import { postInterface } from "../../redux/types/post";
 import { Link } from "react-router-dom";
+import handleAxiosError from "../../utils/handleAxiosError";
 const AddPostComponent = () => {
     interface ITag {
         id: string;
@@ -75,16 +75,11 @@ const AddPostComponent = () => {
             .then((res) => {
                 setAddPostCall({ status: "succesfull", result: res.data, error: null });
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setAddPostCall({ status: "failed", result: null, error: err.response.data.message });
-                    return;
-                }
-                console.log(error);
-                setAddPostCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setAddPostCall({ status: "failed", result: null, error: err });
             });
     };
     const handleDelete = (i: number) => {

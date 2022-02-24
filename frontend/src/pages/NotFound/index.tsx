@@ -2,7 +2,7 @@ import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import React from "react";
 import { lightRed } from "../../utils/colors";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const NotFound = () => {
     return (

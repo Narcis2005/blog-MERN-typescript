@@ -1,12 +1,12 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { createSearchParams, useLocation, useNavigate, useParams } from "react-router-dom";
 import GetPostsByCategoryComponent from "../../components/GetPostsByCategoryComponent";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import { shortPostInterface } from "../../redux/types/post";
 import api from "../../utils/api";
+import handleAxiosError from "../../utils/handleAxiosError";
 
 const GetPostsByCategory = () => {
     interface IData {
@@ -26,7 +26,7 @@ const GetPostsByCategory = () => {
     const query = new URLSearchParams(useLocation().search);
     const { category } = useParams();
     const [result, setResult] = useState<ICall>();
-
+    const [page, setPage] = useState<number>(1);
     useEffect(() => {
         if (category) {
             if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
@@ -35,25 +35,22 @@ const GetPostsByCategory = () => {
                         page: "1",
                     }).toString()}`,
                 });
+                setPage(page);
             }
 
-            api.get<IData>(
-                `/post/posts-by-category?category=${category}&page=${
-                    Number(query.get("page")) > 0 ? Number(query.get("page")) : 1
-                }&perPage=10`,
-            )
+            api.get<IData>(`/post/posts-by-category?category=${category}&page=${page}&perPage=10`)
                 .then((data) => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     setResult({ data: data.data, status: "success", error: null });
                 })
-                .catch((error) => {
-                    if (axios.isAxiosError(error)) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
-                    }
+                .catch((error: Error) => {
+                    const err = handleAxiosError(error);
+                    //handled by axios interceptor
+                    if (err === "return") return;
+                    setResult({ data: null, error: err, status: "failed" });
                 });
         }
-    }, []);
+    }, [page]);
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (category) {
@@ -62,17 +59,7 @@ const GetPostsByCategory = () => {
                     page: e.currentTarget.value,
                 }).toString()}`,
             });
-            api.get<IData>(`/post/posts-by-category?category=${category}&page=${e.currentTarget.value}&perPage=10`)
-                .then((data) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({ data: data.data, status: "success", error: null });
-                })
-                .catch((error) => {
-                    if (axios.isAxiosError(error)) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
-                    }
-                });
+            setPage(Number(e.currentTarget.value));
         }
     };
     return (
@@ -102,12 +89,12 @@ const GetPostsByCategory = () => {
                     <MainText color="red">Error appeard while posts were loading</MainText>
                 </DarkBackground>
             )}
-            {result?.data?.results.length === 0 && category && Number(query.get("page")) === 1 && (
+            {result?.data?.results.length === 0 && category && page === 1 && (
                 <DarkBackground>
                     <MainText color="red">No posts were found in category {category}</MainText>
                 </DarkBackground>
             )}
-            {result?.data?.results.length === 0 && category && Number(query.get("page")) > 1 && (
+            {result?.data?.results.length === 0 && category && page > 1 && (
                 <DarkBackground>
                     <MainText color="red">
                         There are no more posts on category {category}. The last page is {result.data.totalPages}
@@ -119,7 +106,7 @@ const GetPostsByCategory = () => {
                     category={category ? category : null}
                     data={result.data.results}
                     totalPages={result.data.totalPages}
-                    currentPage={Number(query.get("page"))}
+                    currentPage={page}
                     handleClick={handleClick}
                 />
             )}

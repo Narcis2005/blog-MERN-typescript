@@ -5,9 +5,9 @@ import { FormInput, Form, FormTextarea, FormTitle, MessageContainer, InputLabelC
 import { MainButton } from "../MainButton";
 import React from "react";
 import api from "../../utils/api";
-import { AxiosError } from "axios";
 import { green, red } from "../../utils/colors";
 import { Label } from "../ProfileComponent/ProfileComponents";
+import handleAxiosError from "../../utils/handleAxiosError";
 interface IResult {
     message: string;
     info?: any;
@@ -41,16 +41,11 @@ const ContactComponent = () => {
             .then((result) => {
                 setCall({ error: null, status: "success", result: result.data });
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setCall({ status: "failed", result: null, error: err.response.data.message });
-                    return;
-                }
-                console.log(error);
-                setCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setCall({ status: "failed", result: null, error: err });
             });
     };
     return (
@@ -100,8 +95,6 @@ const ContactComponent = () => {
                             onChange={handleChange}
                         ></FormTextarea>
                     </InputLabelContainer>
-
-                    <InputLabelContainer></InputLabelContainer>
 
                     <MainButton>Send</MainButton>
                 </Form>

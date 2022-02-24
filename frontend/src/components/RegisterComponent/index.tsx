@@ -7,7 +7,7 @@ import api from "../../utils/api";
 import { FormInput, Form, UnderFormText, FormTitle, MessageContainer, Message } from "../Form";
 import { MainButton } from "../MainButton";
 import React from "react";
-import { AxiosError } from "axios";
+import handleAxiosError from "../../utils/handleAxiosError";
 
 const RegisterComponent = () => {
     const [formData, setFormData] = useState({
@@ -32,15 +32,11 @@ const RegisterComponent = () => {
             .then((response) => {
                 setMessage({ error: false, message: response.data.message, loading: false });
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setMessage({ error: true, message: error.response.data.message, loading: false });
-                    return;
-                }
-                console.log(error);
-                setMessage({ error: true, message: "An unkown error appeard. Please contact us", loading: false });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setMessage({ error: true, message: err, loading: false });
             });
     };
     return (

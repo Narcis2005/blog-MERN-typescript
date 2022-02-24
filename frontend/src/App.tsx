@@ -14,69 +14,67 @@ const AddPost = React.lazy(() => import("./pages/AddPost"));
 const SpecifyTag = React.lazy(() => import("./pages/GetPostsByTag/SpecifyTag"));
 const SpecifyCategory = React.lazy(() => import("./pages/GetPostsByCategory/SpecifyCategory"));
 import { GlobalStyle } from "./globalStyles";
-import ScrollToTop from "./scrollToTop";
+import ScrollToTop from "./utils/scrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserByToken } from "./redux/slices/auth";
+import { useSelector } from "react-redux";
 import { RootState } from "./index";
 import Loading from "./components/Loading";
 import PrivateRoute from "./utils/PrivateRoute";
 import { NavBlack } from "./utils/colors";
 import SetAuthToken from "./utils/SetAuthToken";
-
+import CheckLoginStatus from "./utils/CheckLoginStatus";
+import { HelmetProvider } from "react-helmet-async";
 const App = () => {
-    const dispatch = useDispatch();
     const auth = useSelector((state: RootState) => state.auth);
-
+    //Every time the user state changes (logges in or out) the token will be added or deleted
     useEffect(() => {
         SetAuthToken();
     }, [auth]);
 
-    useEffect(() => {
-        dispatch(getUserByToken());
-    }, []);
-
     return (
-        <Router>
-            <ScrollToTop />
-            <GlobalStyle />
-            {auth.status === "success" && <Navbar background={NavBlack} image={auth.result?.imageURL} />}
-            {auth.status !== "success" && <Navbar background={NavBlack} />}
-            <React.Suspense fallback={<Loading />}>
-                <Routes>
-                    <Route path="/" element={<Homepage />} />
-                    <Route path="/blog" element={<Blog />} />
-                    <Route
-                        path="/blog/add"
-                        element={
-                            <PrivateRoute>
-                                <AddPost />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route path="/blog/tag" element={<SpecifyTag />} />
-                    <Route path="/blog/tag/:tag" element={<GetPostsByTag />} />
-                    <Route path="/blog/category" element={<SpecifyCategory />} />
-                    <Route path="/blog/category/:category" element={<GetPostsByCategory />} />
-                    <Route path="/blog/post/:slug" element={<BlogPost />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route
-                        path="/profile"
-                        element={
-                            <PrivateRoute>
-                                <Profile />
-                            </PrivateRoute>
-                        }
-                    />
+        <HelmetProvider>
+            <Router>
+                <ScrollToTop />
+                <GlobalStyle />
+                <CheckLoginStatus />
+                {auth.status === "success" && <Navbar background={NavBlack} image={auth.result?.imageURL} />}
+                {auth.status !== "success" && <Navbar background={NavBlack} />}
+                <React.Suspense fallback={<Loading />}>
+                    <Routes>
+                        <Route path="/" element={<Homepage />} />
+                        <Route path="/blog" element={<Blog />} />
+                        <Route
+                            path="/blog/add"
+                            element={
+                                <PrivateRoute>
+                                    <AddPost />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route path="/blog/tag" element={<SpecifyTag />} />
+                        <Route path="/blog/tag/:tag" element={<GetPostsByTag />} />
+                        <Route path="/blog/category" element={<SpecifyCategory />} />
+                        <Route path="/blog/category/:category" element={<GetPostsByCategory />} />
+                        <Route path="/blog/post/:slug" element={<BlogPost />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route
+                            path="/profile"
+                            element={
+                                <PrivateRoute>
+                                    <Profile />
+                                </PrivateRoute>
+                            }
+                        />
 
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </React.Suspense>
-            <Footer />
-        </Router>
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </React.Suspense>
+                <Footer />
+            </Router>
+        </HelmetProvider>
     );
 };
 

@@ -25,14 +25,8 @@ const GetPostsByTagComponent = ({
                 {tag && (
                     <>
                         <Title>Posts with tag: {tag}</Title>
-                        {data.map((element: shortPostInterface, key: number) => (
-                            <Post
-                                imageURL={element.imageURL}
-                                title={element.title}
-                                description={element.description}
-                                slug={element.slug}
-                                key={key}
-                            />
+                        {data.map((element: shortPostInterface) => (
+                            <Post {...element} key={element.id} />
                         ))}
                     </>
                 )}

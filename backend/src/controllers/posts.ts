@@ -41,6 +41,7 @@ export const Posts = (req: Request, res: Response) => {
                         title: newPost.title,
                         imageURL: newPost.imageURL,
                         slug: newPost.slug,
+                        id: newPost._id as string
                     };
                 });
                 const totalPages = Math.ceil(posts.length / Number(perPage));
@@ -118,6 +119,7 @@ export const GetPostsByTag = (req: Request, res: Response) => {
                     title: newPost.title,
                     imageURL: newPost.imageURL,
                     slug: newPost.slug,
+                    id: newPost._id as string
                 };
             });
             const totalPages = Math.ceil(posts.length / Number(perPage));
@@ -167,6 +169,7 @@ export const GetPostsByCategory = (req: Request, res: Response) => {
                     title: newPost.title,
                     imageURL: newPost.imageURL,
                     slug: newPost.slug,
+                    id: newPost._id as string
                 };
             });
             const totalPages = Math.ceil(posts.length / Number(perPage));

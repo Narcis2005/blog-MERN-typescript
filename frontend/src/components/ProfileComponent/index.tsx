@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AxiosError } from "axios";
+
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Iprofile } from "../../pages/Profile";
 import { getUserByToken, logoutUser } from "../../redux/slices/auth";
 import api from "../../utils/api";
+import handleAxiosError from "../../utils/handleAxiosError";
 import { Message, MessageContainer } from "../Form";
 import {
     BasicText,
@@ -44,16 +45,11 @@ const ProfileComponent = ({ edit, setEdit, profileData, setProfileData, previous
                     setEdit(false);
                 }
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                    setApiError(error.response.data.message);
-                    return;
-                }
-                console.log(error);
-                setApiError("An unkown error appeard. Please contact us");
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setApiError(err);
             });
     };
     return (

@@ -7,7 +7,7 @@ import { getPost } from "../../redux/slices/post";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const BlogPost: React.FC = () => {
     const { slug } = useParams();
@@ -27,22 +27,17 @@ const BlogPost: React.FC = () => {
                     <MainText color="white">Post is loading</MainText>
                 </DarkBackground>
             )}
-            {post.status === "failed" && !post.error && (
+            {post.status === "failed" && !post.error.message && (
                 <DarkBackground>
                     <MainText color="red">An error appeard</MainText>
                 </DarkBackground>
             )}
-            {post.error && !post.error.message && (
-                <DarkBackground>
-                    <MainText color="red">An error appeard</MainText>
-                </DarkBackground>
-            )}
-            {post.error && post.error.message && (
+            {post.status === "failed" && post.error.message && (
                 <DarkBackground>
                     <MainText color="red">{post.error.message}</MainText>
                 </DarkBackground>
             )}
-            {!post.result && post.status !== "loading" && !post.error && (
+            {!post.result && post.status === "success" && (
                 <DarkBackground>
                     <MainText color="red">Post is empty</MainText>
                 </DarkBackground>

@@ -7,7 +7,15 @@ const api = axios.create({
         "Content-Type": "application/json",
     },
 });
-
+export interface IResult {
+    message: string;
+}
+export interface ICall {
+    status: "success" | "failed" | "idle" | "loading";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    error: any;
+    result: IResult | null;
+}
 api.interceptors.response.use(
     (res) => res,
     (err) => {

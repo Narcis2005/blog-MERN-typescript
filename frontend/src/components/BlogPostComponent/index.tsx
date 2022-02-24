@@ -26,16 +26,18 @@ import {
     SubmitPost,
     FormContent,
     ErrorMessage,
+    AddCommentTextContainer,
+    AddCommentText,
 } from "./BlogPostComponents";
 import Comment from "./Comment";
 import React, { useState } from "react";
 import AddComment from "./AddComment";
-import api from "../../utils/api";
-import { AxiosError } from "axios";
+import api, { ICall, IResult } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost } from "../../redux/slices/post";
 import { RootState } from "../..";
 import { useNavigate } from "react-router-dom";
+import handleAxiosError from "../../utils/handleAxiosError";
 
 const BlogPostComponent: React.FC<postInterface> = ({
     imageURL,
@@ -50,15 +52,7 @@ const BlogPostComponent: React.FC<postInterface> = ({
     slug,
 }) => {
     const navigate = useNavigate();
-    interface IResult {
-        message: string;
-    }
-    interface ICall {
-        status: "success" | "failed" | "idle" | "loading";
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        error: any;
-        result: IResult | null;
-    }
+
     const [addCommentValue, setAddCommentValue] = useState("");
     const [call, setCall] = useState<ICall>({ status: "idle", error: null, result: null });
     const setValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -74,16 +68,11 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 setCall({ status: "success", result: result.data, error: null });
                 dispatch(getPost(slug));
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setCall({ status: "failed", result: null, error: err.response.data.message });
-                    return;
-                }
-                console.log(error);
-                setCall({ status: "failed", result: null, error: "An unkown error appeard. Please contact us" });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setCall({ status: "failed", result: null, error: err });
             });
     };
     const handleDeletePost = (e: React.MouseEvent) => {
@@ -116,20 +105,11 @@ const BlogPostComponent: React.FC<postInterface> = ({
                 setEditMode(false);
                 dispatch(getPost(slug));
             })
-            .catch((error) => {
-                const err = error as AxiosError;
-                if (err.response) {
-                    if (err.response.data.message === "The session ended. Please reconnect") return;
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setUpdatePostCall({ status: "failed", result: null, error: err.response.data.message });
-                    return;
-                }
-                console.log(error);
-                setUpdatePostCall({
-                    status: "failed",
-                    result: null,
-                    error: "An unkown error appeard. Please contact us",
-                });
+            .catch((error: Error) => {
+                const err = handleAxiosError(error);
+                //handled by axios interceptor
+                if (err === "return") return;
+                setUpdatePostCall({ status: "failed", result: null, error: err });
             });
     };
     return (
@@ -186,6 +166,11 @@ const BlogPostComponent: React.FC<postInterface> = ({
             </TextContainer>
 
             <CommentsContainer>
+                {auth.status === "failed" && (
+                    <AddCommentTextContainer>
+                        <AddCommentText>Please login in order to leave a comment</AddCommentText>
+                    </AddCommentTextContainer>
+                )}
                 {auth.status === "success" && (
                     <AddComment
                         setValue={setValue}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import LoginComponent from "../../components/LoginComponent";
 
 const Login: React.FC = () => {

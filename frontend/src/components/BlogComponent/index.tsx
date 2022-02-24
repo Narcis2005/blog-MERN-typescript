@@ -28,14 +28,8 @@ const BlogComponent = ({
             <BlogContainer>
                 <Title>Blog Posts</Title>
                 <SearchBox handleSubmit={handleSubmit} handleChange={handleChange} value={search} />
-                {data.map((element: shortPostInterface, key: number) => (
-                    <Post
-                        imageURL={element.imageURL}
-                        title={element.title}
-                        description={element.description}
-                        slug={element.slug}
-                        key={key}
-                    />
+                {data.map((element: shortPostInterface) => (
+                    <Post {...element} key={element.id} />
                 ))}
                 <Pagination currentPage={currentPage} handleClick={handleClick} totalPages={totalPages} />
             </BlogContainer>

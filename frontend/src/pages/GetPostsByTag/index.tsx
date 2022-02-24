@@ -1,12 +1,12 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { createSearchParams, useLocation, useNavigate, useParams } from "react-router-dom";
 import GetPostsByTagComponent from "../../components/GetPostsByTagComponent";
 import { DarkBackground } from "../../containers/DarkBackground";
 import { MainText } from "../../globalStyles";
 import { shortPostInterface } from "../../redux/types/post";
 import api from "../../utils/api";
+import handleAxiosError from "../../utils/handleAxiosError";
 
 const GetPostsByTag = () => {
     interface IData {
@@ -26,6 +26,7 @@ const GetPostsByTag = () => {
     const query = new URLSearchParams(useLocation().search);
     const { tag } = useParams();
     const [result, setResult] = useState<ICall>();
+    const [page, setPage] = useState<number>(1);
     useEffect(() => {
         if (tag) {
             if (!query.get("page") || isNaN(Number(query.get("page"))) || Number(query.get("page")) < 1) {
@@ -34,25 +35,23 @@ const GetPostsByTag = () => {
                         page: "1",
                     }).toString()}`,
                 });
+                setPage(1);
             }
 
-            api.get<IData>(
-                `/post/posts-by-tag?tag=${tag}&page=${
-                    Number(query.get("page")) > 0 ? Number(query.get("page")) : 1
-                }&perPage=10`,
-            )
+            api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${page}&perPage=10`)
                 .then((data) => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     setResult({ data: data.data, status: "success", error: null });
                 })
-                .catch((error) => {
-                    if (axios.isAxiosError(error)) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
-                    }
+                .catch((error: Error) => {
+                    const err = handleAxiosError(error);
+                    //handled by axios interceptor
+                    if (err === "return") return;
+                    setResult({ data: null, error: err, status: "failed" });
                 });
         }
-    }, []);
+    }, [page]);
+
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (tag) {
@@ -61,17 +60,7 @@ const GetPostsByTag = () => {
                     page: e.currentTarget.value,
                 }).toString()}`,
             });
-            api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${e.currentTarget.value}&perPage=10`)
-                .then((data) => {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    setResult({ data: data.data, status: "success", error: null });
-                })
-                .catch((error) => {
-                    if (axios.isAxiosError(error)) {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        setResult({ data: null, error: error.response?.data.message, status: "failed" });
-                    }
-                });
+            setPage(Number(e.currentTarget.value));
         }
     };
     return (
@@ -101,12 +90,12 @@ const GetPostsByTag = () => {
                     <MainText color="red">Error appeard while posts were loading</MainText>
                 </DarkBackground>
             )}
-            {result?.data?.results.length === 0 && tag && Number(query.get("page")) === 1 && (
+            {result?.data?.results.length === 0 && tag && page === 1 && (
                 <DarkBackground>
                     <MainText color="red">No posts were found with tag {tag}</MainText>
                 </DarkBackground>
             )}
-            {result?.data?.results.length === 0 && tag && Number(query.get("page")) > 1 && (
+            {result?.data?.results.length === 0 && tag && page > 1 && (
                 <DarkBackground>
                     <MainText color="red">
                         There are no more posts with tag {tag}. The last page is {result.data.totalPages}
@@ -118,7 +107,7 @@ const GetPostsByTag = () => {
                     tag={tag ? tag : null}
                     data={result.data.results}
                     totalPages={result.data.totalPages}
-                    currentPage={Number(query.get("page"))}
+                    currentPage={page}
                     handleClick={handleClick}
                 />
             )}

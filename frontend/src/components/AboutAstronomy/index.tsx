@@ -20,7 +20,7 @@ const AboutAstronomy = () => {
                     </AboutAstronomyText>
                 </TextContainer>
                 <IllustrationContainer>
-                    <Illustration src="images/what-is-astronomy-illustration.svg" />
+                    <Illustration src="images/what-is-astronomy-illustration.svg" alt="rocket illustration" />
                 </IllustrationContainer>
             </AboutAstronomyContainer>
         </>
