@@ -56,7 +56,7 @@ const ProfileComponent = ({ edit, setEdit, profileData, setProfileData, previous
         <>
             <ProfileContainer>
                 <ImageContainer>
-                    <Img src={previousImage} />
+                    <Img src={previousImage} alt={`Profile image of user ${profileData.username}`}/>
                 </ImageContainer>
                 {!edit && (
                     <>

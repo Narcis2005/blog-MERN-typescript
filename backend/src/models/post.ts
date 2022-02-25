@@ -3,7 +3,7 @@ import commentSchema, { IComment } from "./comment";
 
 //Post schema
 
-interface IPost extends mongoose.Document {
+export interface IPost extends mongoose.Document {
     title: string;
     description: string;
     content: string;
@@ -52,8 +52,7 @@ const postSchema = new mongoose.Schema<IPost>({
     },
     createdBy: {
         type: mongoose.Types.ObjectId,
-        ref: "User"
-
+        ref: "User",
     },
     comments: [commentSchema],
 });

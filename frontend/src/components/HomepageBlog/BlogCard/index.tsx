@@ -17,7 +17,7 @@ const BlogCard: React.FC<shortPostInterface> = ({ imageURL, title, description, 
     return (
         <CardContainer>
             <ImgContainer>
-                <Img src={imageURL} />
+                <Img src={imageURL} alt={`Image for ${title} post`}/>
             </ImgContainer>
             <TextContainer>
                 <TitleContainer>

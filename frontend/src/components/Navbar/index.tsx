@@ -23,7 +23,7 @@ const Navbar = ({ background, image }: { background?: string; image?: string }) 
             <NavContainer>
                 <Link to="/">
                     <NavbarLogo>
-                        <LogoImg src="/images/logo.svg" />
+                        <LogoImg src="/images/logo.svg" alt="astronomy logo"/>
                     </NavbarLogo>
                 </Link>
                 <NavbarLinks onClick={() => setClick(false)} click={click}>
@@ -45,7 +45,7 @@ const Navbar = ({ background, image }: { background?: string; image?: string }) 
                         <>
                             <Link to="/profile">
                                 <ProfileImageContainer>
-                                    <ProfileImage src={image} />
+                                    <ProfileImage src={image} alt="Profile Image"/>
                                 </ProfileImageContainer>
                             </Link>
                             <Link to="/blog/add">

@@ -18,11 +18,8 @@ const commentSchema = new mongoose.Schema<IComment>({
         required: true,
     },
     createdBy: {
-         
-            type: mongoose.Types.ObjectId,
-            ref: "User"
-        
-
+        type: mongoose.Types.ObjectId,
+        ref: "User",
     },
     replies: [
         {
@@ -37,7 +34,7 @@ const commentSchema = new mongoose.Schema<IComment>({
             },
             createdBy: {
                 type: mongoose.Types.ObjectId,
-                 ref: "User"
+                ref: "User",
             },
         },
     ],

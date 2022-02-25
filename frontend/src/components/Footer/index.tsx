@@ -16,7 +16,7 @@ const Footer = () => {
         <FooterContainer>
             <Link to="/">
                 <Logo>
-                    <LogoImage src="/images/logo.svg" />
+                    <LogoImage src="/images/logo.svg" alt="Astronomy logo" />
                 </Logo>
             </Link>
             <FooterNav>

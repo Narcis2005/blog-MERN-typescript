@@ -1,64 +1,70 @@
 import { Request, Response } from "express";
 import { IGetUserAuthInfoRequest } from "../middleware/tokenCheck";
-import Post from "../models/post";
+import Post, { IPost } from "../models/post";
 import isURL from "../utils/isURL";
 import { Comment } from "../models/comment";
+const PaginatePosts = ({ posts, page, perPage }: { posts: IPost[]; page: number; perPage: number }): IPost[] => {
+    return posts.slice(page * perPage - perPage, page * perPage);
+};
+const SlicePosts = ({ posts }: { posts: IPost[] }) => {
+    return posts.map((newPost) => {
+        return {
+            description: newPost.description,
+            title: newPost.title,
+            imageURL: newPost.imageURL,
+            slug: newPost.slug,
+            id: newPost._id as string,
+        };
+    });
+};
 export const Posts = (req: Request, res: Response) => {
     const page = req.query.page as string;
     const perPage = req.query.perPage as string;
     const search = req.query.search as string;
-    if (page && perPage) {
-        Post.find({
-            ...(search && {
-                $or: [
-                    {
-                        content: {
-                            $regex: search,
-                            $options: "i",
-                        },
-                    },
-                    {
-                        title: {
-                            $regex: search,
-                            $options: "i",
-                        },
-                    },
-                ],
-            }),
-        })
-            .sort("-createdAt")
-            
-            .then((posts) => {
-                //Alghoritm to send data based on page and perPage params
-                const slicedData = posts.slice(
-                    Number(page) * Number(perPage) - Number(perPage),
-                    Number(page) * Number(perPage),
-                );
-                //Sending only some parts of the post to be efficient
-                const newData = slicedData.map((newPost) => {
-                    return {
-                        description: newPost.description,
-                        title: newPost.title,
-                        imageURL: newPost.imageURL,
-                        slug: newPost.slug,
-                        id: newPost._id as string
-                    };
-                });
-                const totalPages = Math.ceil(posts.length / Number(perPage));
-                res.send({
-                    totalPages: totalPages,
-                    page: parseInt(page),
-                    numberOfElements: posts.length,
-                    perPage: parseInt(perPage),
-                    results: newData,
-                });
-                return;
-            })
-            .catch((error) => {
-                res.status(500).send(error);
-                console.log(error);
-            });
+    if (!page || !perPage) {
+        res.status(401).send({
+            message: "Please specify the page and perPage parameters",
+        });
     }
+
+    Post.find({
+        // If search param exists, make a partial text search in content and title fields
+        ...(search && {
+            $or: [
+                {
+                    content: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+                {
+                    title: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+            ],
+        }),
+    })
+        .sort("-createdAt")
+
+        .then((posts) => {
+            const PaginatedPosts = PaginatePosts({ posts, page: Number(page), perPage: Number(perPage) });
+            const PaginatedAndSlicedPosts = SlicePosts({ posts: PaginatedPosts });
+            const totalPages = Math.ceil(posts.length / Number(perPage));
+            res.send({
+                totalPages: totalPages,
+                page: parseInt(page),
+                numberOfElements: posts.length,
+                perPage: parseInt(perPage),
+                results: PaginatedAndSlicedPosts,
+            });
+            return;
+        })
+        .catch((error) => {
+            res.status(500).send(error);
+            console.log(error);
+        });
 };
 
 export const PostBySlug = (req: Request, res: Response) => {
@@ -69,9 +75,9 @@ export const PostBySlug = (req: Request, res: Response) => {
         });
     }
     Post.findOne({ slug: slug })
-        .populate({path: "createdBy" , select:["username"]})
-        .populate({path: "comments.createdBy", select:["username", "imageURL"]})
-        .populate({path: "comments.replies.createdBy", select:["username", "imageURL"]})
+        .populate({ path: "createdBy", select: ["username"] })
+        .populate({ path: "comments.createdBy", select: ["username", "imageURL"] })
+        .populate({ path: "comments.replies.createdBy", select: ["username", "imageURL"] })
         .then((post) => {
             if (!post) {
                 res.status(404).send({
@@ -107,28 +113,15 @@ export const GetPostsByTag = (req: Request, res: Response) => {
     Post.find({ tags: tag })
         .sort("-createdAt")
         .then((posts) => {
-            //Alghoritm to send data based on page and perPage params
-            const slicedData = posts.slice(
-                Number(page) * Number(perPage) - Number(perPage),
-                Number(page) * Number(perPage),
-            );
-            //Sending only some parts of the post to be efficient
-            const newData = slicedData.map((newPost) => {
-                return {
-                    description: newPost.description,
-                    title: newPost.title,
-                    imageURL: newPost.imageURL,
-                    slug: newPost.slug,
-                    id: newPost._id as string
-                };
-            });
+            const PaginatedPosts = PaginatePosts({ posts, page: Number(page), perPage: Number(perPage) });
+            const PaginatedAndSlicedPosts = SlicePosts({ posts: PaginatedPosts });
             const totalPages = Math.ceil(posts.length / Number(perPage));
             res.send({
                 totalPages: totalPages,
                 page: parseInt(page),
                 numberOfElements: posts.length,
                 perPage: parseInt(perPage),
-                results: newData,
+                results: PaginatedAndSlicedPosts,
             });
             return;
         })
@@ -157,28 +150,15 @@ export const GetPostsByCategory = (req: Request, res: Response) => {
     Post.find({ category: category })
         .sort("-createdAt")
         .then((posts) => {
-            //Alghoritm to send data based on page and perPage params
-            const slicedData = posts.slice(
-                Number(page) * Number(perPage) - Number(perPage),
-                Number(page) * Number(perPage),
-            );
-            //Sending only some parts of the post to be efficient
-            const newData = slicedData.map((newPost) => {
-                return {
-                    description: newPost.description,
-                    title: newPost.title,
-                    imageURL: newPost.imageURL,
-                    slug: newPost.slug,
-                    id: newPost._id as string
-                };
-            });
+            const PaginatedPosts = PaginatePosts({ posts, page: Number(page), perPage: Number(perPage) });
+            const PaginatedAndSlicedPosts = SlicePosts({ posts: PaginatedPosts });
             const totalPages = Math.ceil(posts.length / Number(perPage));
             res.send({
                 totalPages: totalPages,
                 page: parseInt(page),
                 numberOfElements: posts.length,
                 perPage: parseInt(perPage),
-                results: newData,
+                results: PaginatedAndSlicedPosts,
             });
             return;
         })
