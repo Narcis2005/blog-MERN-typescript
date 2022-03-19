@@ -37,7 +37,7 @@ const GetPostsByTag = () => {
                 });
                 setPage(1);
             }
-
+            setResult({ status: "loading", error: null, data: null });
             api.get<IData>(`/post/posts-by-tag?tag=${tag}&page=${page}&perPage=10`)
                 .then((data) => {
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

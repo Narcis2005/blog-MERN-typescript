@@ -115,7 +115,7 @@ const BlogPostComponent: React.FC<postInterface> = ({
     return (
         <BlogPostComponentContainer>
             <ImageContainer>
-                <Img src={imageURL} alt={title}/>
+                <Img src={imageURL} alt={title} />
             </ImageContainer>
 
             <TextContainer>

@@ -37,6 +37,7 @@ const GetPostsByCategory = () => {
                 });
                 setPage(page);
             }
+            setResult({ status: "loading", error: null, data: null });
 
             api.get<IData>(`/post/posts-by-category?category=${category}&page=${page}&perPage=10`)
                 .then((data) => {
