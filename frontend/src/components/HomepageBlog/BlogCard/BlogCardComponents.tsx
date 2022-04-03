@@ -35,14 +35,15 @@ export const TextContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
     padding: 10px;
+    height: 35%;
     width: 100%;
 `;
 
 export const TitleContainer = styled.div`
     margin: 20px;
+    height: 30%;
 `;
 
 export const Title = styled.h3`
