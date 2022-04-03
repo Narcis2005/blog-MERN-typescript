@@ -3,7 +3,7 @@ import { DarkGray } from "../../../utils/colors";
 import { MainButton } from "../../MainButton";
 
 export const CardContainer = styled.div`
-    height: 430px;
+    height: 500px;
     /* width: 400px; */
     width: 30%;
     background-color: ${DarkGray};
@@ -22,7 +22,7 @@ export const CardContainer = styled.div`
 `;
 
 export const ImgContainer = styled.div`
-    height: 50%;
+    height: 40%;
     width: 100%;
 `;
 export const Img = styled.img`
@@ -46,7 +46,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.h3`
-    font-size: 1.5rem;
+    font-size: 1.35rem;
 `;
 
 export const DescriptionContainer = styled.div`

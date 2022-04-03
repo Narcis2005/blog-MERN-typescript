@@ -201,8 +201,8 @@ export const AddPost = (req: IGetUserAuthInfoRequest, res: Response) => {
         res.status(401).send({ message: "Image URL is not a valid URL" });
         return;
     }
-    if (content.length < 15 || content.length > 1000) {
-        res.status(401).send({ message: "Content length should be between 15 and 1000 characters" });
+    if (content.length < 15 || content.length > 30000) {
+        res.status(401).send({ message: "Content length should be between 15 and 30000 characters" });
         return;
     }
     if (tags.length < 1 || tags.length > 6) {
