@@ -31,7 +31,7 @@ const BlogCard: React.FC<shortPostInterface> = ({ imageURL, title, description, 
                 </DescriptionContainer>
             </TextContainer>
             <Link to={`/blog/post/${slug}`}>
-                <ButtonCard>Read More</ButtonCard>
+                <ButtonCard>Continue reading</ButtonCard>
             </Link>
         </CardContainer>
     );

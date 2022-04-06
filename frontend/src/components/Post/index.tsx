@@ -36,7 +36,7 @@ export const Post = ({ imageURL, title, description, slug }: shortPostInterface)
                         </Description>
                     </DescriptionContainer>
                     <Link to={`/blog/post/${slug}`}>
-                        <Button>Read More</Button>
+                        <Button>Continue reading</Button>
                     </Link>
                 </TextContainer>
             </PostContainer>
