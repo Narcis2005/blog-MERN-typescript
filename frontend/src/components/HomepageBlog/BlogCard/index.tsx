@@ -16,13 +16,12 @@ import {
 const BlogCard: React.FC<shortPostInterface> = ({ imageURL, title, description, slug }) => {
     return (
         <CardContainer>
-                <ImgContainer>
-            <Link to={`/blog/post/${slug}`}>
+            <ImgContainer>
+                <Link to={`/blog/post/${slug}`}>
+                    <Img src={imageURL} alt={`Image for ${title} post`} width="360" height="200" />
+                </Link>
+            </ImgContainer>
 
-                    <Img src={imageURL} alt={`Image for ${title} post`} />
-                    </Link>
-                </ImgContainer>
-            
             <TextContainer>
                 <TitleContainer>
                     <Title>{title}</Title>

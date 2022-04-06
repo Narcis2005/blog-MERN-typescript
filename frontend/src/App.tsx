@@ -17,27 +17,30 @@ import { GlobalStyle } from "./globalStyles";
 import ScrollToTop from "./utils/scrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./index";
 import Loading from "./components/Loading";
 import PrivateRoute from "./utils/PrivateRoute";
 import { NavBlack } from "./utils/colors";
 import SetAuthToken from "./utils/SetAuthToken";
-import CheckLoginStatus from "./utils/CheckLoginStatus";
 import { HelmetProvider } from "react-helmet-async";
+import { getUserByToken } from "./redux/slices/auth";
 const App = () => {
     const auth = useSelector((state: RootState) => state.auth);
+    const dispatch = useDispatch();
     //Every time the user state changes (logges in or out) the token will be added or deleted
     useEffect(() => {
         SetAuthToken();
     }, [auth]);
-
+    useEffect(() => {
+        dispatch(getUserByToken());
+    }, []);
     return (
         <HelmetProvider>
             <Router>
                 <ScrollToTop />
                 <GlobalStyle />
-                <CheckLoginStatus />
+
                 {auth.status === "success" && <Navbar background={NavBlack} image={auth.result?.imageURL} />}
                 {auth.status !== "success" && <Navbar background={NavBlack} />}
                 <React.Suspense fallback={<Loading />}>

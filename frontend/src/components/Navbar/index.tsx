@@ -12,6 +12,7 @@ import {
     ProfileImage,
     ProfileImageContainer,
     AddPostButton,
+    NewLink,
 } from "./navbarComponents";
 import { FaTimes, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -23,7 +24,7 @@ const Navbar = ({ background, image }: { background?: string; image?: string }) 
             <NavContainer>
                 <Link to="/">
                     <NavbarLogo>
-                        <LogoImg src="/images/logo.svg" alt="astronomy logo" />
+                        <LogoImg src="/images/logo.svg" alt="astronomy logo" height="25" width="160" />
                     </NavbarLogo>
                 </Link>
                 <NavbarLinks onClick={() => setClick(false)} click={click}>
@@ -37,20 +38,27 @@ const Navbar = ({ background, image }: { background?: string; image?: string }) 
                         <NavLink to="/contact">Contact</NavLink>
                     </NavItem>
                     {!image && (
-                        <Link to="/login">
-                            <LoginButton>Login</LoginButton>
-                        </Link>
+                        <NavItem>
+                            <NewLink to="/login">
+                                <LoginButton>Login</LoginButton>
+                            </NewLink>
+                        </NavItem>
                     )}
                     {image && (
                         <>
-                            <Link to="/profile">
-                                <ProfileImageContainer>
-                                    <ProfileImage src={image} alt="Profile Image" />
-                                </ProfileImageContainer>
-                            </Link>
-                            <Link to="/blog/add">
-                                <AddPostButton>Add Post</AddPostButton>
-                            </Link>
+                            <NavItem>
+                                <NewLink to="/profile">
+                                    <ProfileImageContainer>
+                                        <ProfileImage src={image} alt="Profile Image" height="45" width="45" />
+                                    </ProfileImageContainer>
+                                </NewLink>
+                            </NavItem>
+
+                            <NavItem>
+                                <NewLink to="/blog/add">
+                                    <AddPostButton>Add Post</AddPostButton>
+                                </NewLink>
+                            </NavItem>
                         </>
                     )}
                 </NavbarLinks>

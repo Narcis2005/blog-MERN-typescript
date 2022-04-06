@@ -122,7 +122,12 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                 <CommentContainer>
                     <LeftSideContainer>
                         <ImageContainer>
-                            <CommentImage src={createdBy.imageURL} alt={`Profile image of ${createdBy.username}`} />
+                            <CommentImage
+                                src={createdBy.imageURL}
+                                alt={`Profile image of ${createdBy.username}`}
+                                width="90"
+                                height="90"
+                            />
                         </ImageContainer>
                     </LeftSideContainer>
                     <RightSideComment>
@@ -176,6 +181,8 @@ const Comment = ({ createdAt, createdBy, content, replies, _id, slug, postId }: 
                                 <CommentImage
                                     src={reply.createdBy.imageURL}
                                     alt={`Profile image of ${reply.createdBy.username}`}
+                                    width="90"
+                                    height="90"
                                 />
                             </ImageContainer>
                         </LeftSideContainer>

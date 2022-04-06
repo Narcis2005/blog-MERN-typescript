@@ -3,7 +3,7 @@ import { DarkGray } from "../../../utils/colors";
 import { MainButton } from "../../MainButton";
 
 export const CardContainer = styled.div`
-    height: 500px;
+    height: 480px;
     /* width: 400px; */
     width: 30%;
     background-color: ${DarkGray};

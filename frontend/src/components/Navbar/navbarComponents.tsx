@@ -122,7 +122,11 @@ export const NavLink = styled(Link)`
         font-size: 1.3rem;
     }
 `;
-
+export const NewLink = styled(NavLink)`
+    &:after {
+        height: 0;
+    }
+`;
 export const LoginButton = styled(MainButton)`
     height: 40px;
     padding: 10px 20px;
@@ -137,8 +141,6 @@ export const LoginButton = styled(MainButton)`
 export const ProfileImageContainer = styled.div`
     width: 45px;
     height: 45px;
-    /* margin-left: 1rem; */
-    margin: 20px;
 `;
 export const ProfileImage = styled.img`
     width: 100%;
@@ -149,5 +151,4 @@ export const ProfileImage = styled.img`
 export const AddPostButton = styled(MainButton)`
     padding: 10px 20px;
     margin-top: 0;
-    margin-left: 1rem;
 `;

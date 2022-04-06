@@ -20,7 +20,7 @@ export const Post = ({ imageURL, title, description, slug }: shortPostInterface)
             <PostContainer>
                 <ImgContainer>
                     <Link to={`/blog/post/${slug}`}>
-                        <Img src={imageURL} alt={`Image of post ${title}`} />
+                        <Img src={imageURL} alt={`Image of post ${title}`} width="340" height="250" />
                     </Link>
                 </ImgContainer>
                 <TextContainer>

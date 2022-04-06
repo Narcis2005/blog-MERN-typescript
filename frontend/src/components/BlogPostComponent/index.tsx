@@ -36,7 +36,7 @@ import api, { ICall, IResult } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { getPost } from "../../redux/slices/post";
 import { RootState } from "../..";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import handleAxiosError from "../../utils/handleAxiosError";
 
 const BlogPostComponent: React.FC<postInterface> = ({
@@ -115,7 +115,7 @@ const BlogPostComponent: React.FC<postInterface> = ({
     return (
         <BlogPostComponentContainer>
             <ImageContainer>
-                <Img src={imageURL} alt={title} />
+                <Img src={imageURL} alt={title} height="400" width="1500" />
             </ImageContainer>
 
             <TextContainer>
@@ -168,7 +168,10 @@ const BlogPostComponent: React.FC<postInterface> = ({
             <CommentsContainer>
                 {auth.status === "failed" && (
                     <AddCommentTextContainer>
-                        <AddCommentText>Please login in order to leave a comment</AddCommentText>
+                        <AddCommentText>
+                            Please <Link to="/login">login</Link> or <Link to="/register">register</Link> in order to
+                            leave a comment
+                        </AddCommentText>
                     </AddCommentTextContainer>
                 )}
                 {auth.status === "success" && (
