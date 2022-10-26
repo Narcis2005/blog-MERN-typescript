@@ -24,6 +24,9 @@ export const CardContainer = styled.div`
 export const ImgContainer = styled.div`
     height: 40%;
     width: 100%;
+    @media (max-width: 960px) {
+        height: 30%;
+    }
 `;
 export const Img = styled.img`
     height: 100%;
@@ -39,6 +42,9 @@ export const TextContainer = styled.div`
     padding: 10px;
     height: 35%;
     width: 100%;
+    @media (max-width: 960px) {
+        height: 45%;
+    }
 `;
 
 export const TitleContainer = styled.div`

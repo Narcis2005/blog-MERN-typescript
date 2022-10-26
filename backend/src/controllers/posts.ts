@@ -47,7 +47,6 @@ export const Posts = (req: Request, res: Response) => {
         }),
     })
         .sort("-createdAt")
-
         .then((posts) => {
             const PaginatedPosts = PaginatePosts({ posts, page: Number(page), perPage: Number(perPage) });
             const PaginatedAndSlicedPosts = SlicePosts({ posts: PaginatedPosts });

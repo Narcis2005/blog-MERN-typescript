@@ -41,4 +41,5 @@ export const IllustrationContainer = styled.div`
 export const Illustration = styled.img`
     margin-left: 10%;
     width: 80%;
+    height: 80%;
 `;
