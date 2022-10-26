@@ -49,7 +49,6 @@ export const TextContainer = styled.div`
 
 export const TitleContainer = styled.div`
     margin: 20px;
-    height: 30%;
 `;
 
 export const Title = styled.h3`
@@ -67,4 +66,11 @@ export const ButtonCard = styled(MainButton)`
     font-size: 1.3rem;
     font-weight: 700;
     padding: 10px 20px;
+    @media (max-width: 960px) {
+        font-size: 1.1rem;
+        padding: 10px 15px;
+    }
+`;
+export const ButtonContainer = styled.div`
+margin-top: 10px;
 `;

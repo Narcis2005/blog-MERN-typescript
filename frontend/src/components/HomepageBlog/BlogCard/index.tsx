@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { shortPostInterface } from "../../../redux/types/post";
 import {
     ButtonCard,
+    ButtonContainer,
     CardContainer,
     Description,
     DescriptionContainer,
@@ -30,9 +31,11 @@ const BlogCard: React.FC<shortPostInterface> = ({ imageURL, title, description, 
                     <Description>{description}</Description>
                 </DescriptionContainer>
             </TextContainer>
+            <ButtonContainer>
             <Link to={`/blog/post/${slug}`}>
                 <ButtonCard>Continue reading</ButtonCard>
             </Link>
+            </ButtonContainer>
         </CardContainer>
     );
 };
