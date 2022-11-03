@@ -32,8 +32,7 @@ const Footer = () => {
             </FooterNav>
             <FooterQuote>
                 <Quote>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae architecto dolore, ea aliquid nam
-                    dignissimos?
+                Across the sea of space, the stars are other suns.
                 </Quote>
             </FooterQuote>
         </FooterContainer>

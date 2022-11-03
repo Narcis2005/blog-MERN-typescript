@@ -11,8 +11,7 @@ const Hero: React.FC = () => {
                 </MainTitle>
                 <SecondayText>
                     <Text>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem cupiditate saepe similique mollitia
-                        magnam qui.
+                    &quot;Man must rise above the Earth, to the top of the atmosphere and beyond, for only thus will he fully understand the world in which he lives.&quot; <br/> - Socrates
                     </Text>
                 </SecondayText>
                 <Link to="/blog">

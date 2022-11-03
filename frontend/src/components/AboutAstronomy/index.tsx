@@ -15,8 +15,7 @@ const AboutAstronomy = () => {
                 <TextContainer>
                     <SectionTitle>What is Astronomy?</SectionTitle>
                     <AboutAstronomyText>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil iste commodi hic debitis tempore
-                        est soluta numquam dignissimos, laudantium ipsum.
+                    Astronomy is the science that encompasses the study of all extraterrestrial objects and phenomena. It uses mathematics, physics, and chemistry in order to explain their origin and evolution.
                     </AboutAstronomyText>
                 </TextContainer>
                 <IllustrationContainer>

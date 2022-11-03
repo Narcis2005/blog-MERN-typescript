@@ -1,12 +1,24 @@
 import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+    @font-face {
+        font-family: "Montserrat";
+        src: url("/fonts/Montserrat-Regular.woff2") format('woff2');
+        font-weight: 400;
+        font-display: swap;
+    }
+    @font-face {
+        font-family: "Montserrat";
+        src: url("/fonts/Montserrat-Bold.woff2") format('woff2');
+        font-weight: 700;
+        font-display: swap;
+    }
     *{
         margin: 0;
         padding: 0;
         box-sizing: border-box;
         color: rgb(230, 230, 230);
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Montserrat';
     }
 `;
 
